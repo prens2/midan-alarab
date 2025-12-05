@@ -3,13 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ميدان العرب | الرياضة العربية</title>
-    <!-- رابط ملف CSS -->
+    <title>ميدان العرب | الرياضة العربية الشاملة</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="ميدان العرب - المنصة العربية الشاملة للأخبار والتحليلات الرياضية، تغطية كاملة للدوري السعودي والمصري والأوروبي">
+    <meta name="keywords" content="كرة قدم, رياضة عربية, أخبار رياضية, تحليلات, دوري سعودي, دوري مصري">
+    <meta name="author" content="ميدان العرب">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="ميدان العرب | الرياضة العربية">
+    <meta property="og:description" content="المنصة العربية الشاملة للأخبار والتحليلات الرياضية">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://midan-alarab.onrender.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚽</text></svg>">
+    
+    <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
-    <!-- رابط ملف JavaScript -->
+    
+    <!-- Font Awesome للآيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- JavaScript -->
     <script src="js/main.js" defer></script>
-    <!-- رابط أيقونة الموقع -->
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
 <body>
     <!-- شريط التنقل -->
@@ -17,99 +34,412 @@
         <div class="container">
             <div class="nav-content">
                 <a href="/" class="logo">
-                    ⚽ ميدان العرب
+                    <i class="fas fa-futbol"></i>
+                    <span>ميدان العرب</span>
                 </a>
+                
+                <button class="mobile-menu-btn" aria-label="فتح القائمة">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
                 <div class="nav-links">
-                    <a href="/">الرئيسية</a>
-                    <a href="#news">الأخبار</a>
-                    <a href="#about">عن الموقع</a>
-                    <a href="#contact">اتصل بنا</a>
+                    <a href="/" class="active"><i class="fas fa-home"></i> الرئيسية</a>
+                    <a href="#news"><i class="fas fa-newspaper"></i> الأخبار</a>
+                    <a href="#leagues"><i class="fas fa-trophy"></i> البطولات</a>
+                    <a href="#about"><i class="fas fa-info-circle"></i> عن الموقع</a>
+                    <a href="#contact"><i class="fas fa-envelope"></i> اتصل بنا</a>
                 </div>
             </div>
         </div>
     </nav>
 
+    <!-- القائمة الجوال -->
+    <div class="mobile-menu">
+        <a href="/"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="#news"><i class="fas fa-newspaper"></i> الأخبار</a>
+        <a href="#leagues"><i class="fas fa-trophy"></i> البطولات</a>
+        <a href="#about"><i class="fas fa-info-circle"></i> عن الموقع</a>
+        <a href="#contact"><i class="fas fa-envelope"></i> اتصل بنا</a>
+    </div>
+
     <!-- المحتوى الرئيسي -->
-    <main class="container">
+    <main>
         <!-- قسم الترحيب -->
         <section class="hero">
-            <h1>مرحباً بك في ميدان العرب ⚽</h1>
-            <p>المنصة العربية الشاملة للأخبار والتحليلات الرياضية</p>
-            <p>نقدم لك أحدث الأخبار، التحليلات التكتيكية، والإحصائيات الدقيقة</p>
-            <a href="#news" class="btn">تصفح الأخبار الآن</a>
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">مرحباً بك في <span class="highlight">ميدان العرب</span></h1>
+                    <p class="hero-subtitle">المنصة العربية الشاملة للأخبار والتحليلات الرياضية</p>
+                    <p class="hero-description">نقدم لك أحدث الأخبار، التحليلات التكتيكية، الإحصائيات الدقيقة، وتغطية شاملة لكل ما يهم المشجع العربي</p>
+                    
+                    <div class="hero-actions">
+                        <a href="#news" class="btn btn-primary">
+                            <i class="fas fa-newspaper"></i> تصفح الأخبار
+                        </a>
+                        <a href="#leagues" class="btn btn-secondary">
+                            <i class="fas fa-trophy"></i> البطولات
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <i class="fas fa-newspaper"></i>
+                        <span class="count">150+</span>
+                        <span class="label">مقال إخباري</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-video"></i>
+                        <span class="count">50+</span>
+                        <span class="label">مقابلـة</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-users"></i>
+                        <span class="count">10,000+</span>
+                        <span class="label">متابع</span>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <!-- قسم الأخبار -->
+        <!-- قسم الأخبار العاجلة -->
+        <section class="breaking-news" id="breaking">
+            <div class="container">
+                <div class="breaking-label">
+                    <i class="fas fa-bolt"></i>
+                    <span>أخبار عاجلة</span>
+                </div>
+                <div class="breaking-content">
+                    <span class="breaking-text">الهلال يتأهل لدور الـ16 من دوري أبطال آسيا بعد فوز مثير على النصر</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم الأخبار الرئيسية -->
         <section class="news-section" id="news">
-            <h2 class="section-title">📰 آخر الأخبار الرياضية</h2>
-            
-            <div class="news-grid">
-                <!-- خبر 1 -->
-                <article class="news-card">
-                    <div class="news-image">🏆</div>
-                    <div class="news-content">
-                        <h3 class="news-title">فوز كبير للنادي الأهلي في دوري الأبطال</h3>
-                        <p class="news-desc">تغلب النادي الأهلي على منافسه بنتيجة 3-0 في إطار منافسات دوري أبطال آسيا.</p>
-                        <a href="#" class="read-more">اقرأ المزيد →</a>
-                    </div>
-                </article>
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-newspaper"></i>
+                        آخر الأخبار الرياضية
+                    </h2>
+                    <a href="#" class="view-all">
+                        عرض الكل <i class="fas fa-arrow-left"></i>
+                    </a>
+                </div>
+                
+                <div class="news-grid">
+                    <!-- خبر 1 -->
+                    <article class="news-card featured">
+                        <div class="news-badge">مميز</div>
+                        <div class="news-image" style="background: linear-gradient(45deg, #1E5631, #2E7D32);">
+                            <span>🏆</span>
+                        </div>
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span class="news-category">دوري الأبطال</span>
+                                <span class="news-date"><i class="far fa-clock"></i> منذ 3 ساعات</span>
+                            </div>
+                            <h3 class="news-title">فوز تاريخي للأهلي في دوري أبطال آسيا</h3>
+                            <p class="news-desc">تغلب النادي الأهلي المصري على منافسه الكوري بنتيجة 3-0 في إطار منافسات دوري أبطال آسيا، حيث سجل اللاعبون أداءً متميزاً طوال المباراة.</p>
+                            <div class="news-footer">
+                                <a href="#" class="read-more">
+                                    اقرأ التفاصيل <i class="fas fa-arrow-left"></i>
+                                </a>
+                                <div class="news-stats">
+                                    <span><i class="far fa-eye"></i> 2.5K</span>
+                                    <span><i class="far fa-comment"></i> 45</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
 
-                <!-- خبر 2 -->
-                <article class="news-card">
-                    <div class="news-image">🌟</div>
-                    <div class="news-content">
-                        <h3 class="news-title">مفاجأة في الدوري السعودي</h3>
-                        <p class="news-desc">فوز غير متوقع لفريق الخليج على أحد الكبار في مباراة مثيرة.</p>
-                        <a href="#" class="read-more">اقرأ المزيد →</a>
-                    </div>
-                </article>
+                    <!-- خبر 2 -->
+                    <article class="news-card">
+                        <div class="news-image" style="background: linear-gradient(45deg, #C4A747, #D4B757);">
+                            <span>🌟</span>
+                        </div>
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span class="news-category">الدوري السعودي</span>
+                                <span class="news-date"><i class="far fa-clock"></i> منذ 5 ساعات</span>
+                            </div>
+                            <h3 class="news-title">مفاجأة في ديربي الرياض</h3>
+                            <p class="news-desc">فوز غير متوقع للخليج على الهلال في مباراة مثيرة انتهت بنتيجة 2-1، لتتغير ترتيب الدوري السعودي للمحترفين بشكل كبير.</p>
+                            <div class="news-footer">
+                                <a href="#" class="read-more">
+                                    اقرأ التفاصيل <i class="fas fa-arrow-left"></i>
+                                </a>
+                                <div class="news-stats">
+                                    <span><i class="far fa-eye"></i> 1.8K</span>
+                                    <span><i class="far fa-comment"></i> 32</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
 
-                <!-- خبر 3 -->
-                <article class="news-card">
-                    <div class="news-image">⚽</div>
-                    <div class="news-content">
-                        <h3 class="news-title">المنتخب الوطني يبدأ تحضيراته</h3>
-                        <p class="news-desc">بدأ المنتخب الوطني تدريباته استعداداً للبطولة القارية المقبلة.</p>
-                        <a href="#" class="read-more">اقرأ المزيد →</a>
+                    <!-- خبر 3 -->
+                    <article class="news-card">
+                        <div class="news-image" style="background: linear-gradient(45deg, #2E7D32, #3E8D42);">
+                            <span>⚽</span>
+                        </div>
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span class="news-category">منتخبات</span>
+                                <span class="news-date"><i class="far fa-clock"></i> منذ 8 ساعات</span>
+                            </div>
+                            <h3 class="news-title">المنتخب السعودي يبدأ تحضيراته لكأس آسيا</h3>
+                            <p class="news-desc">بدأ المنتخب السعودي الأول لكرة القدم تدريباته المركزية استعداداً للبطولة القارية المقبلة، بحضور جميع اللاعبين الأساسيين.</p>
+                            <div class="news-footer">
+                                <a href="#" class="read-more">
+                                    اقرأ التفاصيل <i class="fas fa-arrow-left"></i>
+                                </a>
+                                <div class="news-stats">
+                                    <span><i class="far fa-eye"></i> 3.1K</span>
+                                    <span><i class="far fa-comment"></i> 67</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم البطولات -->
+        <section class="leagues-section" id="leagues">
+            <div class="container">
+                <h2 class="section-title">
+                    <i class="fas fa-trophy"></i>
+                    البطولات العربية
+                </h2>
+                
+                <div class="leagues-grid">
+                    <div class="league-card">
+                        <div class="league-logo">🇸🇦</div>
+                        <h3>الدوري السعودي</h3>
+                        <div class="league-table">
+                            <div class="table-row header">
+                                <span>الترتيب</span>
+                                <span>الفريق</span>
+                                <span>النقاط</span>
+                            </div>
+                            <div class="table-row">
+                                <span>1</span>
+                                <span>الهلال</span>
+                                <span>42</span>
+                            </div>
+                            <div class="table-row">
+                                <span>2</span>
+                                <span>النصر</span>
+                                <span>38</span>
+                            </div>
+                            <div class="table-row">
+                                <span>3</span>
+                                <span>الاتحاد</span>
+                                <span>35</span>
+                            </div>
+                        </div>
                     </div>
-                </article>
+                    
+                    <div class="league-card">
+                        <div class="league-logo">🇪🇬</div>
+                        <h3>الدوري المصري</h3>
+                        <div class="league-table">
+                            <div class="table-row header">
+                                <span>الترتيب</span>
+                                <span>الفريق</span>
+                                <span>النقاط</span>
+                            </div>
+                            <div class="table-row">
+                                <span>1</span>
+                                <span>الأهلي</span>
+                                <span>40</span>
+                            </div>
+                            <div class="table-row">
+                                <span>2</span>
+                                <span>الزمالك</span>
+                                <span>37</span>
+                            </div>
+                            <div class="table-row">
+                                <span>3</span>
+                                <span>بيراميدز</span>
+                                <span>34</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="league-card">
+                        <div class="league-logo">🇦🇪</div>
+                        <h3>دوري الخليج العربي</h3>
+                        <div class="league-table">
+                            <div class="table-row header">
+                                <span>الترتيب</span>
+                                <span>الفريق</span>
+                                <span>النقاط</span>
+                            </div>
+                            <div class="table-row">
+                                <span>1</span>
+                                <span>الشارقة</span>
+                                <span>39</span>
+                            </div>
+                            <div class="table-row">
+                                <span>2</span>
+                                <span>العين</span>
+                                <span>36</span>
+                            </div>
+                            <div class="table-row">
+                                <span>3</span>
+                                <span>الوحدة</span>
+                                <span>33</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- عن الموقع -->
-        <section class="news-section" id="about">
-            <h2 class="section-title">🎯 عن ميدان العرب</h2>
-            <div class="news-card">
-                <div class="news-content">
-                    <p>ميدان العرب هو منصة رياضية عربية تهدف إلى تقديم محتوى رياضي متميز باللغة العربية.</p>
-                    <ul class="features-list">
-                        <li>تغطية شاملة للدوري السعودي والمصري</li>
-                        <li>متابعة البطولات العربية والقارية</li>
-                        <li>تحليلات تكتيكية عميقة للمباريات</li>
-                        <li>أخبار انتقالات اللاعبين والفرق</li>
-                    </ul>
+        <section class="about-section" id="about">
+            <div class="container">
+                <div class="about-content">
+                    <h2 class="section-title">
+                        <i class="fas fa-info-circle"></i>
+                        عن ميدان العرب
+                    </h2>
+                    
+                    <div class="about-text">
+                        <p><strong>ميدان العرب</strong> هو منصة رياضية عربية تهدف إلى تقديم محتوى رياضي متميز باللغة العربية، مع التركيز على كرة القدم العربية والعالمية.</p>
+                        
+                        <h3>رؤيتنا:</h3>
+                        <p>أن نكون المرجع الأول للجماهير العربية المهتمة بالرياضة، من خلال تقديم محتوى شامل، دقيق، ومتميز.</p>
+                        
+                        <h3>خدماتنا:</h3>
+                        <ul class="services-list">
+                            <li><i class="fas fa-check"></i> أخبار رياضية عاجلة ومباشرة</li>
+                            <li><i class="fas fa-check"></i> تحليلات تكتيكية متعمقة للمباريات</li>
+                            <li><i class="fas fa-check"></i> إحصائيات وبيانات مفصلة</li>
+                            <li><i class="fas fa-check"></i> تغطية شاملة للدوريات العربية</li>
+                            <li><i class="fas fa-check"></i> آراء وكتابات نوعية من محترفين</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- اتصل بنا -->
+        <section class="contact-section" id="contact">
+            <div class="container">
+                <h2 class="section-title">
+                    <i class="fas fa-envelope"></i>
+                    اتصل بنا
+                </h2>
+                
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h3>معلومات التواصل</h3>
+                        
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <strong>البريد الإلكتروني</strong>
+                                <p>info@midan-alarab.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <i class="fas fa-share-alt"></i>
+                            <div>
+                                <strong>وسائل التواصل</strong>
+                                <div class="social-icons">
+                                    <a href="#" class="social-icon twitter">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="social-icon facebook">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="social-icon youtube">
+                                        <i class="fab fa-youtube"></i>
+                                    </a>
+                                    <a href="#" class="social-icon telegram">
+                                        <i class="fab fa-telegram"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form class="contact-form">
+                        <h3>أرسل رسالة</h3>
+                        
+                        <div class="form-group">
+                            <label for="name">الاسم الكامل *</label>
+                            <input type="text" id="name" required placeholder="أدخل اسمك">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">البريد الإلكتروني *</label>
+                            <input type="email" id="email" required placeholder="example@email.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">الرسالة *</label>
+                            <textarea id="message" rows="5" required placeholder="اكتب رسالتك هنا..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> إرسال الرسالة
+                        </button>
+                    </form>
                 </div>
             </div>
         </section>
     </main>
 
     <!-- الفوتر -->
-    <footer id="contact">
+    <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <h2>ميدان العرب ⚽</h2>
-                <p>المنصة العربية الشاملة للرياضة</p>
-                
-                <div class="social-links">
-                    <a href="#" class="social-link">تويتر</a> | 
-                    <a href="#" class="social-link">فيسبوك</a> | 
-                    <a href="#" class="social-link">يوتيوب</a> | 
-                    <a href="#" class="social-link">تيليجرام</a>
+                <div class="footer-logo">
+                    <i class="fas fa-futbol"></i>
+                    <span>ميدان العرب</span>
                 </div>
                 
-                <p class="contact-email">📧 للاتصال: info@midan-alarab.com</p>
-                <p class="copyright">© 2024 ميدان العرب. جميع الحقوق محفوظة.</p>
-                <p class="site-status">هذا الموقع قيد التطوير والتحديث المستمر</p>
+                <p class="footer-description">
+                    المنصة العربية الشاملة للأخبار والتحليلات الرياضية، نقدم لكم أجود المحتوى الرياضي باللغة العربية.
+                </p>
+                
+                <div class="footer-links">
+                    <a href="/">الرئيسية</a>
+                    <a href="#news">الأخبار</a>
+                    <a href="#leagues">البطولات</a>
+                    <a href="#about">عن الموقع</a>
+                    <a href="#contact">اتصل بنا</a>
+                </div>
+                
+                <div class="footer-social">
+                    <a href="#" class="social-link">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+                
+                <div class="footer-bottom">
+                    <p>&copy; <span id="current-year">2024</span> ميدان العرب. جميع الحقوق محفوظة.</p>
+                    <p class="footer-note">
+                        هذا الموقع قيد التطوير المستمر. نسعى لتقديم الأفضل دائماً.
+                    </p>
+                </div>
             </div>
         </div>
     </footer>
