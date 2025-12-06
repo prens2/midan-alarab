@@ -45,9 +45,13 @@
                 <div class="nav-links">
                     <a href="/" class="active"><i class="fas fa-home"></i> الرئيسية</a>
                     <a href="#news"><i class="fas fa-newspaper"></i> الأخبار</a>
+                    <a href="#articles"><i class="fas fa-pen-fancy"></i> المقالات</a>
                     <a href="#leagues"><i class="fas fa-trophy"></i> البطولات</a>
                     <a href="#about"><i class="fas fa-info-circle"></i> عن الموقع</a>
                     <a href="#contact"><i class="fas fa-envelope"></i> اتصل بنا</a>
+                    <a href="#donate" class="donate-btn" onclick="showDonation()">
+                        <i class="fas fa-heart"></i> ادعمنا
+                    </a>
                 </div>
             </div>
         </div>
@@ -57,9 +61,11 @@
     <div class="mobile-menu">
         <a href="/"><i class="fas fa-home"></i> الرئيسية</a>
         <a href="#news"><i class="fas fa-newspaper"></i> الأخبار</a>
+        <a href="#articles"><i class="fas fa-pen-fancy"></i> المقالات</a>
         <a href="#leagues"><i class="fas fa-trophy"></i> البطولات</a>
         <a href="#about"><i class="fas fa-info-circle"></i> عن الموقع</a>
         <a href="#contact"><i class="fas fa-envelope"></i> اتصل بنا</a>
+        <a href="#donate" onclick="showDonation()"><i class="fas fa-heart"></i> ادعمنا</a>
     </div>
 
     <!-- المحتوى الرئيسي -->
@@ -76,8 +82,11 @@
                         <a href="#news" class="btn btn-primary">
                             <i class="fas fa-newspaper"></i> تصفح الأخبار
                         </a>
-                        <a href="#leagues" class="btn btn-secondary">
-                            <i class="fas fa-trophy"></i> البطولات
+                        <a href="#articles" class="btn btn-secondary">
+                            <i class="fas fa-pen-fancy"></i> اقرأ المقالات
+                        </a>
+                        <a href="#donate" class="btn btn-donate" onclick="showDonation()">
+                            <i class="fas fa-heart"></i> ادعم المشروع
                         </a>
                     </div>
                 </div>
@@ -85,24 +94,24 @@
                 <div class="hero-stats">
                     <div class="stat">
                         <i class="fas fa-newspaper"></i>
-                        <span class="count">150+</span>
+                        <span class="count" data-target="50">0</span>
                         <span class="label">مقال إخباري</span>
                     </div>
                     <div class="stat">
-                        <i class="fas fa-video"></i>
-                        <span class="count">50+</span>
-                        <span class="label">مقابلـة</span>
+                        <i class="fas fa-eye"></i>
+                        <span class="count" data-target="10000">0</span>
+                        <span class="label">مشاهدة</span>
                     </div>
                     <div class="stat">
                         <i class="fas fa-users"></i>
-                        <span class="count">10,000+</span>
+                        <span class="count" data-target="500">0</span>
                         <span class="label">متابع</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- قسم الأخبار العاجلة -->
+        <!-- أخبار عاجلة -->
         <section class="breaking-news" id="breaking">
             <div class="container">
                 <div class="breaking-label">
@@ -110,12 +119,102 @@
                     <span>أخبار عاجلة</span>
                 </div>
                 <div class="breaking-content">
-                    <span class="breaking-text">الهلال يتأهل لدور الـ16 من دوري أبطال آسيا بعد فوز مثير على النصر</span>
+                    <span class="breaking-text" id="breaking-text">الهلال يتأهل لدور الـ16 من دوري أبطال آسيا بعد فوز مثير على النصر</span>
                 </div>
             </div>
         </section>
 
-        <!-- قسم الأخبار الرئيسية -->
+        <!-- قسم المقالات (الجديد) -->
+        <section class="articles-section" id="articles">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-pen-fancy"></i>
+                        مقالات مميزة
+                    </h2>
+                    <a href="#all-articles" class="view-all" onclick="showAllArticles()">
+                        عرض الكل <i class="fas fa-arrow-left"></i>
+                    </a>
+                </div>
+                
+                <div class="articles-grid">
+                    <!-- المقال 1 -->
+                    <article class="article-card featured" data-id="1">
+                        <div class="article-badge">الأكثر قراءة</div>
+                        <div class="article-image" style="background: linear-gradient(45deg, #1E5631, #2E7D32);">
+                            <span>📺</span>
+                        </div>
+                        <div class="article-content">
+                            <div class="article-meta">
+                                <span class="article-category">الدوري السعودي</span>
+                                <span class="article-date"><i class="far fa-clock"></i> ديسمبر 2024</span>
+                            </div>
+                            <h3 class="article-title">كيف تشاهد الدوري السعودي مجاناً وبجودة عالية؟</h3>
+                            <p class="article-excerpt">دليل كامل لجميع الطرق القانونية المجانية لمشاهدة دوري المحترفين السعودي بدون تقطيع وبجودة ممتازة...</p>
+                            <div class="article-footer">
+                                <a href="#" class="read-article" onclick="showFullArticle(1)">
+                                    اقرأ المقال <i class="fas fa-arrow-left"></i>
+                                </a>
+                                <div class="article-stats">
+                                    <span><i class="far fa-eye"></i> 2,543</span>
+                                    <span><i class="far fa-clock"></i> 5 دقائق</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- المقال 2 -->
+                    <article class="article-card" data-id="2">
+                        <div class="article-image" style="background: linear-gradient(45deg, #C4A747, #D4B757);">
+                            <span>💰</span>
+                        </div>
+                        <div class="article-content">
+                            <div class="article-meta">
+                                <span class="article-category">تحليل</span>
+                                <span class="article-date"><i class="far fa-clock"></i> ديسمبر 2024</span>
+                            </div>
+                            <h3 class="article-title">السر وراء أجور نجوم الدوري السعودي</h3>
+                            <p class="article-excerpt">كشف تفاصيل رواتب اللاعبين، نظام المكافآت، والصفقات الخلفية التي لا يعرفها الجمهور...</p>
+                            <div class="article-footer">
+                                <a href="#" class="read-article" onclick="showFullArticle(2)">
+                                    اقرأ المقال <i class="fas fa-arrow-left"></i>
+                                </a>
+                                <div class="article-stats">
+                                    <span><i class="far fa-eye"></i> 1,832</span>
+                                    <span><i class="far fa-clock"></i> 7 دقائق</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- المقال 3 -->
+                    <article class="article-card" data-id="3">
+                        <div class="article-image" style="background: linear-gradient(45deg, #2E7D32, #3E8D42);">
+                            <span>🏆</span>
+                        </div>
+                        <div class="article-content">
+                            <div class="article-meta">
+                                <span class="article-category">تاريخ</span>
+                                <span class="article-date"><i class="far fa-clock"></i> ديسمبر 2024</span>
+                            </div>
+                            <h3 class="article-title">تاريخ الكرة السعودية: من البداية إلى العالمية</h3>
+                            <p class="article-excerpt">رحلة المنتخب السعودي والأندية من التأسيس إلى المشاركات العالمية والإنجازات القارية...</p>
+                            <div class="article-footer">
+                                <a href="#" class="read-article" onclick="showFullArticle(3)">
+                                    اقرأ المقال <i class="fas fa-arrow-left"></i>
+                                </a>
+                                <div class="article-stats">
+                                    <span><i class="far fa-eye"></i> 3,124</span>
+                                    <span><i class="far fa-clock"></i> 10 دقائق</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم الأخبار -->
         <section class="news-section" id="news">
             <div class="container">
                 <div class="section-header">
@@ -123,7 +222,7 @@
                         <i class="fas fa-newspaper"></i>
                         آخر الأخبار الرياضية
                     </h2>
-                    <a href="#" class="view-all">
+                    <a href="#all-news" class="view-all">
                         عرض الكل <i class="fas fa-arrow-left"></i>
                     </a>
                 </div>
@@ -141,7 +240,7 @@
                                 <span class="news-date"><i class="far fa-clock"></i> منذ 3 ساعات</span>
                             </div>
                             <h3 class="news-title">فوز تاريخي للأهلي في دوري أبطال آسيا</h3>
-                            <p class="news-desc">تغلب النادي الأهلي المصري على منافسه الكوري بنتيجة 3-0 في إطار منافسات دوري أبطال آسيا، حيث سجل اللاعبون أداءً متميزاً طوال المباراة.</p>
+                            <p class="news-desc">تغلب النادي الأهلي المصري على منافسه الكوري بنتيجة 3-0 في إطار منافسات دوري أبطال آسيا.</p>
                             <div class="news-footer">
                                 <a href="#" class="read-more">
                                     اقرأ التفاصيل <i class="fas fa-arrow-left"></i>
@@ -165,7 +264,7 @@
                                 <span class="news-date"><i class="far fa-clock"></i> منذ 5 ساعات</span>
                             </div>
                             <h3 class="news-title">مفاجأة في ديربي الرياض</h3>
-                            <p class="news-desc">فوز غير متوقع للخليج على الهلال في مباراة مثيرة انتهت بنتيجة 2-1، لتتغير ترتيب الدوري السعودي للمحترفين بشكل كبير.</p>
+                            <p class="news-desc">فوز غير متوقع للخليج على الهلال في مباراة مثيرة انتهت بنتيجة 2-1، لتتغير ترتيب الدوري.</p>
                             <div class="news-footer">
                                 <a href="#" class="read-more">
                                     اقرأ التفاصيل <i class="fas fa-arrow-left"></i>
@@ -189,7 +288,7 @@
                                 <span class="news-date"><i class="far fa-clock"></i> منذ 8 ساعات</span>
                             </div>
                             <h3 class="news-title">المنتخب السعودي يبدأ تحضيراته لكأس آسيا</h3>
-                            <p class="news-desc">بدأ المنتخب السعودي الأول لكرة القدم تدريباته المركزية استعداداً للبطولة القارية المقبلة، بحضور جميع اللاعبين الأساسيين.</p>
+                            <p class="news-desc">بدأ المنتخب السعودي تدريباته المركزية استعداداً للبطولة القارية المقبلة، بحضور اللاعبين الأساسيين.</p>
                             <div class="news-footer">
                                 <a href="#" class="read-more">
                                     اقرأ التفاصيل <i class="fas fa-arrow-left"></i>
@@ -201,6 +300,54 @@
                             </div>
                         </div>
                     </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم التبرعات -->
+        <section class="donation-section" id="donate">
+            <div class="container">
+                <div class="donation-box">
+                    <div class="donation-content">
+                        <h2><i class="fas fa-heart"></i> ادعم ميدان العرب</h2>
+                        <p>ساعدنا لنستمر في تقديم أفضل المحتوى الرياضي العربي مجاناً للجميع</p>
+                        
+                        <div class="donation-options">
+                            <button class="donation-option" onclick="donate(5)">
+                                <span class="amount">5$</span>
+                                <span class="label">دعم بسيط</span>
+                            </button>
+                            <button class="donation-option" onclick="donate(10)">
+                                <span class="amount">10$</span>
+                                <span class="label">دعم متوسط</span>
+                            </button>
+                            <button class="donation-option" onclick="donate(25)">
+                                <span class="amount">25$</span>
+                                <span class="label">دعم كريم</span>
+                            </button>
+                            <button class="donation-option" onclick="donate(50)">
+                                <span class="amount">50$</span>
+                                <span class="label">دعم مميز</span>
+                            </button>
+                        </div>
+                        
+                        <div class="donation-custom">
+                            <input type="number" id="custom-amount" placeholder="المبلغ الذي تريد">
+                            <button onclick="donateCustom()">تبرع</button>
+                        </div>
+                        
+                        <div class="donation-progress">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 65%"></div>
+                            </div>
+                            <div class="progress-text">
+                                <span>1,300$</span>
+                                <span>هدفنا: 2,000$</span>
+                            </div>
+                        </div>
+                        
+                        <p class="donation-note">كل تبرع يساعدنا على الاستمرار والتطوير</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -219,9 +366,9 @@
                         <h3>الدوري السعودي</h3>
                         <div class="league-table">
                             <div class="table-row header">
-                                <span>الترتيب</span>
+                                <span>#</span>
                                 <span>الفريق</span>
-                                <span>النقاط</span>
+                                <span>ن</span>
                             </div>
                             <div class="table-row">
                                 <span>1</span>
@@ -246,9 +393,9 @@
                         <h3>الدوري المصري</h3>
                         <div class="league-table">
                             <div class="table-row header">
-                                <span>الترتيب</span>
+                                <span>#</span>
                                 <span>الفريق</span>
-                                <span>النقاط</span>
+                                <span>ن</span>
                             </div>
                             <div class="table-row">
                                 <span>1</span>
@@ -270,12 +417,12 @@
                     
                     <div class="league-card">
                         <div class="league-logo">🇦🇪</div>
-                        <h3>دوري الخليج العربي</h3>
+                        <h3>دوري الخليج</h3>
                         <div class="league-table">
                             <div class="table-row header">
-                                <span>الترتيب</span>
+                                <span>#</span>
                                 <span>الفريق</span>
-                                <span>النقاط</span>
+                                <span>ن</span>
                             </div>
                             <div class="table-row">
                                 <span>1</span>
@@ -310,17 +457,28 @@
                     <div class="about-text">
                         <p><strong>ميدان العرب</strong> هو منصة رياضية عربية تهدف إلى تقديم محتوى رياضي متميز باللغة العربية، مع التركيز على كرة القدم العربية والعالمية.</p>
                         
-                        <h3>رؤيتنا:</h3>
-                        <p>أن نكون المرجع الأول للجماهير العربية المهتمة بالرياضة، من خلال تقديم محتوى شامل، دقيق، ومتميز.</p>
-                        
-                        <h3>خدماتنا:</h3>
-                        <ul class="services-list">
-                            <li><i class="fas fa-check"></i> أخبار رياضية عاجلة ومباشرة</li>
-                            <li><i class="fas fa-check"></i> تحليلات تكتيكية متعمقة للمباريات</li>
-                            <li><i class="fas fa-check"></i> إحصائيات وبيانات مفصلة</li>
-                            <li><i class="fas fa-check"></i> تغطية شاملة للدوريات العربية</li>
-                            <li><i class="fas fa-check"></i> آراء وكتابات نوعية من محترفين</li>
-                        </ul>
+                        <div class="about-features">
+                            <div class="feature">
+                                <i class="fas fa-bolt"></i>
+                                <h3>سرعة في النشر</h3>
+                                <p>أخبار عاجلة فور حدوثها</p>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-chart-line"></i>
+                                <h3>تحليل عميق</h3>
+                                <p>تحليلات تكتيكية وإحصائية</p>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-users"></i>
+                                <h3>مجتمع تفاعلي</h3>
+                                <p>منصة للحوار والنقاش الرياضي</p>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-mobile-alt"></i>
+                                <h3>تجاوب كامل</h3>
+                                <p>يعمل على جميع الأجهزة</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -368,7 +526,7 @@
                         </div>
                     </div>
                     
-                    <form class="contact-form">
+                    <form class="contact-form" id="contactForm">
                         <h3>أرسل رسالة</h3>
                         
                         <div class="form-group">
@@ -411,9 +569,11 @@
                 <div class="footer-links">
                     <a href="/">الرئيسية</a>
                     <a href="#news">الأخبار</a>
+                    <a href="#articles">المقالات</a>
                     <a href="#leagues">البطولات</a>
                     <a href="#about">عن الموقع</a>
                     <a href="#contact">اتصل بنا</a>
+                    <a href="#donate" onclick="showDonation()">ادعمنا</a>
                 </div>
                 
                 <div class="footer-social">
@@ -443,5 +603,245 @@
             </div>
         </div>
     </footer>
+
+    <!-- نافذة عرض المقال الكامل -->
+    <div class="article-modal-overlay" id="articleModal">
+        <div class="article-modal">
+            <button class="close-article-modal" onclick="closeArticle()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="article-modal-content" id="articleContent">
+                <!-- هنا سيظهر المقال -->
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة التبرع -->
+    <div class="donation-modal-overlay" id="donationModal">
+        <div class="donation-modal">
+            <button class="close-donation-modal" onclick="closeDonation()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="donation-modal-content">
+                <h2><i class="fas fa-heart"></i> شكراً لدعمك!</h2>
+                <p>اختر طريقة الدفع المناسبة لك:</p>
+                
+                <div class="payment-options">
+                    <button class="payment-option" onclick="payWithPayPal()">
+                        <i class="fab fa-paypal"></i> PayPal
+                    </button>
+                    <button class="payment-option" onclick="payWithCard()">
+                        <i class="fas fa-credit-card"></i> بطاقة ائتمانية
+                    </button>
+                    <button class="payment-option" onclick="payWithBank()">
+                        <i class="fas fa-university"></i> تحويل بنكي
+                    </button>
+                </div>
+                
+                <div class="bank-info" id="bankInfo" style="display: none;">
+                    <h3>معلومات التحويل البنكي:</h3>
+                    <p>البنك: البنك الأهلي السعودي</p>
+                    <p>رقم الحساب: SA1234567890123456789</p>
+                    <p>اسم المستفيد: ميدان العرب</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript الإضافي -->
+    <script>
+        // وظائف المقالات
+        function showFullArticle(articleId) {
+            const articles = {
+                1: {
+                    title: "كيف تشاهد الدوري السعودي مجاناً وبجودة عالية؟",
+                    content: `
+                        <h1>كيف تشاهد الدوري السعودي مجاناً وبجودة عالية؟</h1>
+                        <div class="article-meta">
+                            <span class="article-category">الدوري السعودي</span>
+                            <span class="article-date"><i class="far fa-clock"></i> ديسمبر 2024</span>
+                            <span class="article-read-time"><i class="far fa-clock"></i> 5 دقائق قراءة</span>
+                        </div>
+                        
+                        <div class="article-image-full">
+                            <div style="background: linear-gradient(45deg, #1E5631, #2E7D32); height: 300px; display: flex; align-items: center; justify-content: center; color: white; font-size: 5rem; border-radius: 15px;">
+                                📺
+                            </div>
+                        </div>
+                        
+                        <div class="article-body">
+                            <h2>📺 الطرق المجانية القانونية</h2>
+                            <h3>1. يوتيوب الرسمي</h3>
+                            <p>قناة SSC الرسمية على يوتيوب تنشر ملخصات كاملة للمباريات مع تعليق عربي احترافي.</p>
+                            <ul>
+                                <li>✅ ملخصات كاملة للمباريات</li>
+                                <li>✅ أفضل اللحظات والأهداف</li>
+                                <li>✅ تعليق عربي احترافي</li>
+                                <li>✅ مجاني 100%</li>
+                            </ul>
+                            
+                            <h3>2. تطبيق Shahid (تجربة مجانية)</h3>
+                            <p>يقدم تطبيق Shahid تجربة مجانية لمدة 7 أيام تشمل جميع مباريات الدوري السعودي.</p>
+                            
+                            <h3>3. البث الأرضي</h3>
+                            <p>القنوات الأرضية المجانية تبث أهم مباريات الدوري السعودي مباشرة.</p>
+                            
+                            <h2>💡 نصائح احترافية</h2>
+                            <p>1. استخدم VPN للدول المجاورة التي تبث المباريات مجاناً</p>
+                            <p>2. تابع صفحات الفرق الرسمية على وسائل التواصل</p>
+                            <p>3. اشترك في تنبيهات المباريات عبر تطبيقات الرياضة</p>
+                            
+                            <h2>❌ ما تتجنبه</h2>
+                            <p>- المواقع غير القانونية (مخاطر أمنية)</p>
+                            <p>- الروابط المشبوهة (فيروسات)</p>
+                            <p>- البث المتقطع (يخرب متعة المباراة)</p>
+                            
+                            <div class="article-tags">
+                                <span class="tag">الدوري السعودي</span>
+                                <span class="tag">مشاهدة مجانية</span>
+                                <span class="tag">نصائح</span>
+                                <span class="tag">رياضة</span>
+                            </div>
+                        </div>
+                    `
+                },
+                2: {
+                    title: "السر وراء أجور نجوم الدوري السعودي",
+                    content: "محتوى المقال الثاني..."
+                },
+                3: {
+                    title: "تاريخ الكرة السعودية: من البداية إلى العالمية",
+                    content: "محتوى المقال الثالث..."
+                }
+            };
+
+            const article = articles[articleId];
+            if (!article) return;
+
+            const modal = document.getElementById('articleModal');
+            const content = document.getElementById('articleContent');
+            
+            content.innerHTML = article.content;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeArticle() {
+            document.getElementById('articleModal').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        function showAllArticles() {
+            alert('سيتم عرض جميع المقالات قريباً!');
+        }
+
+        // وظائف التبرع
+        function showDonation() {
+            document.getElementById('donationModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDonation() {
+            document.getElementById('donationModal').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        function donate(amount) {
+            showDonation();
+            alert(`شكراً لدعمك بمبلغ ${amount}$! اختر طريقة الدفع.`);
+        }
+
+        function donateCustom() {
+            const amount = document.getElementById('custom-amount').value;
+            if (amount && amount > 0) {
+                donate(amount);
+            } else {
+                alert('الرجاء إدخال مبلغ صحيح');
+            }
+        }
+
+        function payWithPayPal() {
+            alert('سيتم توجيهك لصفحة PayPal');
+        }
+
+        function payWithCard() {
+            alert('سيتم فتح نموذج الدفع بالبطاقة');
+        }
+
+        function payWithBank() {
+            document.getElementById('bankInfo').style.display = 'block';
+        }
+
+        // عدادات متحركة
+        document.addEventListener('DOMContentLoaded', function() {
+            // تحديث السنة
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // عدادات متحركة
+            const counters = document.querySelectorAll('.count');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const increment = target / 100;
+                let current = 0;
+                
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = Math.floor(current);
+                        setTimeout(updateCounter, 20);
+                    } else {
+                        counter.textContent = target.toLocaleString();
+                    }
+                };
+                
+                // بدء العد بعد تأخير بسيط
+                setTimeout(updateCounter, 500);
+            });
+
+            // تغيير الأخبار العاجلة
+            const breakingTexts = [
+                "الهلال يتأهل لدور الـ16 من دوري أبطال آسيا",
+                "مفاجأة: الخليج يتغلب على الهلال في ديربي الرياض",
+                "المنتخب السعودي يبدأ تحضيراته لكأس آسيا",
+                "الأهلي المصري يحقق فوزاً تاريخياً في دوري الأبطال"
+            ];
+            
+            let breakingIndex = 0;
+            const breakingElement = document.getElementById('breaking-text');
+            
+            if (breakingElement) {
+                setInterval(() => {
+                    breakingIndex = (breakingIndex + 1) % breakingTexts.length;
+                    breakingElement.textContent = breakingTexts[breakingIndex];
+                }, 10000);
+            }
+
+            // إرسال نموذج الاتصال
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const message = document.getElementById('message').value;
+                    
+                    // هنا يمكنك إرسال البيانات لخادم
+                    console.log('رسالة جديدة:', { name, email, message });
+                    
+                    alert('شكراً لتواصلك! سنرد عليك قريباً.');
+                    contactForm.reset();
+                });
+            }
+        });
+
+        // منع السلوك الافتراضي للروابط
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' && e.target.getAttribute('href') === '#') {
+                e.preventDefault();
+            }
+        });
+    </script>
 </body>
 </html>
+
