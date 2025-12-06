@@ -1667,3 +1667,72 @@ body {
         border: 1px solid #ddd;
     }
 }
+/* في style.css */
+.loading-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 15px;
+    margin: 20px 0;
+}
+
+.loading-state .spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid rgba(30, 86, 49, 0.1);
+    border-top: 6px solid #1E5631;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 25px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-state p {
+    color: #1E5631;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* مؤشر الأخبار الحية */
+.live-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #D32F2F, #FF5252);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 8px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+/* بطاقة الخبر الحي */
+.news-card.live {
+    border-left: 4px solid #D32F2F;
+    position: relative;
+}
+
+.news-card.live::before {
+    content: '●';
+    color: #D32F2F;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 12px;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
