@@ -11,7 +11,7 @@
     console.log('%c⚽ ميدان العرب %c- جاهز للتشغيل!', 
         'color: #1E5631; font-size: 16px; font-weight: bold;', 
         'color: #666; font-size: 14px;');
-    
+
     // ===== ثوابت التطبيق =====
     const APP_CONFIG = {
         name: 'ميدان العرب',
@@ -644,33 +644,33 @@
         }
     };
     
-    // ===== تهيئة الموقع عند التحميل =====
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log(`%c${APP_CONFIG.name} v${APP_CONFIG.version}`, 
-            `background: ${APP_CONFIG.colors.primary}; color: white; padding: 5px 10px; border-radius: 3px;`);
-        
-        // تحديث سنة حقوق النشر
-        const yearElement = document.getElementById('current-year');
-        if (yearElement) {
-            yearElement.textContent = new Date().getFullYear();
-        }
-        
-        // تهيئة المكونات
-        MobileMenuManager.init();
-        ScrollManager.init();
-        FormManager.init();
-        CounterManager.init();
-        BreakingNewsManager.init();
-        
-        // إضافة الأنماط المتحركة
-        this.addAnimationStyles();
-        
-        // تحميل الصفحة
-        window.addEventListener('load', () => {
-            document.body.classList.add('loaded');
-            Utils.showToast('مرحباً بك في ميدان العرب! ⚽', 'success');
-        });
+  // ===== تهيئة الموقع عند التحميل =====
+document.addEventListener('DOMContentLoaded', function() {
+    console.log(`%c${APP_CONFIG.name} v${APP_CONFIG.version}`, 
+        `background: ${APP_CONFIG.colors.primary}; color: white; padding: 5px 10px; border-radius: 3px;`);
+    
+    // تحديث سنة حقوق النشر
+    const yearElement = document.getElementById('current-year');
+    if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+    }
+    
+    // تهيئة المكونات
+    MobileMenuManager.init();
+    ScrollManager.init();
+    FormManager.init();
+    CounterManager.init();
+    BreakingNewsManager.init();
+    
+    // إضافة الأنماط المتحركة
+    addAnimationStyles(); // ← هنا كان الخطأ! غير this.addAnimationStyles إلى addAnimationStyles
+    
+    // تحميل الصفحة
+    window.addEventListener('load', () => {
+        document.body.classList.add('loaded');
+        Utils.showToast('مرحباً بك في ميدان العرب! ⚽', 'success');
     });
+});
     
     // ===== إضافة الأنماط المتحركة =====
     function addAnimationStyles() {
@@ -759,3 +759,4 @@
         console.error('وعد مرفوض:', e.reason);
     });
 })();
+
