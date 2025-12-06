@@ -1,11 +1,13 @@
 /**
  * news-fetcher.js
- * جلب الأخبار الحية لموقع ميدان العرب مع تحديث دوري
+ * جلب الأخبار الحية من RSS عربي بدون الحاجة لمفتاح API
  */
 
 const NewsFetcher = {
-    rssUrl: 'https://www.yallakora.com/rss/all-news.xml',
+    rssUrl: 'https://www.yallakora.com/rss/all-news.xml', // رابط RSS عربي حي
+    updateIntervalMinutes: 5, // التحديث كل 5 دقائق
 
+    // أخبار fallback في حال فشل جلب RSS
     fallbackNews: [
         {
             id: 1,
@@ -13,7 +15,8 @@ const NewsFetcher = {
             description: 'تغلب النادي الأهلي على منافسه بنتيجة 3-0 في إطار منافسات دوري أبطال آسيا.',
             category: 'دوري الأبطال',
             date: 'ديسمبر 5, 2024',
-            icon: '🏆'
+            icon: '🏆',
+            link: '#'
         },
         {
             id: 2,
@@ -21,17 +24,19 @@ const NewsFetcher = {
             description: 'فوز غير متوقع لفريق الخليج على أحد الكبار في مباراة مثيرة.',
             category: 'الدوري السعودي',
             date: 'ديسمبر 4, 2024',
-            icon: '🌟'
+            icon: '🌟',
+            link: '#'
         }
     ],
 
     /**
-     * جلب RSS وتحويله إلى JSON
+     * جلب RSS وتحويله إلى JSON باستخدام rss2json.com
      */
     fetchRSS: async function(url) {
         try {
-            const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`);
-            const data = await response.json();
+            const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`);
+            const data = await res.json();
+
             if (!data.items) throw new Error('لا توجد عناصر في RSS');
 
             return data.items.map((item, index) => ({
@@ -45,7 +50,8 @@ const NewsFetcher = {
                     month: 'long',
                     day: 'numeric'
                 }),
-                icon: '📰'
+                icon: '📰',
+                link: item.link || '#'
             }));
         } catch (err) {
             console.error('فشل جلب الأخبار من RSS:', err);
@@ -72,16 +78,16 @@ const NewsFetcher = {
     /**
      * بدء التحديث الدوري
      */
-    startAutoUpdate: function(intervalMinutes = 5) {
+    startAutoUpdate: function() {
         this.updateNews(); // تحديث فوري عند التحميل
         setInterval(() => {
             console.log('🔄 تحديث الأخبار تلقائيًا...');
             this.updateNews();
-        }, intervalMinutes * 60 * 1000); // تحويل الدقائق إلى ملي ثانية
+        }, this.updateIntervalMinutes * 60 * 1000);
     }
 };
 
 // ===== استدعاء التحديث عند تحميل الصفحة =====
 document.addEventListener('DOMContentLoaded', () => {
-    NewsFetcher.startAutoUpdate(5); // التحديث كل 5 دقائق
+    NewsFetcher.startAutoUpdate();
 });
