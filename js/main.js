@@ -1,7 +1,7 @@
 /**
  * ميدان العرب - الملف الرئيسي للجافاسكريبت
- * ⚽ الموقع الرياضي العربي الشامل
- * الإصدار: 1.0.0
+ * ⚽ الموقع الرياضي العربي الشامل - الإصدار المتوافق
+ * الإصدار: 2.0.0 - متوافق مع التصميم الجديد
  */
 
 // ===== تهيئة التطبيق =====
@@ -15,106 +15,47 @@
     // ===== ثوابت التطبيق =====
     const APP_CONFIG = {
         name: 'ميدان العرب',
-        version: '1.0.0',
-        author: 'فريق ميدان العرب',
+        version: '2.0.0',
         colors: {
             primary: '#1E5631',
             secondary: '#C4A747',
             accent: '#2E7D32'
-        },
-        api: {
-            baseUrl: 'https://midan-alarab.onrender.com',
-            endpoints: {
-                news: '/api/news',
-                leagues: '/api/leagues'
-            }
         }
     };
     
     // ===== حالة التطبيق =====
-    let appState = {
+    const appState = {
         isMobileMenuOpen: false,
-        darkMode: false,
-        userLocation: null,
-        lastNewsUpdate: null,
-        notifications: []
+        donationTotal: 1300,
+        totalDonations: 0
     };
     
     // ===== مكتبة الأدوات المساعدة =====
     const Utils = {
         /**
-         * تنسيق التاريخ بالعربية
-         * @param {Date} date - التاريخ
-         * @returns {string} التاريخ المنسق
-         */
-        formatDate: function(date) {
-            if (!date) return '';
-            
-            const options = {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            };
-            
-            return new Intl.DateTimeFormat('ar-EG', options).format(date);
-        },
-        
-        /**
          * تنسيق الأرقام العربية
-         * @param {number} number - الرقم
-         * @returns {string} الرقم المنسق
          */
         formatNumber: function(number) {
             return new Intl.NumberFormat('ar-EG').format(number);
         },
         
         /**
-         * حساب الوقت المنقضي
-         * @param {Date} date - التاريخ
-         * @returns {string} الوقت المنقضي
-         */
-        timeAgo: function(date) {
-            const now = new Date();
-            const diff = now - new Date(date);
-            const minutes = Math.floor(diff / 60000);
-            const hours = Math.floor(minutes / 60);
-            const days = Math.floor(hours / 24);
-            
-            if (days > 0) return `منذ ${days} يوم`;
-            if (hours > 0) return `منذ ${hours} ساعة`;
-            if (minutes > 0) return `منذ ${minutes} دقيقة`;
-            return 'الآن';
-        },
-        
-        /**
-         * نسخ النص للحافظة
-         * @param {string} text - النص للنسخ
-         */
-        copyToClipboard: function(text) {
-            navigator.clipboard.writeText(text)
-                .then(() => {
-                    this.showToast('تم نسخ النص بنجاح', 'success');
-                })
-                .catch(err => {
-                    console.error('خطأ في النسخ:', err);
-                    this.showToast('حدث خطأ في النسخ', 'error');
-                });
-        },
-        
-        /**
          * عرض رسالة تنبيه
-         * @param {string} message - الرسالة
-         * @param {string} type - النوع (success, error, warning, info)
          */
         showToast: function(message, type = 'info') {
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${type}`;
-            toast.textContent = message;
+            const colors = {
+                success: '#2E7D32',
+                error: '#D32F2F',
+                warning: '#F57C00',
+                info: '#1976D2'
+            };
             
-            // الأنماط
+            // إزالة الرسائل القديمة
+            document.querySelectorAll('.custom-toast').forEach(toast => toast.remove());
+            
+            const toast = document.createElement('div');
+            toast.className = 'custom-toast';
+            toast.textContent = message;
             toast.style.cssText = `
                 position: fixed;
                 top: 20px;
@@ -124,58 +65,18 @@
                 color: white;
                 font-weight: 500;
                 z-index: 9999;
-                animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s;
+                background: ${colors[type] || colors.info};
+                animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s;
                 max-width: 400px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             `;
             
-            // ألوان حسب النوع
-            const colors = {
-                success: '#2E7D32',
-                error: '#D32F2F',
-                warning: '#F57C00',
-                info: '#1976D2'
-            };
-            
-            toast.style.background = colors[type] || colors.info;
-            
-            // إضافة للصفحة
             document.body.appendChild(toast);
-            
-            // إزالة بعد 3 ثواني
-            setTimeout(() => {
-                if (toast.parentNode) {
-                    document.body.removeChild(toast);
-                }
-            }, 3000);
+            setTimeout(() => toast.remove(), 3000);
         },
         
         /**
-         * التحقق من صحة البريد الإلكتروني
-         * @param {string} email - البريد الإلكتروني
-         * @returns {boolean} صحيح أم لا
-         */
-        validateEmail: function(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        },
-        
-        /**
-         * تحميل صورة مع معالجة الأخطاء
-         * @param {string} url - رابط الصورة
-         * @returns {Promise} وعد بتحميل الصورة
-         */
-        loadImage: function(url) {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.onload = () => resolve(img);
-                img.onerror = () => reject(new Error('فشل تحميل الصورة'));
-                img.src = url;
-            });
-        },
-        
-        /**
-         * إضافة تأثير اهتزاز للعنصر
-         * @param {HTMLElement} element - العنصر
+         * تأثير اهتزاز للعنصر
          */
         shakeElement: function(element) {
             element.style.animation = 'shake 0.5s ease';
@@ -185,272 +86,27 @@
         }
     };
     
-    // ===== إدارة الأخبار =====
-    const NewsManager = {
-        /**
-         * قائمة الأخبار
-         */
-        news: [
-            {
-                id: 1,
-                title: 'فوز تاريخي للأهلي في دوري أبطال آسيا',
-                description: 'تغلب النادي الأهلي المصري على منافسه الكوري بنتيجة 3-0 في إطار منافسات دوري أبطال آسيا.',
-                content: 'المحتوى الكامل للخبر...',
-                category: 'دوري الأبطال',
-                date: new Date('2024-12-05T10:30:00'),
-                views: 2543,
-                comments: 45,
-                likes: 128,
-                icon: '🏆',
-                tags: ['الأهلي', 'دوري الأبطال', 'مصر']
-            },
-            {
-                id: 2,
-                title: 'مفاجأة في ديربي الرياض',
-                description: 'فوز غير متوقع للخليج على الهلال في مباراة مثيرة انتهت بنتيجة 2-1.',
-                content: 'المحتوى الكامل للخبر...',
-                category: 'الدوري السعودي',
-                date: new Date('2024-12-05T08:15:00'),
-                views: 1832,
-                comments: 32,
-                likes: 89,
-                icon: '🌟',
-                tags: ['الهلال', 'الدوري السعودي', 'ديربي']
-            },
-            {
-                id: 3,
-                title: 'المنتخب السعودي يبدأ تحضيراته لكأس آسيا',
-                description: 'بدأ المنتخب السعودي الأول لكرة القدم تدريباته المركزية استعداداً للبطولة القارية المقبلة.',
-                content: 'المحتوى الكامل للخبر...',
-                category: 'منتخبات',
-                date: new Date('2024-12-04T14:20:00'),
-                views: 3124,
-                comments: 67,
-                likes: 215,
-                icon: '⚽',
-                tags: ['السعودية', 'كأس آسيا', 'منتخبات']
-            }
-        ],
-        
-        /**
-         * عرض الأخبار في الصفحة
-         */
-        displayNews: function() {
-            const newsGrid = document.querySelector('.news-grid');
-            if (!newsGrid) return;
-            
-            // ترتيب الأخبار حسب التاريخ
-            const sortedNews = [...this.news].sort((a, b) => b.date - a.date);
-            
-            newsGrid.innerHTML = sortedNews.map(newsItem => `
-                <article class="news-card ${newsItem.id === 1 ? 'featured' : ''}" data-id="${newsItem.id}">
-                    ${newsItem.id === 1 ? '<div class="news-badge">مميز</div>' : ''}
-                    <div class="news-image" style="background: linear-gradient(45deg, ${this.getCategoryColor(newsItem.category)});">
-                        <span>${newsItem.icon}</span>
-                    </div>
-                    <div class="news-content">
-                        <div class="news-meta">
-                            <span class="news-category">${newsItem.category}</span>
-                            <span class="news-date">
-                                <i class="far fa-clock"></i> ${Utils.timeAgo(newsItem.date)}
-                            </span>
-                        </div>
-                        <h3 class="news-title">${newsItem.title}</h3>
-                        <p class="news-desc">${newsItem.description}</p>
-                        <div class="news-footer">
-                            <a href="#" class="read-more" onclick="NewsManager.readMore(${newsItem.id})" aria-label="قراءة المزيد عن ${newsItem.title}">
-                                اقرأ التفاصيل <i class="fas fa-arrow-left"></i>
-                            </a>
-                            <div class="news-stats">
-                                <span title="عدد المشاهدات">
-                                    <i class="far fa-eye"></i> ${Utils.formatNumber(newsItem.views)}
-                                </span>
-                                <span title="عدد التعليقات">
-                                    <i class="far fa-comment"></i> ${Utils.formatNumber(newsItem.comments)}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            `).join('');
-            
-            // تحديث الوقت
-            appState.lastNewsUpdate = new Date();
-        },
-        
-        /**
-         * الحصول على لون حسب التصنيف
-         * @param {string} category - التصنيف
-         * @returns {string} اللون
-         */
-        getCategoryColor: function(category) {
-            const colors = {
-                'دوري الأبطال': '#1E5631, #2E7D32',
-                'الدوري السعودي': '#C4A747, #D4B757',
-                'منتخبات': '#2E7D32, #3E8D42',
-                'الدوري المصري': '#1565C0, #1976D2',
-                'الدوري الإنجليزي': '#C62828, #D32F2F'
-            };
-            
-            return colors[category] || '#1E5631, #2E7D32';
-        },
-        
-        /**
-         * عند النقر على اقرأ المزيد
-         * @param {number} newsId - معرف الخبر
-         */
-        readMore: function(newsId) {
-            const newsItem = this.news.find(item => item.id === newsId);
-            if (!newsItem) return;
-            
-            // زيادة عدد المشاهدات
-            newsItem.views++;
-            
-            // عرض تفاصيل الخبر
-            const modalContent = `
-                <div class="news-modal">
-                    <div class="modal-header">
-                        <h2>${newsItem.title}</h2>
-                        <button class="close-modal" aria-label="إغلاق">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="news-meta">
-                            <span class="news-category">${newsItem.category}</span>
-                            <span class="news-date">
-                                <i class="far fa-clock"></i> ${Utils.formatDate(newsItem.date)}
-                            </span>
-                        </div>
-                        <div class="news-image-large">
-                            <span>${newsItem.icon}</span>
-                        </div>
-                        <div class="news-content-full">
-                            <p>${newsItem.content}</p>
-                        </div>
-                        <div class="news-tags">
-                            ${newsItem.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                        </div>
-                        <div class="news-stats">
-                            <span><i class="far fa-eye"></i> ${Utils.formatNumber(newsItem.views)} مشاهدة</span>
-                            <span><i class="far fa-comment"></i> ${Utils.formatNumber(newsItem.comments)} تعليق</span>
-                            <span><i class="far fa-heart"></i> ${Utils.formatNumber(newsItem.likes)} إعجاب</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            this.showModal(modalContent);
-        },
-        
-        /**
-         * عرض نافذة منبثقة
-         * @param {string} content - محتوى النافذة
-         */
-        showModal: function(content) {
-            // إنشاء الـ overlay
-            const overlay = document.createElement('div');
-            overlay.className = 'modal-overlay';
-            overlay.style.cssText = `
-                position: fixed;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                left: 0;
-                background: rgba(0, 0, 0, 0.7);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 10000;
-                padding: 20px;
-                animation: fadeIn 0.3s ease;
-            `;
-            
-            // إضافة المحتوى
-            overlay.innerHTML = content;
-            
-            // إضافة للصفحة
-            document.body.appendChild(overlay);
-            document.body.style.overflow = 'hidden'; // منع التمرير
-            
-            // إضافة حدث لإغلاق النافذة
-            const closeBtn = overlay.querySelector('.close-modal');
-            if (closeBtn) {
-                closeBtn.onclick = () => this.closeModal(overlay);
-            }
-            
-            // إغلاق بالنقر خارج النافذة
-            overlay.onclick = (e) => {
-                if (e.target === overlay) {
-                    this.closeModal(overlay);
-                }
-            };
-            
-            // إغلاق بـ ESC
-            document.addEventListener('keydown', function closeOnEsc(e) {
-                if (e.key === 'Escape') {
-                    NewsManager.closeModal(overlay);
-                    document.removeEventListener('keydown', closeOnEsc);
-                }
-            });
-        },
-        
-        /**
-         * إغلاق النافذة المنبثقة
-         * @param {HTMLElement} overlay - الـ overlay
-         */
-        closeModal: function(overlay) {
-            overlay.style.animation = 'fadeOut 0.3s ease';
-            setTimeout(() => {
-                if (overlay.parentNode) {
-                    document.body.removeChild(overlay);
-                    document.body.style.overflow = ''; // إعادة التمرير
-                }
-            }, 300);
-        },
-        
-        /**
-         * البحث في الأخبار
-         * @param {string} query - كلمة البحث
-         */
-        searchNews: function(query) {
-            if (!query.trim()) {
-                this.displayNews();
-                return;
-            }
-            
-            const filteredNews = this.news.filter(item => 
-                item.title.toLowerCase().includes(query.toLowerCase()) ||
-                item.description.toLowerCase().includes(query.toLowerCase()) ||
-                item.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()))
-            );
-            
-            // عرض نتائج البحث
-            const newsGrid = document.querySelector('.news-grid');
-            if (newsGrid) {
-                // تحديث العرض
-                // (يمكن تطوير هذا الجزء)
-                Utils.showToast(`تم العثور على ${filteredNews.length} نتيجة`, 'info');
-            }
-        }
-    };
-    
     // ===== إدارة القائمة الجوال =====
-    const MobileMenu = {
+    const MobileMenuManager = {
         /**
          * تهيئة القائمة الجوال
          */
         init: function() {
             const menuBtn = document.querySelector('.mobile-menu-btn');
-            const mobileMenu = document.querySelector('.mobile-menu');
+            if (!menuBtn) return;
             
-            if (!menuBtn || !mobileMenu) return;
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggle();
+            });
             
-            menuBtn.addEventListener('click', () => this.toggle());
-            
-            // إغلاق القائمة عند النقر على رابط
-            mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => this.close());
+            // إغلاق القائمة عند النقر خارجها
+            document.addEventListener('click', (e) => {
+                if (appState.isMobileMenuOpen && 
+                    !e.target.closest('.mobile-menu') && 
+                    !e.target.closest('.mobile-menu-btn')) {
+                    this.close();
+                }
             });
             
             // إغلاق القائمة عند التمرير
@@ -465,16 +121,11 @@
          * تبديل حالة القائمة
          */
         toggle: function() {
-            const mobileMenu = document.querySelector('.mobile-menu');
-            const menuIcon = document.querySelector('.mobile-menu-btn i');
-            
             if (appState.isMobileMenuOpen) {
                 this.close();
             } else {
                 this.open();
             }
-            
-            appState.isMobileMenuOpen = !appState.isMobileMenuOpen;
         },
         
         /**
@@ -484,13 +135,17 @@
             const mobileMenu = document.querySelector('.mobile-menu');
             const menuIcon = document.querySelector('.mobile-menu-btn i');
             
-            mobileMenu.classList.add('active');
+            if (!mobileMenu || !menuIcon) return;
+            
             mobileMenu.style.display = 'flex';
+            setTimeout(() => {
+                mobileMenu.classList.add('active');
+            }, 10);
+            
             menuIcon.classList.remove('fa-bars');
             menuIcon.classList.add('fa-times');
-            
-            // منع التمرير
             document.body.style.overflow = 'hidden';
+            appState.isMobileMenuOpen = true;
         },
         
         /**
@@ -500,71 +155,269 @@
             const mobileMenu = document.querySelector('.mobile-menu');
             const menuIcon = document.querySelector('.mobile-menu-btn i');
             
+            if (!mobileMenu || !menuIcon) return;
+            
             mobileMenu.classList.remove('active');
+            
             setTimeout(() => {
                 mobileMenu.style.display = 'none';
             }, 300);
             
             menuIcon.classList.remove('fa-times');
             menuIcon.classList.add('fa-bars');
-            
-            // إعادة التمرير
             document.body.style.overflow = '';
-            
             appState.isMobileMenuOpen = false;
         }
     };
     
-    // ===== إدارة النمط =====
-    const ThemeManager = {
+    // ===== إدارة المقالات =====
+    const ArticleManager = {
         /**
-         * تهيئة النمط
+         * بيانات المقالات
          */
-        init: function() {
-            // التحقق من تفضيلات النظام
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-            appState.darkMode = prefersDark.matches;
-            
-            // تحديث النمط
-            this.updateTheme();
-            
-            // الاستماع لتغير تفضيلات النظام
-            prefersDark.addEventListener('change', (e) => {
-                appState.darkMode = e.matches;
-                this.updateTheme();
-            });
-        },
-        
-        /**
-         * تحديث النمط
-         */
-        updateTheme: function() {
-            if (appState.darkMode) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            } else {
-                document.documentElement.removeAttribute('data-theme');
+        articles: {
+            1: {
+                title: "كيف تشاهد الدوري السعودي مجاناً وبجودة عالية؟",
+                content: `
+                    <h1>كيف تشاهد الدوري السعودي مجاناً وبجودة عالية؟</h1>
+                    
+                    <div class="article-meta">
+                        <span class="article-category">الدوري السعودي</span>
+                        <span class="article-date"><i class="far fa-clock"></i> ديسمبر 2024</span>
+                        <span class="article-read-time"><i class="far fa-clock"></i> 5 دقائق قراءة</span>
+                    </div>
+                    
+                    <div class="article-image-full">
+                        <div style="background: linear-gradient(45deg, #1E5631, #2E7D32); height: 300px; display: flex; align-items: center; justify-content: center; color: white; font-size: 5rem; border-radius: 15px; margin: 2rem 0;">
+                            📺
+                        </div>
+                    </div>
+                    
+                    <div class="article-body">
+                        <h2>📺 الطرق المجانية القانونية</h2>
+                        
+                        <h3>1. يوتيوب الرسمي</h3>
+                        <p>قناة SSC الرسمية على يوتيوب تنشر ملخصات كاملة للمباريات مع تعليق عربي احترافي.</p>
+                        <ul>
+                            <li>✅ ملخصات كاملة للمباريات</li>
+                            <li>✅ أفضل اللحظات والأهداف</li>
+                            <li>✅ تعليق عربي احترافي</li>
+                            <li>✅ مجاني 100%</li>
+                        </ul>
+                        
+                        <h3>2. تطبيق Shahid (تجربة مجانية)</h3>
+                        <p>يقدم تطبيق Shahid تجربة مجانية لمدة 7 أيام تشمل جميع مباريات الدوري السعودي.</p>
+                        
+                        <h3>3. البث الأرضي</h3>
+                        <p>القنوات الأرضية المجانية تبث أهم مباريات الدوري السعودي مباشرة.</p>
+                        
+                        <h2>💡 نصائح احترافية</h2>
+                        <p>1. استخدم VPN للدول المجاورة التي تبث المباريات مجاناً</p>
+                        <p>2. تابع صفحات الفرق الرسمية على وسائل التواصل</p>
+                        <p>3. اشترك في تنبيهات المباريات عبر تطبيقات الرياضة</p>
+                        
+                        <h2>❌ ما تتجنبه</h2>
+                        <p>- المواقع غير القانونية (مخاطر أمنية)</p>
+                        <p>- الروابط المشبوهة (فيروسات)</p>
+                        <p>- البث المتقطع (يخرب متعة المباراة)</p>
+                        
+                        <div class="article-tags">
+                            <span class="tag">الدوري السعودي</span>
+                            <span class="tag">مشاهدة مجانية</span>
+                            <span class="tag">نصائح</span>
+                            <span class="tag">رياضة</span>
+                        </div>
+                    </div>
+                `
+            },
+            2: {
+                title: "السر وراء أجور نجوم الدوري السعودي",
+                content: `
+                    <h1>السر وراء أجور نجوم الدوري السعودي</h1>
+                    
+                    <div class="article-meta">
+                        <span class="article-category">تحليل</span>
+                        <span class="article-date"><i class="far fa-clock"></i> ديسمبر 2024</span>
+                        <span class="article-read-time"><i class="far fa-clock"></i> 7 دقائق قراءة</span>
+                    </div>
+                    
+                    <div class="article-body">
+                        <p>تحليل مفصل لهيكل الرواتب والمكافآت في الدوري السعودي...</p>
+                        <!-- محتوى المقال الكامل -->
+                    </div>
+                `
+            },
+            3: {
+                title: "تاريخ الكرة السعودية: من البداية إلى العالمية",
+                content: `
+                    <h1>تاريخ الكرة السعودية: من البداية إلى العالمية</h1>
+                    
+                    <div class="article-meta">
+                        <span class="article-category">تاريخ</span>
+                        <span class="article-date"><i class="far fa-clock"></i> ديسمبر 2024</span>
+                        <span class="article-read-time"><i class="far fa-clock"></i> 10 دقائق قراءة</span>
+                    </div>
+                    
+                    <div class="article-body">
+                        <p>رحلة تطور كرة القدم السعودية عبر العقود...</p>
+                        <!-- محتوى المقال الكامل -->
+                    </div>
+                `
             }
         },
         
         /**
-         * تبديل الوضع الليلي
+         * عرض المقال الكامل
          */
-        toggleDarkMode: function() {
-            appState.darkMode = !appState.darkMode;
-            this.updateTheme();
+        showFullArticle: function(articleId) {
+            const article = this.articles[articleId];
+            if (!article) {
+                Utils.showToast('المقال غير موجود', 'error');
+                return;
+            }
             
-            // حفظ التفضيل
-            localStorage.setItem('darkMode', appState.darkMode);
+            const modal = document.getElementById('articleModal');
+            const content = document.getElementById('articleContent');
             
-            Utils.showToast(
-                appState.darkMode ? 'تم تفعيل الوضع الليلي' : 'تم تعطيل الوضع الليلي',
-                'info'
-            );
+            if (!modal || !content) {
+                Utils.showToast('حدث خطأ في تحميل المقال', 'error');
+                return;
+            }
+            
+            content.innerHTML = article.content;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // إضافة حدث لإغلاق النافذة
+            const closeBtn = modal.querySelector('.close-article-modal');
+            if (closeBtn) {
+                closeBtn.onclick = () => this.closeArticle();
+            }
+            
+            // إغلاق بالنقر خارج النافذة
+            modal.onclick = (e) => {
+                if (e.target === modal) {
+                    this.closeArticle();
+                }
+            };
+            
+            // إغلاق بـ ESC
+            const closeOnEsc = (e) => {
+                if (e.key === 'Escape') {
+                    this.closeArticle();
+                    document.removeEventListener('keydown', closeOnEsc);
+                }
+            };
+            document.addEventListener('keydown', closeOnEsc);
+        },
+        
+        /**
+         * إغلاق نافذة المقال
+         */
+        closeArticle: function() {
+            const modal = document.getElementById('articleModal');
+            if (!modal) return;
+            
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.style.opacity = '1';
+                document.body.style.overflow = '';
+            }, 300);
+        }
+    };
+    
+    // ===== إدارة التبرعات =====
+    const DonationManager = {
+        /**
+         * عرض نافذة التبرع
+         */
+        showDonation: function() {
+            const modal = document.getElementById('donationModal');
+            if (!modal) return;
+            
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // إخفاء معلومات البنك
+            const bankInfo = document.getElementById('bankInfo');
+            if (bankInfo) {
+                bankInfo.style.display = 'none';
+            }
+        },
+        
+        /**
+         * إغلاق نافذة التبرع
+         */
+        closeDonation: function() {
+            const modal = document.getElementById('donationModal');
+            if (!modal) return;
+            
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        },
+        
+        /**
+         * التبرع بمبلغ محدد
+         */
+        donate: function(amount) {
+            if (!amount || amount <= 0) {
+                Utils.showToast('الرجاء إدخال مبلغ صحيح', 'error');
+                return;
+            }
+            
+            this.showDonation();
+            Utils.showToast(`شكراً لدعمك بمبلغ ${amount}$! اختر طريقة الدفع`, 'success');
+        },
+        
+        /**
+         * التبرع بمبلغ مخصص
+         */
+        donateCustom: function() {
+            const amountInput = document.getElementById('custom-amount');
+            if (!amountInput) return;
+            
+            const amount = parseInt(amountInput.value);
+            if (!amount || amount <= 0) {
+                Utils.shakeElement(amountInput);
+                Utils.showToast('الرجاء إدخال مبلغ صحيح', 'error');
+                return;
+            }
+            
+            this.donate(amount);
+            amountInput.value = '';
+        },
+        
+        /**
+         * عرض معلومات البنك
+         */
+        showBankInfo: function() {
+            const bankInfo = document.getElementById('bankInfo');
+            if (bankInfo) {
+                bankInfo.style.display = 'block';
+            }
+        },
+        
+        /**
+         * محاكاة الدفع
+         */
+        processPayment: function(method) {
+            Utils.showToast(`جاري معالجة الدفع عبر ${method}...`, 'info');
+            
+            // محاكاة تأخير الدفع
+            setTimeout(() => {
+                this.closeDonation();
+                appState.totalDonations += 1;
+                Utils.showToast('تمت عملية الدفع بنجاح! شكراً لدعمك.', 'success');
+                
+                // تحديث شريط التقدم
+                this.updateProgress();
+            }, 1500);
         }
     };
     
     // ===== تأثيرات التمرير =====
-    const ScrollEffects = {
+    const ScrollManager = {
         /**
          * تهيئة تأثيرات التمرير
          */
@@ -572,15 +425,12 @@
             // تأثير شريط التنقل
             window.addEventListener('scroll', () => this.handleNavbarScroll());
             
-            // تأثير ظهور العناصر
-            this.initIntersectionObserver();
-            
             // التمرير الناعم
             this.initSmoothScrolling();
         },
         
         /**
-         * التعامل مع تمرير شريط التنقل
+         * تأثير شريط التنقل عند التمرير
          */
         handleNavbarScroll: function() {
             const navbar = document.querySelector('.navbar');
@@ -589,40 +439,14 @@
             if (window.scrollY > 100) {
                 navbar.style.background = 'rgba(30, 86, 49, 0.95)';
                 navbar.style.backdropFilter = 'blur(10px)';
-                navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
             } else {
-                navbar.style.background = 'linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%)';
-                navbar.style.backdropFilter = 'none';
-                navbar.style.boxShadow = 'var(--shadow-md)';
+                navbar.style.background = '';
+                navbar.style.backdropFilter = '';
             }
         },
         
         /**
-         * تهيئة Intersection Observer للعناصر
-         */
-        initIntersectionObserver: function() {
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-in');
-                    }
-                });
-            }, observerOptions);
-            
-            // مراقبة العناصر
-            document.querySelectorAll('.news-card, .league-card, .stat').forEach(el => {
-                observer.observe(el);
-            });
-        },
-        
-        /**
-         * تهيئة التمرير الناعم
+         * التمرير الناعم للروابط
          */
         initSmoothScrolling: function() {
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -636,7 +460,7 @@
                     if (targetElement) {
                         // إغلاق القائمة الجوال إذا كانت مفتوحة
                         if (appState.isMobileMenuOpen) {
-                            MobileMenu.close();
+                            MobileMenuManager.close();
                         }
                         
                         // التمرير الناعم
@@ -650,16 +474,23 @@
         }
     };
     
-    // ===== نموذج الاتصال =====
-    const ContactForm = {
+    // ===== إدارة النماذج =====
+    const FormManager = {
+        /**
+         * تهيئة النماذج
+         */
+        init: function() {
+            this.initContactForm();
+        },
+        
         /**
          * تهيئة نموذج الاتصال
          */
-        init: function() {
-            const form = document.querySelector('.contact-form');
+        initContactForm: function() {
+            const form = document.getElementById('contactForm');
             if (!form) return;
             
-            form.addEventListener('submit', (e) => this.handleSubmit(e));
+            form.addEventListener('submit', (e) => this.handleContactSubmit(e));
             
             // التحقق أثناء الكتابة
             form.querySelectorAll('input, textarea').forEach(input => {
@@ -669,80 +500,43 @@
         
         /**
          * التحقق من حقل
-         * @param {HTMLInputElement|HTMLTextAreaElement} field - الحقل
          */
         validateField: function(field) {
             const value = field.value.trim();
             let isValid = true;
-            let message = '';
             
             switch (field.id) {
                 case 'name':
                     isValid = value.length >= 2;
-                    message = isValid ? '' : 'الاسم يجب أن يكون على الأقل حرفين';
                     break;
-                    
                 case 'email':
                     isValid = Utils.validateEmail(value);
-                    message = isValid ? '' : 'البريد الإلكتروني غير صحيح';
                     break;
-                    
                 case 'message':
                     isValid = value.length >= 10;
-                    message = isValid ? '' : 'الرسالة يجب أن تكون على الأقل 10 أحرف';
                     break;
             }
             
-            this.updateFieldStatus(field, isValid, message);
+            this.updateFieldStatus(field, isValid);
         },
         
         /**
          * تحديث حالة الحقل
-         * @param {HTMLElement} field - الحقل
-         * @param {boolean} isValid - إذا كان صحيحاً
-         * @param {string} message - رسالة الخطأ
          */
-        updateFieldStatus: function(field, isValid, message) {
-            const formGroup = field.closest('.form-group');
-            if (!formGroup) return;
-            
-            // إزالة الرسائل السابقة
-            const oldError = formGroup.querySelector('.error-message');
-            if (oldError) {
-                formGroup.removeChild(oldError);
-            }
-            
-            // إزالة الأنماط السابقة
+        updateFieldStatus: function(field, isValid) {
             field.classList.remove('is-valid', 'is-invalid');
-            formGroup.classList.remove('has-error', 'has-success');
             
-            // تحديث الأنماط
             if (isValid && field.value.trim()) {
                 field.classList.add('is-valid');
-                formGroup.classList.add('has-success');
             } else if (!isValid && field.value.trim()) {
                 field.classList.add('is-invalid');
-                formGroup.classList.add('has-error');
-                
-                // إضافة رسالة الخطأ
-                const errorSpan = document.createElement('span');
-                errorSpan.className = 'error-message';
-                errorSpan.textContent = message;
-                errorSpan.style.cssText = `
-                    color: #D32F2F;
-                    font-size: 0.85rem;
-                    margin-top: 5px;
-                    display: block;
-                `;
-                formGroup.appendChild(errorSpan);
             }
         },
         
         /**
-         * التعامل مع إرسال النموذج
-         * @param {Event} e - حدث الإرسال
+         * معالجة إرسال نموذج الاتصال
          */
-        handleSubmit: function(e) {
+        handleContactSubmit: function(e) {
             e.preventDefault();
             
             const form = e.target;
@@ -765,147 +559,93 @@
             }
             
             // محاكاة الإرسال
-            this.submitForm(data)
-                .then(response => {
-                    Utils.showToast('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.', 'success');
-                    form.reset();
-                    
-                    // إعادة تعيين الأنماط
-                    form.querySelectorAll('.form-group').forEach(group => {
-                        group.classList.remove('has-success');
-                    });
-                    form.querySelectorAll('input, textarea').forEach(field => {
-                        field.classList.remove('is-valid');
-                    });
-                })
-                .catch(error => {
-                    console.error('خطأ في الإرسال:', error);
-                    Utils.showToast('حدث خطأ في إرسال الرسالة. حاول مرة أخرى.', 'error');
+            Utils.showToast('جاري إرسال رسالتك...', 'info');
+            
+            setTimeout(() => {
+                form.reset();
+                form.querySelectorAll('input, textarea').forEach(field => {
+                    field.classList.remove('is-valid');
                 });
+                Utils.showToast('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.', 'success');
+            }, 1500);
+        }
+    };
+    
+    // ===== العدادات المتحركة =====
+    const CounterManager = {
+        /**
+         * تهيئة العدادات
+         */
+        init: function() {
+            this.animateCounters();
         },
         
         /**
-         * إرسال النموذج (محاكاة)
-         * @param {Object} data - بيانات النموذج
-         * @returns {Promise} وعد بالإرسال
+         * تحريك العدادات
          */
-        submitForm: function(data) {
-            return new Promise((resolve, reject) => {
-                // محاكاة تأخير الشبكة
-                setTimeout(() => {
-                    // في الواقع، هنا نرسل البيانات لخادم
-                    console.log('بيانات النموذج:', data);
-                    
-                    // نجاح محاكاة
-                    resolve({ success: true, message: 'تم الإرسال' });
-                    
-                    // فشل محاكاة (للاختبار)
-                    // reject(new Error('فشل الاتصال بالخادم'));
-                }, 1500);
+        animateCounters: function() {
+            const counters = document.querySelectorAll('.count[data-target]');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const increment = target / 100;
+                let current = 0;
+                
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = Math.floor(current);
+                        setTimeout(updateCounter, 20);
+                    } else {
+                        counter.textContent = Utils.formatNumber(target);
+                    }
+                };
+                
+                // بدء العد بعد تأخير
+                setTimeout(updateCounter, 500);
             });
         }
     };
     
-    // ===== العد التنازلي =====
-    const Countdown = {
-        nextMatch: {
-            team1: 'الهلال',
-            team2: 'النصر',
-            date: new Date('2024-12-10T20:00:00'),
-            competition: 'دوري المحترفين السعودي',
-            venue: 'ملعب الملك فهد الدولي'
-        },
-        
+    // ===== الأخبار العاجلة المتحركة =====
+    const BreakingNewsManager = {
         /**
-         * بدء العد التنازلي
+         * تهيئة الأخبار العاجلة
          */
         init: function() {
-            const countdownElement = document.createElement('div');
-            countdownElement.className = 'match-countdown';
-            countdownElement.style.cssText = `
-                background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-                color: white;
-                padding: 1.5rem;
-                border-radius: var(--border-radius);
-                text-align: center;
-                margin: 2rem 0;
-                box-shadow: var(--shadow-md);
-            `;
-            
-            countdownElement.innerHTML = `
-                <div class="countdown-header">
-                    <h4><i class="fas fa-clock"></i> العد التنازلي للمباراة القادمة</h4>
-                    <p class="match-info">${this.nextMatch.team1} vs ${this.nextMatch.team2}</p>
-                    <p class="competition">${this.nextMatch.competition}</p>
-                </div>
-                <div class="countdown-timer" id="countdown-timer"></div>
-                <div class="venue">
-                    <i class="fas fa-map-marker-alt"></i> ${this.nextMatch.venue}
-                </div>
-            `;
-            
-            // إضافة للصفحة
-            const newsSection = document.querySelector('.news-section');
-            if (newsSection) {
-                newsSection.parentNode.insertBefore(countdownElement, newsSection.nextSibling);
-                this.updateCountdown();
-            }
+            this.rotateBreakingNews();
         },
         
         /**
-         * تحديث العد التنازلي
+         * تدوير الأخبار العاجلة
          */
-        updateCountdown: function() {
-            const timerElement = document.getElementById('countdown-timer');
-            if (!timerElement) return;
+        rotateBreakingNews: function() {
+            const breakingElement = document.getElementById('breaking-text');
+            if (!breakingElement) return;
             
-            const update = () => {
-                const now = new Date();
-                const timeLeft = this.nextMatch.date - now;
-                
-                if (timeLeft <= 0) {
-                    timerElement.innerHTML = `
-                        <div class="match-started">
-                            <i class="fas fa-play-circle"></i>
-                            <span>بدأت المباراة!</span>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-                
-                timerElement.innerHTML = `
-                    <div class="time-unit">
-                        <span class="number">${days.toString().padStart(2, '0')}</span>
-                        <span class="label">يوم</span>
-                    </div>
-                    <div class="time-unit">
-                        <span class="number">${hours.toString().padStart(2, '0')}</span>
-                        <span class="label">ساعة</span>
-                    </div>
-                    <div class="time-unit">
-                        <span class="number">${minutes.toString().padStart(2, '0')}</span>
-                        <span class="label">دقيقة</span>
-                    </div>
-                    <div class="time-unit">
-                        <span class="number">${seconds.toString().padStart(2, '0')}</span>
-                        <span class="label">ثانية</span>
-                    </div>
-                `;
-            };
+            const newsItems = [
+                "الهلال يتأهل لدور الـ16 من دوري أبطال آسيا",
+                "مفاجأة: الخليج يتغلب على الهلال في ديربي الرياض",
+                "المنتخب السعودي يبدأ تحضيراته لكأس آسيا",
+                "الأهلي المصري يحقق فوزاً تاريخياً في دوري الأبطال"
+            ];
             
-            update();
-            setInterval(update, 1000);
+            let currentIndex = 0;
+            
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % newsItems.length;
+                breakingElement.style.opacity = '0';
+                
+                setTimeout(() => {
+                    breakingElement.textContent = newsItems[currentIndex];
+                    breakingElement.style.opacity = '1';
+                }, 500);
+            }, 10000);
         }
     };
     
     // ===== تهيئة الموقع عند التحميل =====
     document.addEventListener('DOMContentLoaded', function() {
-        // عرض معلومات التطبيق
         console.log(`%c${APP_CONFIG.name} v${APP_CONFIG.version}`, 
             `background: ${APP_CONFIG.colors.primary}; color: white; padding: 5px 10px; border-radius: 3px;`);
         
@@ -916,38 +656,14 @@
         }
         
         // تهيئة المكونات
-        NewsManager.displayNews();
-        MobileMenu.init();
-        ThemeManager.init();
-        ScrollEffects.init();
-        ContactForm.init();
-        Countdown.init();
+        MobileMenuManager.init();
+        ScrollManager.init();
+        FormManager.init();
+        CounterManager.init();
+        BreakingNewsManager.init();
         
-        // إضافة تاريخ اليوم
-        const today = new Date();
-        const dateElement = document.createElement('div');
-        dateElement.className = 'current-date';
-        dateElement.style.cssText = `
-            text-align: center;
-            margin: 15px 0;
-            color: var(--text-light);
-            font-size: 0.9rem;
-        `;
-        dateElement.innerHTML = `<i class="far fa-calendar-alt"></i> ${Utils.formatDate(today)}`;
-        
-        const hero = document.querySelector('.hero');
-        if (hero) {
-            hero.appendChild(dateElement);
-        }
-        
-        // مراقبة حالة الاتصال
-        window.addEventListener('online', () => {
-            Utils.showToast('تم استعادة الاتصال بالإنترنت', 'success');
-        });
-        
-        window.addEventListener('offline', () => {
-            Utils.showToast('فقدت الاتصال بالإنترنت', 'warning');
-        });
+        // إضافة الأنماط المتحركة
+        this.addAnimationStyles();
         
         // تحميل الصفحة
         window.addEventListener('load', () => {
@@ -956,239 +672,90 @@
         });
     });
     
-    // ===== وظائف عامة (عالمية) =====
-    window.shareSite = function() {
-        if (navigator.share) {
-            navigator.share({
-                title: 'ميدان العرب',
-                text: 'موقع رياضي عربي رائع! تابع أحدث الأخبار والتحليلات.',
-                url: window.location.href
-            });
-        } else {
-            Utils.copyToClipboard(window.location.href);
-        }
+    // ===== إضافة الأنماط المتحركة =====
+    function addAnimationStyles() {
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes toastIn {
+                from { transform: translateX(-100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes toastOut {
+                from { opacity: 1; }
+                to { opacity: 0; }
+            }
+            
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+            
+            .is-valid {
+                border-color: #2E7D32 !important;
+                background-color: rgba(46, 125, 50, 0.05) !important;
+            }
+            
+            .is-invalid {
+                border-color: #D32F2F !important;
+                background-color: rgba(211, 47, 47, 0.05) !important;
+            }
+            
+            .loaded .hero {
+                animation: fadeIn 1s ease;
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    // ===== جعل الوظائف متاحة عالمياً =====
+    window.ArticleManager = ArticleManager;
+    window.DonationManager = DonationManager;
+    
+    window.showFullArticle = function(articleId) {
+        ArticleManager.showFullArticle(articleId);
     };
     
-    window.toggleDarkMode = function() {
-        ThemeManager.toggleDarkMode();
+    window.closeArticle = function() {
+        ArticleManager.closeArticle();
     };
     
-    window.searchNews = function() {
-        const searchInput = document.querySelector('.search-input');
-        if (searchInput) {
-            NewsManager.searchNews(searchInput.value);
-        }
+    window.showDonation = function() {
+        DonationManager.showDonation();
+    };
+    
+    window.closeDonation = function() {
+        DonationManager.closeDonation();
+    };
+    
+    window.donate = function(amount) {
+        DonationManager.donate(amount);
+    };
+    
+    window.donateCustom = function() {
+        DonationManager.donateCustom();
+    };
+    
+    window.showBankInfo = function() {
+        DonationManager.showBankInfo();
+    };
+    
+    window.processPayment = function(method) {
+        DonationManager.processPayment(method);
     };
     
     // ===== معالجة الأخطاء =====
     window.addEventListener('error', function(e) {
         console.error('حدث خطأ:', e.error);
-        // يمكن إرسال الخطأ لخادم التحليلات هنا
     });
     
     window.addEventListener('unhandledrejection', function(e) {
         console.error('وعد مرفوض:', e.reason);
-    });
-    
-    // ===== الأنماط المتحركة الإضافية =====
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateX(-100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
-        }
-        
-        .animate-in {
-            animation: fadeIn 0.6s ease;
-        }
-        
-        .news-modal {
-            background: white;
-            border-radius: var(--border-radius);
-            max-width: 800px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: slideIn 0.3s ease;
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-secondary);
-            transition: var(--transition);
-        }
-        
-        .close-modal:hover {
-            color: var(--primary-color);
-        }
-        
-        .modal-body {
-            padding: 1.5rem;
-        }
-        
-        .news-image-large {
-            height: 300px;
-            background: linear-gradient(45deg, var(--primary-color), var(--primary-light));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 8rem;
-            border-radius: var(--border-radius);
-            margin: 1.5rem 0;
-        }
-        
-        .news-content-full {
-            line-height: 1.8;
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .news-tags {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 1.5rem;
-        }
-        
-        .tag {
-            background: var(--bg-secondary);
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-        
-        .countdown-timer {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
-        }
-        
-        .time-unit {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1rem;
-            border-radius: var(--border-radius-sm);
-            min-width: 80px;
-        }
-        
-        .time-unit .number {
-            display: block;
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--secondary-color);
-        }
-        
-        .time-unit .label {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
-        }
-        
-        .match-started {
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .match-started i {
-            color: var(--secondary-color);
-            font-size: 2rem;
-        }
-        
-        .match-info {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin: 0.5rem 0;
-        }
-        
-        .competition {
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 0.5rem;
-        }
-        
-        .venue {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
-            margin-top: 1rem;
-        }
-        
-        .venue i {
-            margin-left: 5px;
-        }
-        
-        /* إمكانية الوصول */
-        :focus {
-            outline: 2px solid var(--secondary-color);
-            outline-offset: 2px;
-        }
-        
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-        
-        /* تحسين الطباعة */
-        @media print {
-            .news-modal,
-            .modal-overlay,
-            .match-countdown,
-            .breaking-news {
-                display: none !important;
-            }
-        }
-    `;
-    document.head.appendChild(style);
-    
-    // ===== التحسينات النهائية =====
-    // إضافة فئة loaded عند تحميل الصفحة
-    document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(() => {
-            document.body.classList.add('loaded');
-        }, 100);
-    });
-    
-    // منع سلوك الروابط الفارغة
-    document.addEventListener('click', function(e) {
-        if (e.target.tagName === 'A' && e.target.getAttribute('href') === '#') {
-            e.preventDefault();
-        }
     });
 })();
