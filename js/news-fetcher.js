@@ -1,14 +1,11 @@
 /**
  * news-fetcher.js
- * جلب الأخبار الحية لموقع ميدان العرب
+ * جلب الأخبار الحية لموقع ميدان العرب مع تحديث دوري
  */
 
 const NewsFetcher = {
-
-    // رابط RSS عربي حي (يمكن تغييره حسب الموقع المفضل)
     rssUrl: 'https://www.yallakora.com/rss/all-news.xml',
 
-    // أخبار fallback ثابتة في حال فشل جلب الأخبار الحية
     fallbackNews: [
         {
             id: 1,
@@ -70,10 +67,21 @@ const NewsFetcher = {
         }
 
         NewsManager.displayNews();
+    },
+
+    /**
+     * بدء التحديث الدوري
+     */
+    startAutoUpdate: function(intervalMinutes = 5) {
+        this.updateNews(); // تحديث فوري عند التحميل
+        setInterval(() => {
+            console.log('🔄 تحديث الأخبار تلقائيًا...');
+            this.updateNews();
+        }, intervalMinutes * 60 * 1000); // تحويل الدقائق إلى ملي ثانية
     }
 };
 
 // ===== استدعاء التحديث عند تحميل الصفحة =====
 document.addEventListener('DOMContentLoaded', () => {
-    NewsFetcher.updateNews();
+    NewsFetcher.startAutoUpdate(5); // التحديث كل 5 دقائق
 });
