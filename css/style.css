@@ -1,55 +1,38 @@
-/* ===== CSS Reset & Base Styles ===== */
+/* ===== الإعدادات العامة ===== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 :root {
-    /* الألوان الرئيسية */
     --primary-color: #1E5631;
-    --primary-dark: #154420;
-    --primary-light: #2E7D32;
     --secondary-color: #C4A747;
-    --secondary-dark: #B3963A;
     --accent-color: #2E7D32;
-    
-    /* ألوان النص */
-    --text-primary: #333333;
-    --text-secondary: #666666;
-    --text-light: #888888;
-    
-    /* ألوان الخلفية */
-    --bg-primary: #FFFFFF;
-    --bg-secondary: #F8F9FA;
-    --bg-dark: #222222;
-    
-    /* ألوان الحدود */
-    --border-color: #E0E0E0;
-    
-    /* الظلال */
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.2);
-    
-    /* الأنماط */
-    --border-radius: 12px;
-    --border-radius-sm: 8px;
+    --light-color: #f8f9fa;
+    --dark-color: #333;
+    --gray-color: #666;
+    --light-gray: #e0e0e0;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --info-color: #17a2b8;
+    --shadow: 0 4px 15px rgba(0,0,0,0.1);
     --transition: all 0.3s ease;
 }
 
-/* ===== أنماط النص الأساسية ===== */
 body {
-    font-family: 'Segoe UI', 'Cairo', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--text-primary);
-    background-color: var(--bg-primary);
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: var(--dark-color);
     line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     direction: rtl;
-    overflow-x: hidden;
 }
 
 .container {
-    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
@@ -57,15 +40,13 @@ body {
 
 /* ===== شريط التنقل ===== */
 .navbar {
-    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
     color: white;
-    padding: 1.2rem 0;
-    box-shadow: var(--shadow-md);
+    padding: 1rem 0;
+    box-shadow: 0 4px 12px rgba(30, 86, 49, 0.2);
     position: sticky;
     top: 0;
     z-index: 1000;
-    backdrop-filter: blur(10px);
-    background-color: rgba(30, 86, 49, 0.95);
 }
 
 .nav-content {
@@ -75,84 +56,20 @@ body {
 }
 
 .logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: white;
-    text-decoration: none;
     font-size: 1.8rem;
     font-weight: bold;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     transition: var(--transition);
 }
 
 .logo:hover {
     transform: scale(1.05);
-    color: var(--secondary-color);
 }
 
-.logo i {
-    font-size: 2rem;
-    animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-}
-
-/* قائمة التنقل */
-.nav-links {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-}
-
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius-sm);
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    position: relative;
-}
-
-.nav-links a:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--secondary-color);
-}
-
-.nav-links a.active {
-    background: rgba(196, 167, 71, 0.2);
-    color: var(--secondary-color);
-}
-
-.nav-links a.active::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    right: 50%;
-    transform: translateX(50%);
-    width: 20px;
-    height: 3px;
-    background: var(--secondary-color);
-    border-radius: 2px;
-}
-
-.donate-btn {
-    background: rgba(255, 255, 255, 0.15);
-    color: #ff6b6b !important;
-    border: 1px solid rgba(255, 107, 107, 0.3);
-}
-
-.donate-btn:hover {
-    background: rgba(255, 107, 107, 0.2) !important;
-}
-
-/* زر القائمة الجوال */
 .mobile-menu-btn {
     display: none;
     background: none;
@@ -160,115 +77,120 @@ body {
     color: white;
     font-size: 1.5rem;
     cursor: pointer;
-    padding: 0.5rem;
-    border-radius: var(--border-radius-sm);
-    transition: var(--transition);
+    padding: 5px;
 }
 
-.mobile-menu-btn:hover {
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: var(--transition);
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
     background: rgba(255, 255, 255, 0.1);
+    color: var(--secondary-color);
+}
+
+.nav-links a.donate-btn {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.nav-links a.donate-btn:hover {
+    background: #d4b757;
 }
 
 /* القائمة الجوال */
 .mobile-menu {
     display: none;
-    background: white;
-    box-shadow: var(--shadow-md);
-    border-radius: 0 0 var(--border-radius) var(--border-radius);
-    overflow: hidden;
-    animation: slideDown 0.3s ease;
-}
-
-@keyframes slideDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.mobile-menu.active {
-    display: flex;
     flex-direction: column;
+    background: white;
+    position: fixed;
+    top: 70px;
+    right: 0;
+    width: 250px;
+    box-shadow: var(--shadow);
+    z-index: 999;
+    border-radius: 0 0 0 10px;
+    padding: 1rem 0;
 }
 
 .mobile-menu a {
-    padding: 1rem;
-    color: var(--text-primary);
+    padding: 1rem 1.5rem;
+    color: var(--dark-color);
     text-decoration: none;
-    border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: center;
     gap: 10px;
     transition: var(--transition);
+    border-bottom: 1px solid var(--light-gray);
 }
 
 .mobile-menu a:hover {
-    background: var(--bg-secondary);
+    background: var(--light-color);
     color: var(--primary-color);
 }
 
 /* ===== قسم الترحيب ===== */
 .hero {
-    background: linear-gradient(135deg, rgba(30, 86, 49, 0.1) 0%, rgba(46, 125, 50, 0.1) 100%);
-    padding: 5rem 0;
+    text-align: center;
+    padding: 5rem 2rem;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+    color: white;
+    border-radius: 15px;
+    margin: 2rem 0 3rem;
+    box-shadow: 0 10px 30px rgba(30, 86, 49, 0.3);
     position: relative;
     overflow: hidden;
 }
 
 .hero::before {
-    content: '';
+    content: '⚽';
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="50%" y="50%" font-size="80" text-anchor="middle" dy=".3em" fill="%231E5631" opacity="0.05">⚽</text></svg>');
-    background-size: 150px;
-    z-index: 0;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
+    font-size: 20rem;
+    opacity: 0.05;
+    right: -50px;
+    top: -50px;
+    transform: rotate(15deg);
 }
 
 .hero-title {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
-    color: var(--primary-color);
-    line-height: 1.2;
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
 }
 
 .hero-title .highlight {
     color: var(--secondary-color);
-    position: relative;
-    display: inline-block;
-}
-
-.hero-title .highlight::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 8px;
-    background: var(--secondary-color);
-    opacity: 0.3;
-    border-radius: 4px;
 }
 
 .hero-subtitle {
-    font-size: 1.8rem;
-    color: var(--primary-light);
-    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    opacity: 0.95;
 }
 
 .hero-description {
     font-size: 1.2rem;
-    color: var(--text-secondary);
-    margin-bottom: 2.5rem;
-    line-height: 1.8;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .hero-actions {
@@ -276,225 +198,286 @@ body {
     gap: 1rem;
     justify-content: center;
     flex-wrap: wrap;
-    margin-bottom: 3rem;
 }
 
-/* الأزرار */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 0.8rem 2rem;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: var(--transition);
-    border: none;
-    cursor: pointer;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
-    color: white;
-    box-shadow: var(--shadow-md);
-}
-
-.btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lg);
-    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
-}
-
-.btn-secondary {
-    background: white;
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
-}
-
-.btn-secondary:hover {
-    background: var(--primary-color);
-    color: white;
-    transform: translateY(-3px);
-}
-
-.btn-donate {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
-    color: white;
-    border: 2px solid #ff6b6b;
-}
-
-.btn-donate:hover {
-    background: white;
-    color: #ff6b6b;
-    transform: translateY(-3px);
-}
-
-/* إحصائيات الترحيب */
 .hero-stats {
     display: flex;
     justify-content: center;
     gap: 3rem;
+    margin-top: 3rem;
     flex-wrap: wrap;
-    margin-top: 2rem;
 }
 
 .stat {
     text-align: center;
-    background: white;
-    padding: 1.5rem 2rem;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-sm);
-    min-width: 150px;
-    transition: var(--transition);
-}
-
-.stat:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
 }
 
 .stat i {
-    font-size: 2rem;
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
 }
 
 .count {
     display: block;
     font-size: 2.5rem;
     font-weight: bold;
-    color: var(--primary-color);
-    margin: 0.5rem 0;
+    color: white;
 }
 
 .label {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
+    display: block;
+    margin-top: 5px;
+    font-size: 1rem;
+    opacity: 0.9;
 }
 
-/* ===== الأخبار العاجلة ===== */
-.breaking-news {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+/* ===== الأزرار ===== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: var(--transition);
+    border: 2px solid;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: var(--secondary-color);
     color: white;
-    padding: 1rem 0;
-    position: relative;
-    overflow: hidden;
+    border-color: var(--secondary-color);
 }
 
-.breaking-news::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 10px,
-        rgba(255, 255, 255, 0.1) 10px,
-        rgba(255, 255, 255, 0.1) 20px
-    );
-    animation: slide 20s linear infinite;
+.btn-primary:hover {
+    background: transparent;
+    color: var(--secondary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(196, 167, 71, 0.4);
 }
 
-@keyframes slide {
-    from { background-position: 0 0; }
-    to { background-position: 100px 100px; }
+.btn-secondary {
+    background: transparent;
+    color: white;
+    border-color: white;
+}
+
+.btn-secondary:hover {
+    background: white;
+    color: var(--primary-color);
+    transform: translateY(-3px);
+}
+
+.btn-donate {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
+}
+
+.btn-donate:hover {
+    background: transparent;
+    color: #dc3545;
+    transform: translateY(-3px);
+}
+
+/* ===== أخبار عاجلة ===== */
+.breaking-news {
+    background: linear-gradient(135deg, #ffc107, #ff9800);
+    color: white;
+    padding: 15px 0;
+    margin-bottom: 2rem;
+}
+
+.breaking-news .container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .breaking-label {
     display: flex;
     align-items: center;
     gap: 10px;
+    background: rgba(0,0,0,0.2);
+    padding: 8px 15px;
+    border-radius: 25px;
     font-weight: bold;
-    font-size: 1.1rem;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
 }
 
 .breaking-content {
     flex: 1;
-    display: flex;
-    align-items: center;
+    overflow: hidden;
 }
 
 .breaking-text {
+    display: inline-block;
+    white-space: nowrap;
+    animation: scrollText 20s linear infinite;
     font-size: 1.1rem;
     font-weight: 500;
 }
 
-/* ===== قسم المقالات (الجديد) ===== */
-.articles-section {
-    padding: 5rem 0;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+@keyframes scrollText {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+/* ===== قسم كرة القدم العربية ===== */
+.football-section {
+    padding: 4rem 0;
 }
 
 .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .section-title {
-    font-size: 2.5rem;
-    color: var(--primary-color);
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.section-title i {
-    color: var(--secondary-color);
     font-size: 2.2rem;
-}
-
-.view-all {
     color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+}
+
+.football-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+}
+
+.search-box input {
+    padding: 10px 15px;
+    border: 2px solid var(--light-gray);
+    border-radius: 25px;
+    width: 250px;
+    font-size: 14px;
     transition: var(--transition);
 }
 
-.view-all:hover {
-    color: var(--secondary-color);
-    gap: 12px;
+.search-box input:focus {
+    outline: none;
+    border-color: var(--primary-color);
 }
 
-/* شبكة المقالات */
+.search-box button,
+.refresh-btn {
+    padding: 10px 20px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.search-box button:hover,
+.refresh-btn:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+/* فلترة الدوريات */
+.league-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 2rem;
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+}
+
+/* حاوية الأخبار */
+#football-news-container {
+    min-height: 500px;
+}
+
+.loading-spinner {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.spinner {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ===== بطاقات الأخبار العربية ===== */
+.arabic-news-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    cursor: pointer;
+    position: relative;
+    border: 2px solid transparent;
+}
+
+.arabic-news-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    border-color: var(--secondary-color);
+}
+
+/* ===== قسم المقالات ===== */
+.articles-section {
+    padding: 4rem 0;
+    background: var(--light-color);
+}
+
 .articles-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
+    margin-top: 2rem;
 }
 
 .article-card {
     background: white;
-    border-radius: var(--border-radius);
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow);
     transition: var(--transition);
-    position: relative;
-    height: 100%;
 }
 
 .article-card:hover {
-    transform: translateY(-10px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-5px);
 }
 
 .article-card.featured {
-    grid-column: span 2;
+    border: 2px solid var(--secondary-color);
 }
 
 .article-badge {
@@ -503,11 +486,11 @@ body {
     right: 15px;
     background: var(--secondary-color);
     color: white;
-    padding: 0.3rem 1rem;
+    padding: 5px 15px;
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: 12px;
     font-weight: bold;
-    z-index: 1;
+    z-index: 2;
 }
 
 .article-image {
@@ -518,59 +501,37 @@ body {
     color: white;
     font-size: 4rem;
     position: relative;
-    overflow: hidden;
-}
-
-.article-image::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.3));
 }
 
 .article-content {
     padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    height: calc(100% - 200px);
 }
 
 .article-meta {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    gap: 15px;
     margin-bottom: 1rem;
-    font-size: 0.9rem;
+    color: var(--gray-color);
+    font-size: 14px;
 }
 
 .article-category {
-    background: var(--bg-secondary);
-    color: var(--primary-color);
-    padding: 0.3rem 0.8rem;
+    background: var(--primary-color);
+    color: white;
+    padding: 3px 10px;
     border-radius: 15px;
-    font-weight: 600;
-}
-
-.article-date {
-    color: var(--text-light);
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    font-size: 12px;
 }
 
 .article-title {
-    font-size: 1.4rem;
-    color: var(--text-primary);
+    font-size: 1.3rem;
     margin-bottom: 1rem;
+    color: var(--primary-color);
     line-height: 1.4;
-    flex-grow: 1;
 }
 
 .article-excerpt {
-    color: var(--text-secondary);
+    color: var(--gray-color);
     margin-bottom: 1.5rem;
     line-height: 1.6;
 }
@@ -579,13 +540,15 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: auto;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--light-gray);
 }
 
 .read-article {
     color: var(--primary-color);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: bold;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -599,9 +562,9 @@ body {
 
 .article-stats {
     display: flex;
-    gap: 1rem;
-    color: var(--text-light);
-    font-size: 0.9rem;
+    gap: 15px;
+    color: var(--gray-color);
+    font-size: 14px;
 }
 
 .article-stats span {
@@ -610,166 +573,32 @@ body {
     gap: 5px;
 }
 
-/* ===== قسم التبرعات ===== */
-.donation-section {
-    padding: 5rem 0;
-    background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(238, 90, 82, 0.1) 100%);
-}
-
-.donation-box {
-    background: white;
-    border-radius: var(--border-radius);
-    padding: 3rem;
-    box-shadow: var(--shadow-md);
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.donation-content h2 {
-    color: #ff6b6b;
-    font-size: 2.2rem;
-    margin-bottom: 1rem;
-}
-
-.donation-content h2 i {
-    margin-left: 10px;
-}
-
-.donation-content p {
-    color: var(--text-secondary);
-    margin-bottom: 2rem;
-    font-size: 1.1rem;
-}
-
-.donation-options {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.donation-option {
-    background: #f8f9fa;
-    border: 2px solid #e0e0e0;
-    border-radius: var(--border-radius-sm);
-    padding: 1.5rem 1rem;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.donation-option:hover {
-    background: #ff6b6b;
-    border-color: #ff6b6b;
-    color: white;
-    transform: translateY(-3px);
-}
-
-.donation-option .amount {
-    display: block;
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #ff6b6b;
-    margin-bottom: 0.5rem;
-}
-
-.donation-option:hover .amount {
-    color: white;
-}
-
-.donation-option .label {
-    font-size: 0.9rem;
-}
-
-.donation-custom {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.donation-custom input {
-    flex: 1;
-    padding: 0.8rem 1rem;
-    border: 2px solid var(--border-color);
-    border-radius: var(--border-radius-sm);
-    font-size: 1rem;
-}
-
-.donation-custom button {
-    background: #ff6b6b;
-    color: white;
-    border: none;
-    padding: 0.8rem 2rem;
-    border-radius: var(--border-radius-sm);
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.donation-custom button:hover {
-    background: #ee5a52;
-    transform: translateY(-2px);
-}
-
-.donation-progress {
-    margin-bottom: 1.5rem;
-}
-
-.progress-bar {
-    height: 10px;
-    background: #f0f0f0;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-bottom: 0.5rem;
-}
-
-.progress {
-    height: 100%;
-    background: linear-gradient(90deg, #ff6b6b, #ee5a52);
-    border-radius: 5px;
-    transition: width 1s ease;
-}
-
-.progress-text {
-    display: flex;
-    justify-content: space-between;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-}
-
-.donation-note {
-    color: #888;
-    font-size: 0.9rem;
-    font-style: italic;
-}
-
 /* ===== قسم الأخبار ===== */
 .news-section {
-    padding: 5rem 0;
-    background: var(--bg-primary);
+    padding: 4rem 0;
 }
 
 .news-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
+    margin-top: 2rem;
 }
 
 .news-card {
     background: white;
-    border-radius: var(--border-radius);
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow);
     transition: var(--transition);
-    position: relative;
 }
 
 .news-card:hover {
-    transform: translateY(-10px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-5px);
 }
 
 .news-card.featured {
-    grid-column: span 2;
+    border: 2px solid var(--secondary-color);
 }
 
 .news-badge {
@@ -778,32 +607,21 @@ body {
     right: 15px;
     background: var(--secondary-color);
     color: white;
-    padding: 0.3rem 1rem;
+    padding: 5px 15px;
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: 12px;
     font-weight: bold;
-    z-index: 1;
+    z-index: 2;
 }
 
 .news-image {
-    height: 220px;
+    height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 5rem;
+    font-size: 4rem;
     position: relative;
-    overflow: hidden;
-}
-
-.news-image::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.3));
 }
 
 .news-content {
@@ -812,36 +630,29 @@ body {
 
 .news-meta {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    gap: 15px;
     margin-bottom: 1rem;
-    font-size: 0.9rem;
+    color: var(--gray-color);
+    font-size: 14px;
 }
 
 .news-category {
-    background: var(--bg-secondary);
-    color: var(--primary-color);
-    padding: 0.3rem 0.8rem;
+    background: var(--primary-color);
+    color: white;
+    padding: 3px 10px;
     border-radius: 15px;
-    font-weight: 600;
-}
-
-.news-date {
-    color: var(--text-light);
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    font-size: 12px;
 }
 
 .news-title {
-    font-size: 1.4rem;
-    color: var(--text-primary);
+    font-size: 1.3rem;
     margin-bottom: 1rem;
+    color: var(--primary-color);
     line-height: 1.4;
 }
 
 .news-desc {
-    color: var(--text-secondary);
+    color: var(--gray-color);
     margin-bottom: 1.5rem;
     line-height: 1.6;
 }
@@ -850,12 +661,15 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--light-gray);
 }
 
 .read-more {
     color: var(--primary-color);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: bold;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -869,9 +683,9 @@ body {
 
 .news-stats {
     display: flex;
-    gap: 1rem;
-    color: var(--text-light);
-    font-size: 0.9rem;
+    gap: 15px;
+    color: var(--gray-color);
+    font-size: 14px;
 }
 
 .news-stats span {
@@ -880,10 +694,159 @@ body {
     gap: 5px;
 }
 
+.view-all {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+}
+
+.view-all:hover {
+    color: var(--secondary-color);
+    gap: 12px;
+}
+
+/* ===== قسم التبرعات ===== */
+.donation-section {
+    padding: 4rem 0;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.donation-box {
+    background: white;
+    border-radius: 15px;
+    padding: 3rem;
+    box-shadow: var(--shadow);
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.donation-content h2 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.donation-content > p {
+    color: var(--gray-color);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.donation-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-bottom: 2rem;
+}
+
+.donation-option {
+    background: white;
+    border: 2px solid var(--light-gray);
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.donation-option:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-3px);
+}
+
+.amount {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.label {
+    color: var(--gray-color);
+    font-size: 14px;
+}
+
+.donation-custom {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 2rem;
+    max-width: 400px;
+    margin: 0 auto 2rem;
+}
+
+.donation-custom input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 2px solid var(--light-gray);
+    border-radius: 25px;
+    font-size: 16px;
+}
+
+.donation-custom input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.donation-custom button {
+    padding: 10px 25px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.donation-custom button:hover {
+    background: var(--accent-color);
+}
+
+.donation-progress {
+    margin-bottom: 1.5rem;
+}
+
+.progress-bar {
+    height: 10px;
+    background: var(--light-gray);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progress {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    border-radius: 5px;
+    transition: width 1s ease;
+}
+
+.progress-text {
+    display: flex;
+    justify-content: space-between;
+    color: var(--gray-color);
+    font-size: 14px;
+}
+
+.donation-note {
+    color: var(--gray-color);
+    font-size: 14px;
+    margin-top: 1rem;
+}
+
 /* ===== قسم البطولات ===== */
 .leagues-section {
-    padding: 5rem 0;
-    background: var(--bg-secondary);
+    padding: 4rem 0;
+    background: var(--light-color);
 }
 
 .leagues-grid {
@@ -895,21 +858,20 @@ body {
 
 .league-card {
     background: white;
-    border-radius: var(--border-radius);
-    padding: 2rem;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
     transition: var(--transition);
-    box-shadow: var(--shadow-sm);
 }
 
 .league-card:hover {
     transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
 }
 
 .league-logo {
     font-size: 3rem;
     text-align: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .league-card h3 {
@@ -920,17 +882,17 @@ body {
 }
 
 .league-table {
-    background: var(--bg-secondary);
-    border-radius: var(--border-radius-sm);
+    background: var(--light-color);
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: var(--shadow-sm);
 }
 
 .table-row {
     display: grid;
-    grid-template-columns: 50px 1fr 60px;
-    padding: 0.8rem 1rem;
-    border-bottom: 1px solid var(--border-color);
+    grid-template-columns: 50px 1fr 50px;
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--light-gray);
+    align-items: center;
 }
 
 .table-row:last-child {
@@ -940,17 +902,12 @@ body {
 .table-row.header {
     background: var(--primary-color);
     color: white;
-    font-weight: 600;
-}
-
-.table-row:nth-child(even) {
-    background: rgba(30, 86, 49, 0.05);
+    font-weight: bold;
 }
 
 /* ===== عن الموقع ===== */
 .about-section {
-    padding: 5rem 0;
-    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    padding: 4rem 0;
 }
 
 .about-text {
@@ -958,31 +915,32 @@ body {
     margin: 0 auto;
 }
 
-.about-text p {
-    margin-bottom: 1.5rem;
+.about-text > p {
+    font-size: 1.2rem;
     line-height: 1.8;
-    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    color: var(--gray-color);
+    text-align: center;
 }
 
 .about-features {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 2rem;
     margin-top: 3rem;
 }
 
 .feature {
     text-align: center;
-    padding: 2rem;
+    padding: 2rem 1rem;
     background: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-sm);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
     transition: var(--transition);
 }
 
 .feature:hover {
     transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
 }
 
 .feature i {
@@ -994,33 +952,29 @@ body {
 .feature h3 {
     color: var(--primary-color);
     margin-bottom: 0.5rem;
+    font-size: 1.3rem;
 }
 
 .feature p {
-    color: var(--text-secondary);
+    color: var(--gray-color);
     font-size: 0.9rem;
 }
 
 /* ===== اتصل بنا ===== */
 .contact-section {
-    padding: 5rem 0;
-    background: white;
+    padding: 4rem 0;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
 }
 
 .contact-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 3rem;
-    margin-top: 2rem;
+    margin-top: 3rem;
 }
 
-.contact-info {
-    background: var(--bg-secondary);
-    padding: 2rem;
-    border-radius: var(--border-radius);
-}
-
-.contact-info h3 {
+.contact-info h3,
+.contact-form h3 {
     color: var(--primary-color);
     margin-bottom: 2rem;
     font-size: 1.5rem;
@@ -1028,40 +982,40 @@ body {
 
 .contact-item {
     display: flex;
-    gap: 1rem;
+    gap: 15px;
     margin-bottom: 1.5rem;
     align-items: flex-start;
 }
 
 .contact-item i {
-    color: var(--secondary-color);
-    font-size: 1.2rem;
-    margin-top: 0.3rem;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-top: 5px;
 }
 
 .contact-item strong {
     display: block;
-    color: var(--text-primary);
-    margin-bottom: 0.3rem;
+    margin-bottom: 5px;
+    color: var(--dark-color);
 }
 
 .contact-item p {
-    color: var(--text-secondary);
+    color: var(--gray-color);
 }
 
 .social-icons {
     display: flex;
-    gap: 1rem;
-    margin-top: 0.5rem;
+    gap: 15px;
+    margin-top: 10px;
 }
 
 .social-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: white;
     text-decoration: none;
     transition: var(--transition);
@@ -1070,24 +1024,18 @@ body {
 .social-icon.twitter { background: #1DA1F2; }
 .social-icon.facebook { background: #1877F2; }
 .social-icon.youtube { background: #FF0000; }
-.social-icon.telegram { background: #0088CC; }
+.social-icon.telegram { background: #0088cc; }
 
 .social-icon:hover {
-    transform: scale(1.1) rotate(5deg);
-    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+    opacity: 0.9;
 }
 
-/* نموذج الاتصال */
 .contact-form {
-    background: var(--bg-secondary);
+    background: white;
     padding: 2rem;
-    border-radius: var(--border-radius);
-}
-
-.contact-form h3 {
-    color: var(--primary-color);
-    margin-bottom: 2rem;
-    font-size: 1.5rem;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
 }
 
 .form-group {
@@ -1096,19 +1044,18 @@ body {
 
 .form-group label {
     display: block;
-    margin-bottom: 0.5rem;
-    color: var(--text-primary);
-    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--dark-color);
+    font-weight: 500;
 }
 
 .form-group input,
 .form-group textarea {
     width: 100%;
-    padding: 0.8rem 1rem;
-    border: 2px solid var(--border-color);
-    border-radius: var(--border-radius-sm);
-    font-family: inherit;
-    font-size: 1rem;
+    padding: 12px 15px;
+    border: 2px solid var(--light-gray);
+    border-radius: 10px;
+    font-size: 16px;
     transition: var(--transition);
 }
 
@@ -1116,58 +1063,55 @@ body {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(30, 86, 49, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 150px;
 }
 
 /* ===== الفوتر ===== */
 .footer {
-    background: var(--bg-dark);
+    background: linear-gradient(135deg, #222 0%, #333 100%);
     color: white;
     padding: 4rem 0 2rem;
+    margin-top: auto;
 }
 
 .footer-content {
     text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .footer-logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
     font-size: 2rem;
     font-weight: bold;
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
     margin-bottom: 1.5rem;
 }
 
-.footer-logo i {
-    color: var(--secondary-color);
-    animation: spin 10s linear infinite;
-}
-
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
 .footer-description {
-    max-width: 600px;
-    margin: 0 auto 2rem;
-    color: #AAAAAA;
-    line-height: 1.8;
+    color: #aaa;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
 }
 
 .footer-links {
     display: flex;
     justify-content: center;
-    gap: 2rem;
     flex-wrap: wrap;
+    gap: 1.5rem;
     margin-bottom: 2rem;
 }
 
 .footer-links a {
-    color: white;
+    color: #aaa;
     text-decoration: none;
     transition: var(--transition);
 }
@@ -1183,264 +1127,141 @@ body {
     margin-bottom: 2rem;
 }
 
-.footer-social .social-link {
-    display: inline-flex;
+.social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: 45px;
-    height: 45px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
     color: white;
     text-decoration: none;
     transition: var(--transition);
-    font-size: 1.2rem;
 }
 
-.footer-social .social-link:hover {
+.social-link:hover {
     background: var(--secondary-color);
     transform: translateY(-3px);
 }
 
 .footer-bottom {
+    margin-top: 2rem;
     padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    color: #888888;
-}
-
-.footer-bottom p {
-    margin-bottom: 0.5rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    color: #888;
+    font-size: 0.9rem;
 }
 
 .footer-note {
-    font-size: 0.9rem;
-    color: #666666;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #666;
 }
 
-/* ===== نافذة عرض المقال ===== */
-.article-modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.8);
-    z-index: 10000;
-    padding: 20px;
-    animation: fadeIn 0.3s ease;
-}
-
-.article-modal {
-    background: white;
-    border-radius: var(--border-radius);
-    max-width: 800px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
-    animation: slideIn 0.3s ease;
-}
-
-.close-article-modal {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: var(--text-secondary);
-    cursor: pointer;
-    z-index: 1;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: var(--transition);
-}
-
-.close-article-modal:hover {
-    background: rgba(0, 0, 0, 0.1);
-    color: var(--primary-color);
-}
-
-.article-modal-content {
-    padding: 3rem;
-}
-
-.article-modal-content h1 {
-    color: var(--primary-color);
-    font-size: 2.2rem;
-    margin-bottom: 1rem;
-}
-
-.article-meta-full {
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 2rem;
-    color: var(--text-light);
-    font-size: 0.9rem;
-}
-
-.article-image-full {
-    margin-bottom: 2rem;
-}
-
-.article-body {
-    line-height: 1.8;
-}
-
-.article-body h2 {
-    color: var(--primary-color);
-    margin: 2rem 0 1rem;
-    font-size: 1.8rem;
-}
-
-.article-body h3 {
-    color: var(--text-primary);
-    margin: 1.5rem 0 0.8rem;
-    font-size: 1.4rem;
-}
-
-.article-body p {
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-}
-
-.article-body ul {
-    margin-bottom: 1.5rem;
-    padding-right: 1.5rem;
-}
-
-.article-body li {
-    margin-bottom: 0.5rem;
-    position: relative;
-    padding-right: 1.5rem;
-}
-
-.article-body li:before {
-    content: '•';
-    color: var(--secondary-color);
-    position: absolute;
-    right: 0;
-}
-
-.article-tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border-color);
-}
-
-.tag {
-    background: var(--bg-secondary);
-    color: var(--primary-color);
-    padding: 0.3rem 1rem;
-    border-radius: 15px;
-    font-size: 0.9rem;
-}
-
-/* ===== نافذة التبرع ===== */
+/* ===== نافذة المقال ===== */
+.article-modal-overlay,
 .donation-modal-overlay {
     display: none;
     position: fixed;
     top: 0;
-    right: 0;
-    bottom: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
     z-index: 10000;
+    justify-content: center;
+    align-items: center;
     padding: 20px;
-    animation: fadeIn 0.3s ease;
 }
 
+.article-modal,
 .donation-modal {
     background: white;
-    border-radius: var(--border-radius);
-    max-width: 500px;
+    border-radius: 15px;
+    max-width: 800px;
     width: 100%;
-    padding: 2rem;
+    max-height: 80vh;
+    overflow-y: auto;
     position: relative;
-    animation: slideIn 0.3s ease;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
+.close-article-modal,
 .close-donation-modal {
     position: absolute;
     top: 15px;
     left: 15px;
-    background: none;
+    background: var(--danger-color);
+    color: white;
     border: none;
-    font-size: 1.5rem;
-    color: var(--text-secondary);
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: var(--transition);
 }
 
-.close-donation-modal:hover {
-    background: rgba(0, 0, 0, 0.1);
-    color: var(--primary-color);
+.article-modal-content {
+    padding: 20px 0;
+}
+
+.donation-modal-content {
+    text-align: center;
 }
 
 .donation-modal-content h2 {
-    color: #ff6b6b;
-    text-align: center;
-    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
-.donation-modal-content p {
-    text-align: center;
-    color: var(--text-secondary);
+.donation-modal-content > p {
+    color: var(--gray-color);
     margin-bottom: 2rem;
 }
 
 .payment-options {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    gap: 15px;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 .payment-option {
-    background: var(--bg-secondary);
-    border: 2px solid var(--border-color);
-    border-radius: var(--border-radius-sm);
     padding: 1rem;
+    background: white;
+    border: 2px solid var(--light-gray);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: var(--transition);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    cursor: pointer;
-    transition: var(--transition);
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 1.1rem;
+    font-weight: 500;
 }
 
 .payment-option:hover {
-    background: var(--primary-color);
-    color: white;
     border-color: var(--primary-color);
-    transform: translateY(-2px);
-}
-
-.payment-option i {
-    font-size: 1.2rem;
+    background: var(--light-color);
 }
 
 .bank-info {
-    background: var(--bg-secondary);
+    margin-top: 2rem;
     padding: 1.5rem;
-    border-radius: var(--border-radius-sm);
-    margin-top: 1rem;
+    background: var(--light-color);
+    border-radius: 10px;
+    text-align: right;
 }
 
 .bank-info h3 {
@@ -1449,37 +1270,39 @@ body {
 }
 
 .bank-info p {
-    text-align: right;
     margin-bottom: 0.5rem;
-    color: var(--text-secondary);
+    color: var(--gray-color);
 }
 
 /* ===== التجاوب مع الجوال ===== */
 @media (max-width: 768px) {
-    /* شريط التنقل */
-    .nav-links {
-        display: none;
-    }
-    
     .mobile-menu-btn {
         display: block;
     }
     
-    .nav-links .donate-btn {
+    .nav-links {
         display: none;
     }
     
-    .mobile-menu a.donate-btn {
-        color: #ff6b6b !important;
+    .mobile-menu {
+        display: flex;
     }
     
-    /* الترحيب */
+    .hero {
+        padding: 3rem 1rem;
+        margin: 1rem 0;
+    }
+    
     .hero-title {
-        font-size: 2.2rem;
+        font-size: 2rem;
     }
     
     .hero-subtitle {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
     }
     
     .hero-actions {
@@ -1489,27 +1312,32 @@ body {
     
     .btn {
         width: 100%;
-        max-width: 300px;
+        justify-content: center;
     }
     
     .hero-stats {
-        gap: 1rem;
-    }
-    
-    .stat {
-        min-width: 120px;
-        padding: 1rem;
+        gap: 2rem;
     }
     
     .count {
         font-size: 2rem;
     }
     
-    /* المقالات والأخبار */
     .section-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 1rem;
+    }
+    
+    .football-controls {
+        width: 100%;
+    }
+    
+    .search-box {
+        width: 100%;
+    }
+    
+    .search-box input {
+        flex: 1;
     }
     
     .section-title {
@@ -1517,222 +1345,65 @@ body {
     }
     
     .articles-grid,
-    .news-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .article-card.featured,
-    .news-card.featured {
-        grid-column: span 1;
-    }
-    
-    /* التبرعات */
-    .donation-box {
-        padding: 1.5rem;
-    }
-    
-    .donation-options {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .donation-custom {
-        flex-direction: column;
-    }
-    
-    /* البطولات */
+    .news-grid,
     .leagues-grid {
         grid-template-columns: 1fr;
     }
     
-    /* اتصل بنا */
     .contact-grid {
         grid-template-columns: 1fr;
     }
     
-    .social-icons {
-        justify-content: center;
-    }
-    
-    /* الفوتر */
     .footer-links {
         flex-direction: column;
         gap: 1rem;
     }
     
-    /* النوافذ المنبثقة */
-    .article-modal-content,
-    .donation-modal {
-        padding: 1.5rem;
+    .breaking-text {
+        animation: scrollText 15s linear infinite;
     }
     
-    .article-modal-content h1 {
-        font-size: 1.8rem;
+    .donation-box {
+        padding: 2rem 1rem;
+    }
+    
+    .donation-options {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
-/* للأجهزة الصغيرة جداً */
 @media (max-width: 480px) {
     .hero-title {
         font-size: 1.8rem;
     }
     
-    .hero-stats {
-        flex-direction: column;
+    .hero-subtitle {
+        font-size: 1rem;
     }
     
-    .stat {
-        width: 100%;
+    .section-title {
+        font-size: 1.5rem;
+    }
+    
+    .hero-stats {
+        flex-direction: column;
+        gap: 1.5rem;
     }
     
     .donation-options {
         grid-template-columns: 1fr;
     }
-}
-
-/* للوضع المظلم */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --text-primary: #FFFFFF;
-        --text-secondary: #CCCCCC;
-        --bg-primary: #1A1A1A;
-        --bg-secondary: #2D2D2D;
-        --bg-dark: #0A0A0A;
-        --border-color: #404040;
-    }
     
-    .article-card,
-    .news-card,
-    .league-card,
-    .feature,
-    .contact-info,
-    .contact-form,
-    .stat,
-    .donation-box,
-    .article-modal,
-    .donation-modal {
-        background: #2D2D2D;
-        color: white;
-    }
-    
-    .form-group input,
-    .form-group textarea {
-        background: #1A1A1A;
-        color: white;
-        border-color: #404040;
-    }
-    
-    .breaking-news {
-        background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
-    }
-    
-    .btn-donate {
-        background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+    .footer-social {
+        flex-wrap: wrap;
     }
 }
 
-/* إمكانية الوصول */
+/* ===== تحميل سلس ===== */
 @media (prefers-reduced-motion: reduce) {
     * {
-        animation: none !important;
-        transition: none !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
-}
-
-/* الطباعة */
-@media print {
-    .navbar,
-    .footer,
-    .hero-actions,
-    .breaking-news,
-    .mobile-menu-btn,
-    .donation-section,
-    .article-modal-overlay,
-    .donation-modal-overlay {
-        display: none !important;
-    }
-    
-    body {
-        color: black !important;
-        background: white !important;
-    }
-    
-    .container {
-        max-width: 100%;
-    }
-    
-    .article-card,
-    .news-card {
-        break-inside: avoid;
-        box-shadow: none !important;
-        border: 1px solid #ddd;
-    }
-}
-/* في style.css */
-.loading-state {
-    text-align: center;
-    padding: 60px 20px;
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    border-radius: 15px;
-    margin: 20px 0;
-}
-
-.loading-state .spinner {
-    width: 60px;
-    height: 60px;
-    border: 6px solid rgba(30, 86, 49, 0.1);
-    border-top: 6px solid #1E5631;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 25px;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.loading-state p {
-    color: #1E5631;
-    font-size: 16px;
-    font-weight: 500;
-}
-
-/* مؤشر الأخبار الحية */
-.live-badge {
-    display: inline-block;
-    background: linear-gradient(135deg, #D32F2F, #FF5252);
-    color: white;
-    padding: 3px 10px;
-    border-radius: 15px;
-    font-size: 12px;
-    font-weight: bold;
-    margin-right: 8px;
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.7; }
-    100% { opacity: 1; }
-}
-
-/* بطاقة الخبر الحي */
-.news-card.live {
-    border-left: 4px solid #D32F2F;
-    position: relative;
-}
-
-.news-card.live::before {
-    content: '●';
-    color: #D32F2F;
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    font-size: 12px;
-    animation: blink 1s infinite;
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
 }
