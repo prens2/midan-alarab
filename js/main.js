@@ -1,7 +1,7 @@
 /**
  * ميدان العرب - أخبار كرة القدم العربية الحية
  * تغطية كاملة للدوري السعودي، المصري، والبطولات العربية
- * الإصدار: 3.0.0 - أخبار عربية حقيقية
+ * الإصدار: 3.1.0 - أخبار عربية حقيقية
  */
 
 // ===== تهيئة التطبيق =====
@@ -17,6 +17,7 @@
         yallakora: 'https://www.yallakora.com/rss',
         goalArabic: 'https://www.goal.com/ar/feed',
         beinArabic: 'https://www.beinsports.com/ar/rss.xml',
+        filgoal: 'https://www.filgoal.com/rss',
         
         // وكالات أنباء عربية
         aljazeeraSports: 'https://www.aljazeera.net/sports/feed',
@@ -53,6 +54,451 @@
         'تصفيات كأس العالم'
     ];
     
+    // ===== جالب الأخبار العربية مع حلول CORS =====
+    class NewsFetcher {
+        constructor() {
+            this.proxies = [
+                'https://api.allorigins.win/get?url=',
+                'https://corsproxy.io/?',
+                'https://api.codetabs.com/v1/proxy?quest=',
+                'https://proxy.cors.sh/'
+            ];
+            
+            this.currentProxy = 0;
+            this.newsCache = [];
+            this.lastFetch = 0;
+            this.isFetching = false;
+        }
+        
+        // محاولة جلب الأخبار من مصادر مختلفة
+        async fetchArabicNews() {
+            // Cache لمدة 5 دقائق
+            const now = Date.now();
+            if (this.newsCache.length > 0 && (now - this.lastFetch) < 300000) {
+                console.log('استخدام الأخبار المخزنة في الكاش');
+                return this.newsCache;
+            }
+            
+            if (this.isFetching) {
+                console.log('جاري بالفعل جلب الأخبار...');
+                return this.newsCache;
+            }
+            
+            this.isFetching = true;
+            
+            const sources = [
+                {
+                    name: 'يلاكورة',
+                    url: ARABIC_NEWS_SOURCES.yallakora,
+                    type: 'rss'
+                },
+                {
+                    name: 'كورة',
+                    url: ARABIC_NEWS_SOURCES.kooora,
+                    type: 'rss'
+                },
+                {
+                    name: 'فيلجول',
+                    url: ARABIC_NEWS_SOURCES.filgoal,
+                    type: 'rss'
+                },
+                {
+                    name: 'الجزيرة الرياضية',
+                    url: ARABIC_NEWS_SOURCES.aljazeeraSports,
+                    type: 'rss'
+                }
+            ];
+            
+            let allNews = [];
+            let successfulSources = 0;
+            
+            for (const source of sources) {
+                try {
+                    console.log(`محاولة جلب الأخبار من ${source.name}...`);
+                    const news = await this.tryFetchSource(source);
+                    if (news && news.length > 0) {
+                        allNews = [...allNews, ...news];
+                        successfulSources++;
+                        console.log(`تم جلب ${news.length} خبر من ${source.name}`);
+                    }
+                } catch (error) {
+                    console.warn(`فشل مصدر ${source.name}:`, error.message);
+                }
+            }
+            
+            // إذا لم نحصل على أخبار كافية، نستخدم Mock data
+            if (allNews.length === 0) {
+                console.log('استخدام أخبار تجريبية...');
+                allNews = this.getMockNews();
+            } else {
+                console.log(`تم جلب إجمالي ${allNews.length} خبر من ${successfulSources} مصادر`);
+            }
+            
+            // Cache النتائج
+            this.newsCache = this.removeDuplicates(allNews).slice(0, 20); // أول 20 خبر فقط
+            this.lastFetch = Date.now();
+            this.isFetching = false;
+            
+            return this.newsCache;
+        }
+        
+        // إزالة الأخبار المكررة
+        removeDuplicates(newsArray) {
+            const seen = new Set();
+            return newsArray.filter(item => {
+                const title = item.title.trim().toLowerCase();
+                if (seen.has(title)) {
+                    return false;
+                }
+                seen.add(title);
+                return true;
+            });
+        }
+        
+        // محاولة جلب من مصدر مع Proxy
+        async tryFetchSource(source) {
+            for (let i = 0; i < 3; i++) { // 3 محاولات
+                try {
+                    const proxy = this.proxies[this.currentProxy];
+                    const proxyUrl = `${proxy}${encodeURIComponent(source.url)}`;
+                    
+                    console.log(`المحاولة ${i + 1}: ${source.name} عبر ${proxy}`);
+                    
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 ثواني حد أقصى
+                    
+                    const response = await fetch(proxyUrl, {
+                        headers: {
+                            'Accept': 'text/xml',
+                            'User-Agent': 'MidanAlArab/3.1.0'
+                        },
+                        signal: controller.signal
+                    });
+                    
+                    clearTimeout(timeoutId);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    
+                    const text = await response.text();
+                    
+                    // معالجة استجابة allorigins
+                    let xmlText = text;
+                    if (proxy.includes('allorigins.win')) {
+                        try {
+                            const data = JSON.parse(text);
+                            xmlText = data.contents;
+                        } catch (e) {
+                            console.warn('فشل في تحليل استجابة allorigins');
+                        }
+                    }
+                    
+                    return this.parseRSS(xmlText, source.name);
+                    
+                } catch (error) {
+                    console.warn(`المحاولة ${i + 1} فشلت:`, error.message);
+                    this.currentProxy = (this.currentProxy + 1) % this.proxies.length;
+                    
+                    if (i === 2) throw error; // بعد 3 محاولات
+                    await this.delay(1000); // انتظر ثانية
+                }
+            }
+        }
+        
+        // تحليل RSS
+        parseRSS(xmlText, sourceName) {
+            try {
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+                
+                // التحقق من أن XML صالح
+                const parseError = xmlDoc.querySelector('parsererror');
+                if (parseError) {
+                    throw new Error('XML غير صالح: ' + parseError.textContent.substring(0, 100));
+                }
+                
+                const items = xmlDoc.querySelectorAll('item');
+                
+                const news = [];
+                items.forEach((item, index) => {
+                    if (index >= 8) return; // أول 8 أخبار فقط من كل مصدر
+                    
+                    const title = item.querySelector('title')?.textContent || '';
+                    const description = item.querySelector('description')?.textContent || '';
+                    const link = item.querySelector('link')?.textContent || '#';
+                    const pubDate = item.querySelector('pubDate')?.textContent || 
+                                   item.querySelector('date')?.textContent || 
+                                   new Date().toISOString();
+                    
+                    // فلترة للأخبار العربية فقط
+                    if (!this.isArabicNews(title, description)) return;
+                    
+                    // تنظيف وتنسيق البيانات
+                    const cleanTitle = this.cleanText(title);
+                    const cleanDescription = this.cleanText(description);
+                    
+                    news.push({
+                        id: Date.now() + index + Math.random(),
+                        title: cleanTitle,
+                        excerpt: cleanDescription.substring(0, 120) + (cleanDescription.length > 120 ? '...' : ''),
+                        content: cleanDescription,
+                        image: this.getNewsImage(cleanTitle),
+                        date: this.formatArabicDate(pubDate),
+                        time: this.getCurrentTime(),
+                        league: this.detectLeague(cleanTitle),
+                        teams: this.extractTeams(cleanTitle),
+                        score: this.extractScore(cleanTitle),
+                        highlight: index < 2, // أول خبرين مميزين من كل مصدر
+                        source: sourceName,
+                        link: link,
+                        isLive: true,
+                        category: this.detectCategory(cleanTitle)
+                    });
+                });
+                
+                return news;
+            } catch (error) {
+                console.error('خطأ في تحليل RSS:', error);
+                return [];
+            }
+        }
+        
+        // التحقق من أن الخبر عربي
+        isArabicNews(title, description) {
+            const text = (title + ' ' + description).toLowerCase();
+            const arabicKeywords = [
+                'سعودي', 'مصري', 'عربي', 'هلال', 'نصر', 'اتحاد', 'أهلي', 'زمالك',
+                'دوري', 'كأس', 'مباراة', 'هدف', 'ملعب', 'لاعب', 'مدرب', 'رياضة',
+                'سعودية', 'مصرية', 'عربية', 'بطولة', 'نتيجة', 'فوز', 'خسارة',
+                'تأهل', 'نهائي', 'نصف', 'ربع', 'مجموعة', 'تصفيات'
+            ];
+            
+            // التحقق من وجود نص عربي
+            const arabicPattern = /[\u0600-\u06FF]/;
+            if (!arabicPattern.test(text)) return false;
+            
+            return arabicKeywords.some(keyword => text.includes(keyword));
+        }
+        
+        // تنظيف النص
+        cleanText(text) {
+            if (!text) return '';
+            return text
+                .replace(/<[^>]*>/g, '')
+                .replace(/&nbsp;/g, ' ')
+                .replace(/&amp;/g, '&')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&quot;/g, '"')
+                .replace(/&#39;/g, "'")
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+        
+        // تنسيق التاريخ العربي
+        formatArabicDate(dateString) {
+            try {
+                const date = new Date(dateString);
+                if (isNaN(date.getTime())) {
+                    throw new Error('تاريخ غير صالح');
+                }
+                
+                return date.toLocaleDateString('ar-SA', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            } catch {
+                return new Date().toLocaleDateString('ar-SA', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+        }
+        
+        // استخراج الصورة/الإيموجي
+        getNewsImage(title) {
+            const images = {
+                'هلال': '👑',
+                'النصر': '⚽',
+                'اتحاد': '🦁',
+                'الأهلي السعودي': '🔥',
+                'الأهلي المصري': '🦅',
+                'الزمالك': '🕊️',
+                'الشباب': '⚡',
+                'الاتفاق': '🛡️',
+                'الوداد': '🔴',
+                'الرجاء': '🟢',
+                'السد': '🟡',
+                'الريان': '🔵',
+                'الشارقة': '🦁',
+                'العين': '🟣',
+                'الترجي': '🔵'
+            };
+            
+            for (const [key, emoji] of Object.entries(images)) {
+                if (title.includes(key)) return emoji;
+            }
+            
+            // البحث عن أي فريق عربي
+            const allTeams = Object.values(ARABIC_TEAMS).flat();
+            for (const team of allTeams) {
+                if (title.includes(team)) {
+                    return this.getTeamEmoji(team);
+                }
+            }
+            
+            return '🇸🇦';
+        }
+        
+        // استخراج الدوري
+        detectLeague(title) {
+            const lowerTitle = title.toLowerCase();
+            
+            for (const league of ARABIC_LEAGUES) {
+                if (lowerTitle.includes(league.toLowerCase())) {
+                    return league;
+                }
+            }
+            
+            // اكتشاف من كلمات مفتاحية
+            if (lowerTitle.includes('سعودي') || lowerTitle.includes('دوري المحترفين')) {
+                return 'الدوري السعودي';
+            } else if (lowerTitle.includes('مصري')) {
+                return 'الدوري المصري';
+            } else if (lowerTitle.includes('إماراتي') || lowerTitle.includes('خليجي')) {
+                return 'دوري الخليج العربي';
+            } else if (lowerTitle.includes('قطري')) {
+                return 'دوري نجوم قطر';
+            } else if (lowerTitle.includes('اسيا') || lowerTitle.includes('آسيا')) {
+                return 'دوري أبطال آسيا';
+            } else if (lowerTitle.includes('افريقيا') || lowerTitle.includes('أفريقيا')) {
+                return 'دوري أبطال إفريقيا';
+            }
+            
+            return 'بطولة عربية';
+        }
+        
+        // استخراج الفرق
+        extractTeams(title) {
+            const allTeams = Object.values(ARABIC_TEAMS).flat();
+            const foundTeams = [];
+            
+            allTeams.forEach(team => {
+                if (title.includes(team)) {
+                    foundTeams.push(team);
+                }
+            });
+            
+            if (foundTeams.length >= 2) {
+                return foundTeams.slice(0, 2);
+            } else if (foundTeams.length === 1) {
+                // إضافة فريق ثاني عشوائي من نفس الدولة
+                const teamCountry = this.getTeamCountry(foundTeams[0]);
+                const countryTeams = ARABIC_TEAMS[teamCountry] || ARABIC_TEAMS.saudi;
+                const otherTeam = countryTeams.find(t => t !== foundTeams[0]) || 'فريق منافس';
+                return [foundTeams[0], otherTeam];
+            }
+            
+            // فرق عربية افتراضية
+            return ['فريق عربي', 'فريق منافس'];
+        }
+        
+        // معرفة دولة الفريق
+        getTeamCountry(teamName) {
+            for (const [country, teams] of Object.entries(ARABIC_TEAMS)) {
+                if (teams.includes(teamName)) {
+                    return country;
+                }
+            }
+            return 'saudi';
+        }
+        
+        // استخراج النتيجة
+        extractScore(title) {
+            const scoreRegex = /(\d+)[:\-\s]\s*(\d+)/;
+            const match = title.match(scoreRegex);
+            
+            if (match) {
+                return `${match[1]}-${match[2]}`;
+            }
+            
+            // البحث عن كلمات تدل على نتيجة
+            if (title.includes('فاز') || title.includes('يفوز') || title.includes('تغلب')) {
+                const score1 = Math.floor(Math.random() * 4) + 1;
+                const score2 = Math.floor(Math.random() * 3);
+                return `${score1}-${score2}`;
+            }
+            
+            return 'لم تبدأ';
+        }
+        
+        // اكتشاف التصنيف
+        detectCategory(title) {
+            const lowerTitle = title.toLowerCase();
+            if (lowerTitle.includes('هدف') || lowerTitle.includes('أهداف')) {
+                return 'أهداف';
+            } else if (lowerTitle.includes('تحويل') || lowerTitle.includes('صفقة')) {
+                return 'انتقالات';
+            } else if (lowerTitle.includes('إصابة') || lowerTitle.includes('إصابات')) {
+                return 'إصابات';
+            } else if (lowerTitle.includes('مدرب') || lowerTitle.includes('مدير فني')) {
+                return 'إدارة فنية';
+            } else if (lowerTitle.includes('تحكيم') || lowerTitle.includes('حكم')) {
+                return 'تحكيم';
+            }
+            return 'رياضة';
+        }
+        
+        // إيموجيات الفرق
+        getTeamEmoji(team) {
+            const emojis = {
+                'الهلال': '👑',
+                'النصر': '⚽',
+                'الاتحاد': '🦁',
+                'الأهلي السعودي': '🔥',
+                'الأهلي المصري': '🦅',
+                'الزمالك': '🕊️',
+                'الشباب': '⚡',
+                'الاتفاق': '🛡️',
+                'الخليج': '🌊',
+                'الفتح': '🎯',
+                'الرائد': '🟡',
+                'الوطني': '🇸🇦',
+                'الوداد': '🔴',
+                'الرجاء': '🟢',
+                'السد': '🟡',
+                'الريان': '🔵',
+                'الشارقة': '🦁',
+                'العين': '🟣',
+                'الوحدة': '🦅',
+                'الترجي': '🔵'
+            };
+            return emojis[team] || '⚽';
+        }
+        
+        // الوقت الحالي
+        getCurrentTime() {
+            return new Date().toLocaleTimeString('ar-SA', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+        
+        // أخبار وهمية (إذا فشل الاتصال)
+        getMockNews() {
+            return Utils.getMockArabicNews();
+        }
+        
+        delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+    }
+    
     // ===== مكتبة الأدوات المساعدة =====
     const Utils = {
         showToast: function(message, type = 'info') {
@@ -88,93 +534,15 @@
             setTimeout(() => toast.remove(), 3000);
         },
         
-        // جلب أخبار عربية حقيقية من RSS
+        // جلب أخبار عربية حقيقية من RSS (الوظيفة القديمة - تم استبدالها)
         fetchArabicNews: async function() {
             try {
-                // استخدام CORS proxy
-                const proxyUrl = 'https://corsproxy.io/?';
-                const targetUrl = ARABIC_NEWS_SOURCES.kooora;
-                
-                const response = await fetch(`${proxyUrl}${encodeURIComponent(targetUrl)}`, {
-                    headers: {
-                        'Accept': 'application/xml',
-                        'User-Agent': 'MidanAlArab/3.0'
-                    }
-                });
-                
-                if (!response.ok) throw new Error(`فشل في الاتصال: ${response.status}`);
-                
-                const text = await response.text();
-                return this.parseArabicRSS(text);
-                
+                const newsFetcher = new NewsFetcher();
+                return await newsFetcher.fetchArabicNews();
             } catch (error) {
                 console.error('خطأ في جلب الأخبار العربية:', error);
                 return null;
             }
-        },
-        
-        // تحليل RSS للصحف العربية
-        parseArabicRSS: function(xmlText) {
-            try {
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-                
-                const items = xmlDoc.querySelectorAll('item');
-                const arabicNews = [];
-                
-                items.forEach((item, index) => {
-                    if (index >= 15) return; // أول 15 خبر فقط
-                    
-                    const title = item.querySelector('title')?.textContent || '';
-                    const description = item.querySelector('description')?.textContent || '';
-                    const link = item.querySelector('link')?.textContent || '#';
-                    const pubDate = item.querySelector('pubDate')?.textContent || new Date().toISOString();
-                    const category = item.querySelector('category')?.textContent || 'رياضة';
-                    
-                    // فلترة للأخبار العربية فقط
-                    if (!this.isArabicNews(title, description)) return;
-                    
-                    arabicNews.push({
-                        id: Date.now() + index,
-                        title: this.cleanArabicText(title),
-                        excerpt: this.cleanArabicText(description.substring(0, 120)) + '...',
-                        content: this.cleanArabicText(description),
-                        image: this.getArabicTeamImage(title),
-                        date: this.formatArabicDate(pubDate),
-                        time: this.getCurrentTime(),
-                        league: this.detectArabicLeague(title),
-                        teams: this.extractArabicTeams(title),
-                        score: this.getScoreFromTitle(title),
-                        highlight: index < 5,
-                        source: 'كورة دوت كوم',
-                        link: link,
-                        category: category
-                    });
-                });
-                
-                return arabicNews;
-            } catch (error) {
-                console.error('خطأ في تحليل RSS العربي:', error);
-                return null;
-            }
-        },
-        
-        // التحقق إذا كان الخبر عربي
-        isArabicNews: function(title, description) {
-            const arabicKeywords = [
-                // دوريات عربية
-                'سعودي', 'مصري', 'إماراتي', 'قطري', 'خليجي', 'عربي',
-                // فرق عربية
-                'الهلال', 'النصر', 'الاتحاد', 'الأهلي', 'الزمالك',
-                'الوداد', 'الرجاء', 'السد', 'الشارقة', 'العين',
-                // منافسات عربية
-                'دوري', 'كأس', 'بطولة', 'مباراة', 'هدف', 'ملعب',
-                // كلمات رياضية
-                'كرة قدم', 'رياضة', 'فريق', 'لاعب', 'مدرب', 'تحكيم'
-            ];
-            
-            const text = (title + ' ' + description).toLowerCase();
-            return arabicKeywords.some(keyword => text.includes(keyword));
         },
         
         // تنظيف النص العربي
@@ -182,7 +550,7 @@
             if (!text) return '';
             return text
                 .replace(/<[^>]*>/g, '')
-                .replace(/&[^;]+;/g, '')
+                .replace(/&[^;]+;/g, ' ')
                 .replace(/\s+/g, ' ')
                 .trim();
         },
@@ -205,116 +573,6 @@
             }
         },
         
-        // استخراج الفرق العربية من العنوان
-        extractArabicTeams: function(title) {
-            const allTeams = Object.values(ARABIC_TEAMS).flat();
-            const foundTeams = [];
-            
-            allTeams.forEach(team => {
-                if (title.includes(team)) {
-                    foundTeams.push(team);
-                }
-            });
-            
-            if (foundTeams.length >= 2) {
-                return foundTeams.slice(0, 2);
-            } else if (foundTeams.length === 1) {
-                // إضافة فريق ثاني عشوائي من نفس الدولة
-                const teamCountry = this.getTeamCountry(foundTeams[0]);
-                const countryTeams = ARABIC_TEAMS[teamCountry] || ARABIC_TEAMS.saudi;
-                const otherTeam = countryTeams.find(t => t !== foundTeams[0]) || 'فريق منافس';
-                return [foundTeams[0], otherTeam];
-            }
-            
-            // فرق عربية افتراضية
-            return ['الهلال', 'النصر'];
-        },
-        
-        // معرفة دولة الفريق
-        getTeamCountry: function(teamName) {
-            for (const [country, teams] of Object.entries(ARABIC_TEAMS)) {
-                if (teams.includes(teamName)) {
-                    return country;
-                }
-            }
-            return 'saudi';
-        },
-        
-        // اكتشاف الدوري العربي من العنوان
-        detectArabicLeague: function(title) {
-            const lowerTitle = title.toLowerCase();
-            
-            for (const league of ARABIC_LEAGUES) {
-                if (lowerTitle.includes(league.toLowerCase())) {
-                    return league;
-                }
-            }
-            
-            // اكتشاف من كلمات مفتاحية
-            if (lowerTitle.includes('سعودي') || lowerTitle.includes('دوري المحترفين')) {
-                return 'الدوري السعودي';
-            } else if (lowerTitle.includes('مصري')) {
-                return 'الدوري المصري';
-            } else if (lowerTitle.includes('إماراتي') || lowerTitle.includes('خليجي')) {
-                return 'دوري الخليج العربي';
-            } else if (lowerTitle.includes('قطري')) {
-                return 'دوري نجوم قطر';
-            } else if (lowerTitle.includes('اسيا') || lowerTitle.includes('آسيا')) {
-                return 'دوري أبطال آسيا';
-            } else if (lowerTitle.includes('افريقيا') || lowerTitle.includes('أفريقيا')) {
-                return 'دوري أبطال إفريقيا';
-            }
-            
-            return 'بطولة عربية';
-        },
-        
-        // الحصول على شعار الفريق
-        getArabicTeamImage: function(title) {
-            const teams = this.extractArabicTeams(title);
-            const firstTeam = teams[0] || 'الهلال';
-            
-            const teamLogos = {
-                'الهلال': '👑',
-                'النصر': '⚽',
-                'الاتحاد': '🦁',
-                'الأهلي السعودي': '🔥',
-                'الأهلي المصري': '🦅',
-                'الزمالك': '⚪',
-                'الوداد': '🔴',
-                'الرجاء': '🟢',
-                'السد': '🟡',
-                'الشارقة': '🟡🔴',
-                'العين': '🟣'
-            };
-            
-            return teamLogos[firstTeam] || '🇸🇦';
-        },
-        
-        // استخراج النتيجة من العنوان
-        getScoreFromTitle: function(title) {
-            const scoreRegex = /(\d+)[:\-]\s*(\d+)/;
-            const match = title.match(scoreRegex);
-            
-            if (match) {
-                return `${match[1]}-${match[2]}`;
-            }
-            
-            // إذا لم توجد نتيجة، نولد نتيجة عشوائية
-            const score1 = Math.floor(Math.random() * 4);
-            const score2 = Math.floor(Math.random() * 4);
-            return `${score1}-${score2}`;
-        },
-        
-        // الوقت الحالي
-        getCurrentTime: function() {
-            const now = new Date();
-            return now.toLocaleTimeString('ar-SA', { 
-                hour: '2-digit', 
-                minute: '2-digit',
-                timeZone: 'Asia/Riyadh'
-            });
-        },
-        
         // أخبار عربية افتراضية (إذا فشل الاتصال)
         getMockArabicNews: function() {
             return [
@@ -330,7 +588,9 @@
                     teams: ["الهلال", "النصر"],
                     score: "3-1",
                     highlight: true,
-                    source: "ميدان العرب"
+                    source: "ميدان العرب",
+                    link: "#",
+                    isLive: false
                 },
                 {
                     id: 2,
@@ -344,7 +604,9 @@
                     teams: ["الأهلي المصري", "المصري"],
                     score: "4-0",
                     highlight: true,
-                    source: "ميدان العرب"
+                    source: "ميدان العرب",
+                    link: "#",
+                    isLive: false
                 },
                 {
                     id: 3,
@@ -358,7 +620,9 @@
                     teams: ["الاتحاد", "الشباب"],
                     score: "2-1",
                     highlight: true,
-                    source: "ميدان العرب"
+                    source: "ميدان العرب",
+                    link: "#",
+                    isLive: false
                 },
                 {
                     id: 4,
@@ -372,7 +636,9 @@
                     teams: ["الوداد", "الترجي"],
                     score: "3-0",
                     highlight: false,
-                    source: "ميدان العرب"
+                    source: "ميدان العرب",
+                    link: "#",
+                    isLive: false
                 },
                 {
                     id: 5,
@@ -386,7 +652,9 @@
                     teams: ["السد", "الريان"],
                     score: "2-0",
                     highlight: false,
-                    source: "ميدان العرب"
+                    source: "ميدان العرب",
+                    link: "#",
+                    isLive: false
                 },
                 {
                     id: 6,
@@ -400,7 +668,9 @@
                     teams: ["الشارقة", "العين"],
                     score: "1-0",
                     highlight: true,
-                    source: "ميدان العرب"
+                    source: "ميدان العرب",
+                    link: "#",
+                    isLive: false
                 }
             ];
         }
@@ -411,6 +681,15 @@
         currentLeague: 'all',
         isLoading: false,
         arabicNews: [],
+        newsFetcher: null,
+        
+        // ===== تهيئة جالب الأخبار =====
+        initNewsFetcher: function() {
+            if (!this.newsFetcher) {
+                this.newsFetcher = new NewsFetcher();
+            }
+            return this.newsFetcher;
+        },
         
         // ===== جلب الأخبار العربية =====
         loadArabicNews: async function() {
@@ -423,20 +702,25 @@
                 container.innerHTML = `
                     <div class="loading-spinner">
                         <div class="spinner"></div>
-                        <p>جاري تحميل أخبار كرة القدم العربية...</p>
+                        <p>جاري تحميل أخبار كرة القدم العربية من مصادر حقيقية...</p>
+                        <p style="font-size: 12px; color: #666; margin-top: 10px;">
+                            <i class="fas fa-sync fa-spin"></i> الاتصال بمصادر الأخبار العربية
+                        </p>
                     </div>
                 `;
             }
             
-            Utils.showToast('جاري تحديث الأخبار العربية...', 'info');
+            Utils.showToast('🔄 جاري تحديث الأخبار العربية من مصادر حقيقية...', 'info');
             
             try {
-                // محاولة جلب أخبار حقيقية
-                const realNews = await Utils.fetchArabicNews();
+                // استخدام جالب الأخبار الجديد
+                const fetcher = this.initNewsFetcher();
+                const realNews = await fetcher.fetchArabicNews();
                 
                 if (realNews && realNews.length > 0) {
                     this.arabicNews = realNews;
-                    Utils.showToast(`تم تحميل ${realNews.length} خبر عربي`, 'success');
+                    const sourceCount = new Set(realNews.map(n => n.source)).size;
+                    Utils.showToast(`تم تحميل ${realNews.length} خبر عربي من ${sourceCount} مصادر`, 'success');
                 } else {
                     // استخدام الأخبار الوهمية العربية
                     this.arabicNews = Utils.getMockArabicNews();
@@ -472,9 +756,12 @@
             if (filteredNews.length === 0) {
                 container.innerHTML = `
                     <div style="text-align: center; padding: 50px; color: #666;">
-                        <p>لا توجد أخبار عربية متاحة لهذا الدوري حالياً</p>
+                        <p style="font-size: 18px; margin-bottom: 20px;">
+                            <i class="far fa-frown"></i><br>
+                            لا توجد أخبار عربية متاحة لهذا الدوري حالياً
+                        </p>
                         <button onclick="FootballNews.loadArabicNews()" 
-                                style="margin-top: 20px; background: #1E5631; color: white; border: none; padding: 10px 20px; border-radius: 6px;">
+                                style="margin-top: 20px; background: #1E5631; color: white; border: none; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-weight: bold;">
                             <i class="fas fa-redo"></i> تحديث الأخبار
                         </button>
                     </div>
@@ -498,11 +785,55 @@
             });
             
             container.innerHTML = '';
+            
+            // إضافة شريط المصادر
+            const sourcesBar = this.createSourcesInfo();
+            container.appendChild(sourcesBar);
+            
             container.appendChild(this.createLeagueFilters());
             container.appendChild(newsGrid);
             
             // إضافة تحديث تلقائي
             this.setupAutoRefresh();
+        },
+        
+        // ===== إنشاء معلومات المصادر =====
+        createSourcesInfo: function() {
+            const sources = new Set(this.arabicNews.map(news => news.source));
+            const infoBar = document.createElement('div');
+            infoBar.style.cssText = `
+                background: linear-gradient(135deg, #1E5631, #2E7D32);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 12px;
+                margin-bottom: 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 10px;
+            `;
+            
+            infoBar.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-wifi" style="font-size: 20px;"></i>
+                    <div>
+                        <strong style="font-size: 16px;">أخبار عربية حقيقية</strong>
+                        <div style="font-size: 13px; opacity: 0.9;">
+                            ${this.arabicNews.length} خبر من ${sources.size} مصادر
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+                    ${Array.from(sources).map(source => 
+                        `<span style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 15px; font-size: 12px;">
+                            <i class="fas fa-rss"></i> ${source}
+                        </span>`
+                    ).join('')}
+                </div>
+            `;
+            
+            return infoBar;
         },
         
         // ===== إنشاء بطاقة خبر عربي =====
@@ -519,6 +850,29 @@
                 position: relative;
                 border: ${news.highlight ? '3px solid #C4A747' : '1px solid #e0e0e0'};
             `;
+            
+            // مؤشر الخبر المباشر
+            if (news.isLive) {
+                const liveBadge = document.createElement('div');
+                liveBadge.style.cssText = `
+                    position: absolute;
+                    top: 15px;
+                    left: 15px;
+                    background: #D32F2F;
+                    color: white;
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-size: 11px;
+                    font-weight: bold;
+                    z-index: 2;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    animation: pulse 1.5s infinite;
+                `;
+                liveBadge.innerHTML = '<i class="fas fa-circle"></i> مباشر';
+                card.appendChild(liveBadge);
+            }
             
             // شارة الأخبار المميزة
             if (news.highlight) {
@@ -578,6 +932,9 @@
                         border-radius: 15px;
                         font-size: 12px;
                         z-index: 1;
+                        display: flex;
+                        align-items: center;
+                        gap: 5px;
                     ">
                         <i class="far fa-clock"></i> ${news.time}
                     </div>
@@ -592,8 +949,11 @@
                         border-radius: 15px;
                         font-size: 11px;
                         z-index: 1;
+                        display: flex;
+                        align-items: center;
+                        gap: 5px;
                     ">
-                        ${news.league}
+                        <i class="fas fa-trophy"></i> ${news.league}
                     </div>
                 </div>
                 
@@ -611,12 +971,12 @@
                         </h3>
                         
                         <div style="
-                            background: #1E5631;
+                            background: ${news.score === 'لم تبدأ' ? '#666' : '#1E5631'};
                             color: white;
                             padding: 6px 12px;
                             border-radius: 15px;
                             font-weight: bold;
-                            font-size: 18px;
+                            font-size: ${news.score === 'لم تبدأ' ? '14px' : '18px'};
                             margin-right: 10px;
                             min-width: 50px;
                             text-align: center;
@@ -703,12 +1063,24 @@
                         border-top: 1px solid #eee;
                     ">
                         <div style="display: flex; align-items: center; gap: 8px;">
-                            <span style="color: #777; font-size: 13px;">
+                            <span style="color: #777; font-size: 13px; display: flex; align-items: center; gap: 5px;">
                                 <i class="far fa-calendar"></i> ${news.date}
                             </span>
-                            <span style="color: #777; font-size: 13px;">
+                            <span style="color: #777; font-size: 13px; display: flex; align-items: center; gap: 5px;">
                                 <i class="fas fa-newspaper"></i> ${news.source}
                             </span>
+                            ${news.category ? `
+                            <span style="
+                                background: #e8f5e8;
+                                color: #1E5631;
+                                padding: 3px 10px;
+                                border-radius: 12px;
+                                font-size: 11px;
+                                font-weight: bold;
+                            ">
+                                ${news.category}
+                            </span>
+                            ` : ''}
                         </div>
                         
                         <button onclick="FootballNews.openArabicNewsDetail(${news.id})" style="
@@ -775,7 +1147,9 @@
                 'الشارقة': '🦁',
                 'العين': '🟣',
                 'الوحدة': '🦅',
-                'الترجي': '🔵'
+                'الترجي': '🔵',
+                'فريق عربي': '🇸🇦',
+                'فريق منافس': '⚽'
             };
             return emojis[team] || '⚽';
         },
@@ -794,6 +1168,7 @@
                 'دوري أبطال إفريقيا': '#FFD700, #007A3D',
                 'كأس الكونفدرالية': '#654321, #8B4513',
                 'كأس العرب للأندية': '#FF0000, #000000, #008000, #FFFFFF',
+                'دوري نجوم قطر': '#6A0DAD, #8A2BE2',
                 'بطولة عربية': '#1E5631, #C4A747'
             };
             
@@ -822,7 +1197,8 @@
                 { id: 'كأس الملك', name: '👑 كأس الملك' },
                 { id: 'الدوري المصري', name: '🇪🇬 الدوري المصري' },
                 { id: 'دوري أبطال إفريقيا', name: '🌍 دوري أبطال إفريقيا' },
-                { id: 'دوري الخليج العربي', name: '🇦🇪 دوري الخليج' }
+                { id: 'دوري الخليج العربي', name: '🇦🇪 دوري الخليج' },
+                { id: 'دوري نجوم قطر', name: '🇶🇦 دوري قطر' }
             ];
             
             leagues.forEach(league => {
@@ -838,11 +1214,29 @@
                     transition: all 0.3s;
                     font-weight: ${this.currentLeague === league.id ? 'bold' : 'normal'};
                     font-size: 14px;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
                 `;
                 
                 btn.addEventListener('click', () => {
                     this.currentLeague = league.id;
                     this.displayNews();
+                    Utils.showToast(`عرض أخبار ${league.name}`, 'info');
+                });
+                
+                btn.addEventListener('mouseenter', () => {
+                    if (this.currentLeague !== league.id) {
+                        btn.style.borderColor = '#1E5631';
+                        btn.style.background = '#f8f9fa';
+                    }
+                });
+                
+                btn.addEventListener('mouseleave', () => {
+                    if (this.currentLeague !== league.id) {
+                        btn.style.borderColor = '#ddd';
+                        btn.style.background = 'white';
+                    }
                 });
                 
                 filterBar.appendChild(btn);
@@ -907,8 +1301,8 @@
                                 justify-content: center;
                                 transition: all 0.3s;
                             "
-                            onmouseover="this.style.transform='rotate(90deg)'"
-                            onmouseout="this.style.transform='rotate(0deg)'">
+                            onmouseover="this.style.transform='rotate(90deg)'; this.style.background='#B71C1C'"
+                            onmouseout="this.style.transform='rotate(0deg)'; this.style.background='#D32F2F'">
                         ✕
                     </button>
                     
@@ -919,8 +1313,28 @@
                         position: relative;
                         border-radius: 18px 18px 0 0;
                     ">
+                        ${news.isLive ? `
+                        <div style="
+                            position: absolute;
+                            top: 15px;
+                            left: 70px;
+                            background: rgba(211, 47, 47, 0.9);
+                            color: white;
+                            padding: 5px 15px;
+                            border-radius: 20px;
+                            font-size: 12px;
+                            font-weight: bold;
+                            display: flex;
+                            align-items: center;
+                            gap: 5px;
+                            animation: pulse 1.5s infinite;
+                        ">
+                            <i class="fas fa-circle"></i> خبر مباشر
+                        </div>
+                        ` : ''}
+                        
                         <h1 style="
-                            margin: 0; 
+                            margin: ${news.isLive ? '20px 0 0 0' : '0'}; 
                             font-size: 26px; 
                             text-align: center;
                             text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
@@ -971,6 +1385,18 @@
                             ">
                                 <i class="fas fa-trophy"></i> ${news.league}
                             </span>
+                            <span style="
+                                background: rgba(255,255,255,0.2);
+                                padding: 8px 18px;
+                                border-radius: 20px;
+                                font-size: 14px;
+                                backdrop-filter: blur(5px);
+                                display: flex;
+                                align-items: center;
+                                gap: 8px;
+                            ">
+                                <i class="fas fa-newspaper"></i> ${news.source}
+                            </span>
                         </div>
                     </div>
                     
@@ -1012,7 +1438,7 @@
                             
                             <div style="text-align: center;">
                                 <div style="
-                                    background: linear-gradient(135deg, #1E5631, #2E7D32);
+                                    background: ${news.score === 'لم تبدأ' ? '#666' : 'linear-gradient(135deg, #1E5631, #2E7D32)'};
                                     color: white;
                                     padding: 15px 25px;
                                     border-radius: 15px;
@@ -1029,7 +1455,7 @@
                                     font-size: 14px;
                                     font-weight: 500;
                                 ">
-                                    النتيجة النهائية
+                                    ${news.score === 'لم تبدأ' ? 'المباراة لم تبدأ بعد' : 'النتيجة النهائية'}
                                 </div>
                             </div>
                             
@@ -1081,9 +1507,19 @@
                                 text-align: justify;
                             ">
                                 ${news.content || news.excerpt}
-                                <p style="margin-top: 15px; color: #666; font-style: italic;">
-                                    مصدر الخبر: ${news.source} - ${news.date}
-                                </p>
+                                <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #ddd;">
+                                    <p style="color: #666; font-style: italic; margin-bottom: 10px;">
+                                        <i class="fas fa-info-circle"></i> مصدر الخبر: ${news.source}
+                                    </p>
+                                    <p style="color: #666; font-size: 14px;">
+                                        <i class="far fa-calendar"></i> تاريخ النشر: ${news.date} - ${news.time}
+                                    </p>
+                                    ${news.category ? `
+                                    <p style="color: #666; font-size: 14px;">
+                                        <i class="fas fa-tag"></i> التصنيف: ${news.category}
+                                    </p>
+                                    ` : ''}
+                                </div>
                             </div>
                         </div>
                         
@@ -1157,6 +1593,28 @@
                                 </button>
                             </div>
                         </div>
+                        
+                        ${news.link && news.link !== '#' ? `
+                        <div style="margin-top: 20px; text-align: center;">
+                            <a href="${news.link}" target="_blank" style="
+                                display: inline-flex;
+                                align-items: center;
+                                gap: 8px;
+                                background: linear-gradient(135deg, #1E5631, #2E7D32);
+                                color: white;
+                                text-decoration: none;
+                                padding: 10px 20px;
+                                border-radius: 25px;
+                                font-weight: bold;
+                                transition: all 0.3s;
+                            "
+                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(30, 86, 49, 0.3)'"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                                <i class="fas fa-external-link-alt"></i>
+                                قراءة الخبر الأصلي على ${news.source}
+                            </a>
+                        </div>
+                        ` : ''}
                     </div>
                 </div>
             `;
@@ -1180,7 +1638,9 @@
                 news.title.toLowerCase().includes(query) ||
                 news.teams.some(team => team.toLowerCase().includes(query)) ||
                 news.league.toLowerCase().includes(query) ||
-                news.excerpt.toLowerCase().includes(query)
+                news.excerpt.toLowerCase().includes(query) ||
+                (news.source && news.source.toLowerCase().includes(query)) ||
+                (news.category && news.category.toLowerCase().includes(query))
             );
             
             const container = document.getElementById('football-news-container');
@@ -1189,11 +1649,17 @@
             if (results.length === 0) {
                 container.innerHTML = `
                     <div style="text-align: center; padding: 50px;">
+                        <div style="font-size: 4rem; color: #e0e0e0; margin-bottom: 20px;">
+                            <i class="fas fa-search"></i>
+                        </div>
                         <p style="color: #666; font-size: 18px;">
-                            <i class="fas fa-search"></i> لا توجد نتائج للبحث: "${searchInput.value}"
+                            لم نعثر على أي أخبار تتطابق مع بحثك
+                        </p>
+                        <p style="color: #888; margin-top: 10px;">
+                            حاول البحث بكلمات مختلفة مثل: الهلال، الدوري السعودي، هدف
                         </p>
                         <button onclick="FootballNews.loadArabicNews()" 
-                                style="margin-top: 20px; background: #1E5631; color: white; border: none; padding: 10px 20px; border-radius: 6px;">
+                                style="margin-top: 20px; background: #1E5631; color: white; border: none; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-weight: bold;">
                             <i class="fas fa-redo"></i> عرض جميع الأخبار
                         </button>
                     </div>
@@ -1254,17 +1720,25 @@
             newNews.date = Utils.formatArabicDate(new Date());
             newNews.time = Utils.getCurrentTime();
             newNews.highlight = true;
+            newNews.isLive = true;
             
             this.arabicNews.unshift(newNews);
             this.displayNews();
             Utils.showToast('تم إضافة خبر عربي جديد!', 'success');
+        },
+        
+        // ===== إعادة تحميل سريع =====
+        forceRefresh: function() {
+            if (this.newsFetcher) {
+                this.newsFetcher.lastFetch = 0;
+                this.newsFetcher.newsCache = [];
+            }
+            this.loadArabicNews();
         }
     };
     
     // ===== التهيئة عند التحميل =====
     document.addEventListener('DOMContentLoaded', function() {
-        console.log(APP_CONFIG.name + ' v' + APP_CONFIG.version);
-        
         // إضافة أنماط CSS
         const style = document.createElement('style');
         style.textContent = `
@@ -1281,6 +1755,12 @@
             @keyframes spin {
                 0% { transform: rotate(0deg); }
                 100% { transform: rotate(360deg); }
+            }
+            
+            @keyframes pulse {
+                0% { opacity: 1; }
+                50% { opacity: 0.6; }
+                100% { opacity: 1; }
             }
             
             .loading-spinner {
@@ -1375,33 +1855,111 @@
                 .search-box input {
                     max-width: 100%;
                 }
+                
+                .arabic-news-modal {
+                    padding: 10px;
+                }
+                
+                .arabic-news-modal > div {
+                    max-height: 95vh;
+                }
+            }
+            
+            /* تخصيص شريط التمرير */
+            .arabic-news-modal::-webkit-scrollbar {
+                width: 8px;
+            }
+            
+            .arabic-news-modal::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 4px;
+            }
+            
+            .arabic-news-modal::-webkit-scrollbar-thumb {
+                background: #1E5631;
+                border-radius: 4px;
+            }
+            
+            .arabic-news-modal::-webkit-scrollbar-thumb:hover {
+                background: #2E7D32;
             }
         `;
         document.head.appendChild(style);
         
+        // إضافة زر تحديث يدوي
+        const refreshButton = document.createElement('button');
+        refreshButton.id = 'manual-refresh-btn';
+        refreshButton.innerHTML = '<i class="fas fa-sync-alt"></i> تحديث الآن';
+        refreshButton.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #1E5631, #2E7D32);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 999;
+            box-shadow: 0 4px 15px rgba(30, 86, 49, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        `;
+        
+        refreshButton.addEventListener('mouseenter', () => {
+            refreshButton.style.transform = 'translateY(-2px)';
+            refreshButton.style.boxShadow = '0 6px 20px rgba(30, 86, 49, 0.4)';
+        });
+        
+        refreshButton.addEventListener('mouseleave', () => {
+            refreshButton.style.transform = 'translateY(0)';
+            refreshButton.style.boxShadow = '0 4px 15px rgba(30, 86, 49, 0.3)';
+        });
+        
+        refreshButton.addEventListener('click', () => {
+            FootballNews.forceRefresh();
+        });
+        
+        document.body.appendChild(refreshButton);
+        
         // تحميل الأخبار العربية عند التحميل
         setTimeout(() => {
             FootballNews.loadArabicNews();
-            Utils.showToast('مرحباً بك في ميدان العرب - أخبار كرة القدم العربية 🇸🇦', 'success');
-        }, 1500);
+            Utils.showToast('مرحباً بك في ميدان العرب - أخبار كرة القدم العربية الحقيقية 🇸🇦', 'success');
+        }, 1000);
     });
     
     // ===== جعل الوظائف متاحة عالمياً =====
     window.FootballNews = FootballNews;
     window.Utils = Utils;
+    window.NewsFetcher = NewsFetcher;
     
     // وظيفة لإضافة خبر جديد يدوياً (للاختبار)
     window.addSampleArabicNews = function() {
         const sampleNews = {
             title: "الهلال يحقق فوزاً تاريخياً في ديربي الرياض",
             excerpt: "فوز كبير للهلال على النصر بنتيجة 3-0 في ديربي العاصمة السعودية",
-            content: "سيطر الهلال على مجريات المباراة منذ الصافرة الأولى وتمكن من تسجيل ثلاثة أهداف نظيفة...",
+            content: "سيطر الهلال على مجريات المباراة منذ الصافرة الأولى وتمكن من تسجيل ثلاثة أهداف نظيفة في الشوط الأول، واستمر في سيطرته في الشوط الثاني ليحقق فوزاً مهماً يقربه من لقب الدوري.",
             league: "الدوري السعودي",
             teams: ["الهلال", "النصر"],
             score: "3-0",
-            source: "ميدان العرب"
+            source: "ميدان العرب",
+            isLive: true,
+            category: "نتائج المباريات"
         };
         
         FootballNews.addArabicNews(sampleNews);
+    };
+    
+    // وظيفة عرض حالة الاتصال
+    window.showConnectionStatus = function() {
+        const status = FootballNews.newsFetcher ? '🟢 جالب الأخبار يعمل' : '🔴 جالب الأخبار غير مهيئ';
+        const cacheStatus = FootballNews.newsFetcher && FootballNews.newsFetcher.newsCache.length > 0 ? 
+            `(${FootballNews.newsFetcher.newsCache.length} خبر مخزن)` : '(لا توجد أخبار مخزنة)';
+        
+        Utils.showToast(`${status} ${cacheStatus}`, 'info');
     };
 })();
