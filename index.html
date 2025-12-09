@@ -1,653 +1,1617 @@
-<!-- القائمة الجوال - تحديث الروابط -->
-<div class="mobile-menu" id="mobileMenu">
-    <a href="/" onclick="closeMobileMenu()"><i class="fas fa-home"></i> الرئيسية</a>
-    <a href="#arab-cup" onclick="closeMobileMenu()"><i class="fas fa-trophy"></i> كأس العرب</a>
-    <a href="#groups" onclick="closeMobileMenu()"><i class="fas fa-users"></i> المجموعات</a>
-    <a href="#matches" onclick="closeMobileMenu()"><i class="fas fa-calendar-alt"></i> المباريات</a>
-    <a href="#news" onclick="closeMobileMenu()"><i class="fas fa-newspaper"></i> الأخبار</a>
-    <a href="#national-teams" onclick="closeMobileMenu()"><i class="fas fa-flag"></i> المنتخبات</a>
-    <a href="#about" onclick="closeMobileMenu()"><i class="fas fa-info-circle"></i> عن الموقع</a>
-    <a href="#contact" onclick="closeMobileMenu()"><i class="fas fa-envelope"></i> اتصل بنا</a>
-    <a href="#donate" onclick="showDonation(); closeMobileMenu()"><i class="fas fa-heart"></i> ادعمنا</a>
-</div>
-
-<!-- قسم كأس العرب -->
-<section class="arab-cup-section" id="arab-cup">
-    <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">
-                <i class="fas fa-trophy"></i>
-                كأس العرب FIFA 2025
-            </h2>
-            <p class="section-subtitle">بطولة كأس العرب FIFA 2025 - السعودية</p>
-            <div class="tournament-info">
-                <div class="info-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>المكان: السعودية</span>
-                </div>
-                <div class="info-item">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>التاريخ: ديسمبر 2024 - يناير 2025</span>
-                </div>
-                <div class="info-item">
-                    <i class="fas fa-users"></i>
-                    <span>الفرق: 16 منتخباً</span>
-                </div>
-                <div class="info-item">
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ميدان العرب | كأس العرب 2025</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="ميدان العرب - متابعة حصرية لبطولة كأس العرب FIFA 2025 في السعودية. أخبار، تحليلات، ونتائج مباشرة لجميع المباريات">
+    <meta name="keywords" content="كأس العرب, كرة قدم عربية, المنتخب السعودي, المنتخب المصري, المغرب, الجزائر, العراق, قطر, الإمارات, سوريا, فلسطين">
+    <meta name="author" content="ميدان العرب">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="ميدان العرب | كأس العرب 2025">
+    <meta property="og:description" content="متابعة حصرية لبطولة كأس العرب FIFA 2025 في السعودية">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://midan-alarab.onrender.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚽</text></svg>">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Font Awesome للآيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="/" class="logo">
                     <i class="fas fa-trophy"></i>
-                    <span>البطل الحالي: الجزائر</span>
+                    <span>كأس العرب 2025</span>
+                </a>
+                
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="فتح القائمة">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="nav-links">
+                    <a href="/" class="active"><i class="fas fa-home"></i> الرئيسية</a>
+                    <a href="#arab-cup"><i class="fas fa-trophy"></i> كأس العرب</a>
+                    <a href="#groups"><i class="fas fa-users"></i> المجموعات</a>
+                    <a href="#matches"><i class="fas fa-calendar-alt"></i> المباريات</a>
+                    <a href="#news"><i class="fas fa-newspaper"></i> الأخبار</a>
+                    <a href="#teams"><i class="fas fa-flag"></i> المنتخبات</a>
+                    <a href="#about"><i class="fas fa-info-circle"></i> عن الموقع</a>
+                    <a href="#donate" class="donate-btn" onclick="showDonation()">
+                        <i class="fas fa-heart"></i> ادعمنا
+                    </a>
                 </div>
             </div>
         </div>
+    </nav>
 
-        <!-- جدول المجموعات -->
-        <div class="groups-section" id="groups">
-            <h3><i class="fas fa-users"></i> المجموعات</h3>
-            
-            <div class="groups-grid">
-                <!-- المجموعة أ -->
-                <div class="group-card">
-                    <div class="group-header">المجموعة أ</div>
-                    <div class="teams-list">
-                        <div class="team-item">
-                            <img src="images/saudi.svg" alt="السعودية" class="team-flag">
-                            <span class="team-name">السعودية</span>
-                            <span class="team-points">0</span>
-                        </div>
-                        <div class="team-item">
-                            <img src="images/egypt.svg" alt="مصر" class="team-flag">
-                            <span class="team-name">مصر</span>
-                            <span class="team-points">0</span>
-                        </div>
-                        <div class="team-item">
-                            <img src="images/jordan.svg" alt="الأردن" class="team-flag">
-                            <span class="team-name">الأردن</span>
-                            <span class="team-points">0</span>
-                        </div>
-                        <div class="team-item">
-                            <img src="images/tunisia.svg" alt="تونس" class="team-flag">
-                            <span class="team-name">تونس</span>
-                            <span class="team-points">0</span>
-                        </div>
-                    </div>
-                    <div class="group-matches">
-                        <button onclick="showGroupMatches('A')" class="group-matches-btn">
-                            <i class="fas fa-futbol"></i> مباريات المجموعة
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- المجموعة ب -->
-                <div class="group-card">
-                    <div class="group-header">المجموعة ب</div>
-                    <div class="teams-list">
-                        <div class="team-item">
-                            <img src="images/morocco.svg" alt="المغرب" class="team-flag">
-                            <span class="team-name">المغرب</span>
-                            <span class="team-points">0</span>
-                        </div>
-                        <div class="team-item">
-                            <img src="images/algeria.svg" alt="الجزائر" class="team-flag">
-                            <span class="team-name">الجزائر</span>
-                            <span class="team-points">0</span>
-                        </div>
-                        <div class="team-item">
-                            <img src="images/iraq.svg" alt="العراق" class="team-flag">
-                            <span class="team-name">العراق</span>
-                            <span class="team-points">0</span>
-                        </div>
-                        <div class="team-item">
-                            <img src="images/qatar.svg" alt="قطر" class="team-flag">
-                            <span class="team-name">قطر</span>
-                            <span class="team-points">0</span>
-                        </div>
-                    </div>
-                    <div class="group-matches">
-                        <button onclick="showGroupMatches('B')" class="group-matches-btn">
-                            <i class="fas fa-futbol"></i> مباريات المجموعة
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- المجموعة ج -->
-                <div class="group-card">
-                    <div class="group-header">المجموعة ج</div>
-                    <div class="teams-list">
-                        <div class="team-item">
-                            <img src="images/uae.svg" alt="الإمارات" class="team-flag">
-                            <span class="team-name">الإمارات</span>
-                            <span class="team-points">0</span>
-                        </div>
-                        <div class="team-item">
-                            <img src="images/syria.svg" alt="سوريا" class="team-flag">
-                            <span class="team-name">سوريا</span>
-                            <span class="team-points">0</span>
-                        </div>
-                        <div class="team-item">
-                            <img src="images/kuwait.svg" alt="الكويت" class="team-flag">
-                            <span class="team-name">الكويت</span>
-                            <span class="team-points">0</span>
-                        </div>
-                        <div class="team-item">
-                            <img src="images/bahrain.svg" alt="البحرين" class="team-flag">
-                            <span class="team-name">البحرين</span>
-                            <span class="team-points">0</span>
-                        </div>
-                    </div>
-                    <div class="group-matches">
-                        <button onclick="showGroupMatches('C')" class="group-matches-btn">
-                            <i class="fas fa-futbol"></i> مباريات المجموعة
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- المجموعة د -->
-                <div class="group-card">
-                    <div class="group-header">المجموعة د</div>
-                    <div class="teams-list">
-                        <div class="team-item">
-                            <img src="images/oman.svg" alt="عمان" class="team-flag">
-                            <span class="team-name">عمان</span>
-                            <span class="team-points">0</span>
-                        </div>
-                        <div class="team-item">
-                            <img src="images/palestine.svg" alt="فلسطين" class="team-flag">
-                            <span class="team-name">فلسطين</span>
-                            <span class="team-points">0</span>
-                        </div>
-                        <div class="team-item">
-                            <img src="images/sudan.svg" alt="السودان" class="team-flag">
-                            <span class="team-name">السودان</span>
-                            <span class="team-points">0</span>
-                        </div>
-                        <div class="team-item">
-                            <img src="images/comoros.svg" alt="جزر القمر" class="team-flag">
-                            <span class="team-name">جزر القمر</span>
-                            <span class="team-points">0</span>
-                        </div>
-                    </div>
-                    <div class="group-matches">
-                        <button onclick="showGroupMatches('D')" class="group-matches-btn">
-                            <i class="fas fa-futbol"></i> مباريات المجموعة
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- القائمة الجوال -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/" onclick="closeMobileMenu()"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="#arab-cup" onclick="closeMobileMenu()"><i class="fas fa-trophy"></i> كأس العرب</a>
+        <a href="#groups" onclick="closeMobileMenu()"><i class="fas fa-users"></i> المجموعات</a>
+        <a href="#matches" onclick="closeMobileMenu()"><i class="fas fa-calendar-alt"></i> المباريات</a>
+        <a href="#news" onclick="closeMobileMenu()"><i class="fas fa-newspaper"></i> الأخبار</a>
+        <a href="#teams" onclick="closeMobileMenu()"><i class="fas fa-flag"></i> المنتخبات</a>
+        <a href="#about" onclick="closeMobileMenu()"><i class="fas fa-info-circle"></i> عن الموقع</a>
+        <a href="#donate" onclick="showDonation(); closeMobileMenu()"><i class="fas fa-heart"></i> ادعمنا</a>
+    </div>
 
-        <!-- جدول المباريات -->
-        <div class="matches-section" id="matches">
-            <div class="section-header">
-                <h3><i class="fas fa-calendar-alt"></i> جدول المباريات</h3>
-                <div class="matches-filter">
-                    <button class="filter-btn active" data-stage="all">جميع المباريات</button>
-                    <button class="filter-btn" data-stage="groups">مرحلة المجموعات</button>
-                    <button class="filter-btn" data-stage="knockout">خروج المغلوب</button>
-                    <button class="filter-btn" data-stage="quarter">ربع النهائي</button>
-                    <button class="filter-btn" data-stage="semi">نصف النهائي</button>
-                    <button class="filter-btn" data-stage="final">النهائي</button>
-                </div>
-            </div>
-            
-            <!-- مرحلة المجموعات -->
-            <div class="matches-category" data-stage="groups">
-                <h4><i class="fas fa-users"></i> مرحلة المجموعات</h4>
-                <div class="matches-grid">
-                    <!-- المجموعة أ -->
-                    <div class="match-group">
-                        <h5>المجموعة أ</h5>
-                        <div class="match-card">
-                            <div class="match-teams">
-                                <div class="team">
-                                    <img src="images/saudi.svg" alt="السعودية" class="team-flag">
-                                    <span>السعودية</span>
-                                </div>
-                                <div class="vs">VS</div>
-                                <div class="team">
-                                    <img src="images/egypt.svg" alt="مصر" class="team-flag">
-                                    <span>مصر</span>
-                                </div>
-                            </div>
-                            <div class="match-details">
-                                <span class="date"><i class="far fa-calendar"></i> 15 ديسمبر 2024</span>
-                                <span class="time"><i class="far fa-clock"></i> 20:00</span>
-                                <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب الملك فهد</span>
-                            </div>
-                            <div class="match-result">
-                                <span class="score">-</span>
-                                <span class="status upcoming">قادمة</span>
-                            </div>
-                        </div>
-                        
-                        <div class="match-card">
-                            <div class="match-teams">
-                                <div class="team">
-                                    <img src="images/jordan.svg" alt="الأردن" class="team-flag">
-                                    <span>الأردن</span>
-                                </div>
-                                <div class="vs">VS</div>
-                                <div class="team">
-                                    <img src="images/tunisia.svg" alt="تونس" class="team-flag">
-                                    <span>تونس</span>
-                                </div>
-                            </div>
-                            <div class="match-details">
-                                <span class="date"><i class="far fa-calendar"></i> 15 ديسمبر 2024</span>
-                                <span class="time"><i class="far fa-clock"></i> 16:00</span>
-                                <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب الملك عبدالله</span>
-                            </div>
-                            <div class="match-result">
-                                <span class="score">-</span>
-                                <span class="status upcoming">قادمة</span>
-                            </div>
-                        </div>
-                        
-                        <div class="match-card">
-                            <div class="match-teams">
-                                <div class="team">
-                                    <img src="images/egypt.svg" alt="مصر" class="team-flag">
-                                    <span>مصر</span>
-                                </div>
-                                <div class="vs">VS</div>
-                                <div class="team">
-                                    <img src="images/jordan.svg" alt="الأردن" class="team-flag">
-                                    <span>الأردن</span>
-                                </div>
-                            </div>
-                            <div class="match-details">
-                                <span class="date"><i class="far fa-calendar"></i> 19 ديسمبر 2024</span>
-                                <span class="time"><i class="far fa-clock"></i> 20:00</span>
-                                <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب الملك فهد</span>
-                            </div>
-                            <div class="match-result">
-                                <span class="score">-</span>
-                                <span class="status upcoming">قادمة</span>
-                            </div>
-                        </div>
-                        
-                        <div class="match-card">
-                            <div class="match-teams">
-                                <div class="team">
-                                    <img src="images/tunisia.svg" alt="تونس" class="team-flag">
-                                    <span>تونس</span>
-                                </div>
-                                <div class="vs">VS</div>
-                                <div class="team">
-                                    <img src="images/saudi.svg" alt="السعودية" class="team-flag">
-                                    <span>السعودية</span>
-                                </div>
-                            </div>
-                            <div class="match-details">
-                                <span class="date"><i class="far fa-calendar"></i> 19 ديسمبر 2024</span>
-                                <span class="time"><i class="far fa-clock"></i> 16:00</span>
-                                <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب الملك عبدالله</span>
-                            </div>
-                            <div class="match-result">
-                                <span class="score">-</span>
-                                <span class="status upcoming">قادمة</span>
-                            </div>
-                        </div>
-                    </div>
+    <!-- المحتوى الرئيسي -->
+    <main>
+        <!-- قسم الترحيب -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">مرحباً بك في <span class="highlight">كأس العرب 2025</span></h1>
+                    <p class="hero-subtitle">متابعة حصرية لبطولة كأس العرب FIFA في السعودية</p>
+                    <p class="hero-description">أخبار مباشرة، نتائج فورية، تحليلات شاملة، وتغطية حصرية لكل ما يخص بطولة كأس العرب 2025</p>
                     
-                    <!-- المجموعة ب -->
-                    <div class="match-group">
-                        <h5>المجموعة ب</h5>
-                        <div class="match-card">
-                            <div class="match-teams">
-                                <div class="team">
+                    <div class="hero-actions">
+                        <a href="#matches" class="btn btn-primary">
+                            <i class="fas fa-calendar-alt"></i> جدول المباريات
+                        </a>
+                        <a href="#groups" class="btn btn-secondary">
+                            <i class="fas fa-users"></i> المجموعات
+                        </a>
+                        <a href="#news" class="btn btn-donate">
+                            <i class="fas fa-newspaper"></i> آخر الأخبار
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <i class="fas fa-trophy"></i>
+                        <span class="count" data-target="16">0</span>
+                        <span class="label">منتخب عربي</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-futbol"></i>
+                        <span class="count" data-target="32">0</span>
+                        <span class="label">مباراة</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-eye"></i>
+                        <span class="count" data-target="25300">0</span>
+                        <span class="label">مشاهدة</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- أخبار عاجلة -->
+        <section class="breaking-news" id="breaking">
+            <div class="container">
+                <div class="breaking-label">
+                    <i class="fas fa-bolt"></i>
+                    <span>أخبار عاجلة</span>
+                </div>
+                <div class="breaking-content">
+                    <span class="breaking-text" id="breaking-text">انطلاق كأس العرب 2025 في السعودية بمشاركة 16 منتخباً عربياً</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم كأس العرب -->
+        <section class="arab-cup-section" id="arab-cup">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-trophy"></i>
+                        كأس العرب FIFA 2025
+                    </h2>
+                    <p class="section-subtitle">بطولة كأس العرب FIFA 2025 - السعودية</p>
+                    <div class="tournament-info">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>المكان: السعودية</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>التاريخ: ديسمبر 2024 - يناير 2025</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-users"></i>
+                            <span>الفرق: 16 منتخباً</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-trophy"></i>
+                            <span>البطل الحالي: الجزائر</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- جدول المجموعات -->
+                <div class="groups-section" id="groups">
+                    <h3><i class="fas fa-users"></i> المجموعات</h3>
+                    
+                    <div class="groups-grid">
+                        <!-- المجموعة أ -->
+                        <div class="group-card">
+                            <div class="group-header">المجموعة أ</div>
+                            <div class="teams-list">
+                                <div class="team-item">
+                                    <img src="images/saudi.svg" alt="السعودية" class="team-flag">
+                                    <span class="team-name">السعودية</span>
+                                    <span class="team-points">0</span>
+                                </div>
+                                <div class="team-item">
+                                    <img src="images/egypt.svg" alt="مصر" class="team-flag">
+                                    <span class="team-name">مصر</span>
+                                    <span class="team-points">0</span>
+                                </div>
+                                <div class="team-item">
+                                    <img src="images/jordan.svg" alt="الأردن" class="team-flag">
+                                    <span class="team-name">الأردن</span>
+                                    <span class="team-points">0</span>
+                                </div>
+                                <div class="team-item">
+                                    <img src="images/tunisia.svg" alt="تونس" class="team-flag">
+                                    <span class="team-name">تونس</span>
+                                    <span class="team-points">0</span>
+                                </div>
+                            </div>
+                            <div class="group-matches">
+                                <button onclick="showGroupMatches('A')" class="group-matches-btn">
+                                    <i class="fas fa-futbol"></i> مباريات المجموعة
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- المجموعة ب -->
+                        <div class="group-card">
+                            <div class="group-header">المجموعة ب</div>
+                            <div class="teams-list">
+                                <div class="team-item">
                                     <img src="images/morocco.svg" alt="المغرب" class="team-flag">
-                                    <span>المغرب</span>
+                                    <span class="team-name">المغرب</span>
+                                    <span class="team-points">0</span>
                                 </div>
-                                <div class="vs">VS</div>
-                                <div class="team">
+                                <div class="team-item">
                                     <img src="images/algeria.svg" alt="الجزائر" class="team-flag">
-                                    <span>الجزائر</span>
+                                    <span class="team-name">الجزائر</span>
+                                    <span class="team-points">0</span>
                                 </div>
-                            </div>
-                            <div class="match-details">
-                                <span class="date"><i class="far fa-calendar"></i> 16 ديسمبر 2024</span>
-                                <span class="time"><i class="far fa-clock"></i> 20:00</span>
-                                <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب المدينة التعليمية</span>
-                            </div>
-                            <div class="match-result">
-                                <span class="score">-</span>
-                                <span class="status upcoming">قادمة</span>
-                            </div>
-                        </div>
-                        
-                        <div class="match-card">
-                            <div class="match-teams">
-                                <div class="team">
+                                <div class="team-item">
                                     <img src="images/iraq.svg" alt="العراق" class="team-flag">
-                                    <span>العراق</span>
+                                    <span class="team-name">العراق</span>
+                                    <span class="team-points">0</span>
                                 </div>
-                                <div class="vs">VS</div>
-                                <div class="team">
+                                <div class="team-item">
                                     <img src="images/qatar.svg" alt="قطر" class="team-flag">
-                                    <span>قطر</span>
+                                    <span class="team-name">قطر</span>
+                                    <span class="team-points">0</span>
                                 </div>
                             </div>
-                            <div class="match-details">
-                                <span class="date"><i class="far fa-calendar"></i> 16 ديسمبر 2024</span>
-                                <span class="time"><i class="far fa-clock"></i> 16:00</span>
-                                <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب الملك سلمان</span>
-                            </div>
-                            <div class="match-result">
-                                <span class="score">-</span>
-                                <span class="status upcoming">قادمة</span>
+                            <div class="group-matches">
+                                <button onclick="showGroupMatches('B')" class="group-matches-btn">
+                                    <i class="fas fa-futbol"></i> مباريات المجموعة
+                                </button>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- المجموعة ج -->
-                    <div class="match-group">
-                        <h5>المجموعة ج</h5>
-                        <div class="match-card">
-                            <div class="match-teams">
-                                <div class="team">
+                        
+                        <!-- المجموعة ج -->
+                        <div class="group-card">
+                            <div class="group-header">المجموعة ج</div>
+                            <div class="teams-list">
+                                <div class="team-item">
                                     <img src="images/uae.svg" alt="الإمارات" class="team-flag">
-                                    <span>الإمارات</span>
+                                    <span class="team-name">الإمارات</span>
+                                    <span class="team-points">0</span>
                                 </div>
-                                <div class="vs">VS</div>
-                                <div class="team">
+                                <div class="team-item">
                                     <img src="images/syria.svg" alt="سوريا" class="team-flag">
-                                    <span>سوريا</span>
+                                    <span class="team-name">سوريا</span>
+                                    <span class="team-points">0</span>
+                                </div>
+                                <div class="team-item">
+                                    <img src="images/kuwait.svg" alt="الكويت" class="team-flag">
+                                    <span class="team-name">الكويت</span>
+                                    <span class="team-points">0</span>
+                                </div>
+                                <div class="team-item">
+                                    <img src="images/bahrain.svg" alt="البحرين" class="team-flag">
+                                    <span class="team-name">البحرين</span>
+                                    <span class="team-points">0</span>
                                 </div>
                             </div>
-                            <div class="match-details">
-                                <span class="date"><i class="far fa-calendar"></i> 17 ديسمبر 2024</span>
-                                <span class="time"><i class="far fa-clock"></i> 20:00</span>
-                                <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب الملك عبدالله</span>
-                            </div>
-                            <div class="match-result">
-                                <span class="score">-</span>
-                                <span class="status upcoming">قادمة</span>
+                            <div class="group-matches">
+                                <button onclick="showGroupMatches('C')" class="group-matches-btn">
+                                    <i class="fas fa-futbol"></i> مباريات المجموعة
+                                </button>
                             </div>
                         </div>
                         
-                        <div class="match-card">
-                            <div class="match-teams">
-                                <div class="team">
-                                    <img src="images/kuwait.svg" alt="الكويت" class="team-flag">
-                                    <span>الكويت</span>
+                        <!-- المجموعة د -->
+                        <div class="group-card">
+                            <div class="group-header">المجموعة د</div>
+                            <div class="teams-list">
+                                <div class="team-item">
+                                    <img src="images/oman.svg" alt="عمان" class="team-flag">
+                                    <span class="team-name">عمان</span>
+                                    <span class="team-points">0</span>
                                 </div>
-                                <div class="vs">VS</div>
-                                <div class="team">
-                                    <img src="images/bahrain.svg" alt="البحرين" class="team-flag">
-                                    <span>البحرين</span>
+                                <div class="team-item">
+                                    <img src="images/palestine.svg" alt="فلسطين" class="team-flag">
+                                    <span class="team-name">فلسطين</span>
+                                    <span class="team-points">0</span>
+                                </div>
+                                <div class="team-item">
+                                    <img src="images/sudan.svg" alt="السودان" class="team-flag">
+                                    <span class="team-name">السودان</span>
+                                    <span class="team-points">0</span>
+                                </div>
+                                <div class="team-item">
+                                    <img src="images/comoros.svg" alt="جزر القمر" class="team-flag">
+                                    <span class="team-name">جزر القمر</span>
+                                    <span class="team-points">0</span>
                                 </div>
                             </div>
-                            <div class="match-details">
-                                <span class="date"><i class="far fa-calendar"></i> 17 ديسمبر 2024</span>
-                                <span class="time"><i class="far fa-clock"></i> 16:00</span>
-                                <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب الملك فهد</span>
+                            <div class="group-matches">
+                                <button onclick="showGroupMatches('D')" class="group-matches-btn">
+                                    <i class="fas fa-futbol"></i> مباريات المجموعة
+                                </button>
                             </div>
-                            <div class="match-result">
-                                <span class="score">-</span>
-                                <span class="status upcoming">قادمة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- جدول المباريات -->
+                <div class="matches-section" id="matches">
+                    <div class="section-header">
+                        <h3><i class="fas fa-calendar-alt"></i> جدول المباريات</h3>
+                        <div class="matches-filter">
+                            <button class="filter-btn active" data-stage="all">جميع المباريات</button>
+                            <button class="filter-btn" data-stage="groups">مرحلة المجموعات</button>
+                            <button class="filter-btn" data-stage="knockout">خروج المغلوب</button>
+                        </div>
+                    </div>
+                    
+                    <!-- مرحلة المجموعات -->
+                    <div class="matches-category" data-stage="groups">
+                        <h4><i class="fas fa-users"></i> مرحلة المجموعات</h4>
+                        <div class="matches-grid">
+                            <!-- المجموعة أ -->
+                            <div class="match-group">
+                                <h5>المجموعة أ</h5>
+                                <div class="match-card">
+                                    <div class="match-teams">
+                                        <div class="team">
+                                            <img src="images/saudi.svg" alt="السعودية" class="team-flag">
+                                            <span>السعودية</span>
+                                        </div>
+                                        <div class="vs">VS</div>
+                                        <div class="team">
+                                            <img src="images/egypt.svg" alt="مصر" class="team-flag">
+                                            <span>مصر</span>
+                                        </div>
+                                    </div>
+                                    <div class="match-details">
+                                        <span class="date"><i class="far fa-calendar"></i> 15 ديسمبر 2024</span>
+                                        <span class="time"><i class="far fa-clock"></i> 20:00</span>
+                                        <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب الملك فهد</span>
+                                    </div>
+                                    <div class="match-result">
+                                        <span class="score">-</span>
+                                        <span class="status upcoming">قادمة</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="match-card">
+                                    <div class="match-teams">
+                                        <div class="team">
+                                            <img src="images/jordan.svg" alt="الأردن" class="team-flag">
+                                            <span>الأردن</span>
+                                        </div>
+                                        <div class="vs">VS</div>
+                                        <div class="team">
+                                            <img src="images/tunisia.svg" alt="تونس" class="team-flag">
+                                            <span>تونس</span>
+                                        </div>
+                                    </div>
+                                    <div class="match-details">
+                                        <span class="date"><i class="far fa-calendar"></i> 15 ديسمبر 2024</span>
+                                        <span class="time"><i class="far fa-clock"></i> 16:00</span>
+                                        <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب الملك عبدالله</span>
+                                    </div>
+                                    <div class="match-result">
+                                        <span class="score">-</span>
+                                        <span class="status upcoming">قادمة</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- المجموعة ب -->
+                            <div class="match-group">
+                                <h5>المجموعة ب</h5>
+                                <div class="match-card">
+                                    <div class="match-teams">
+                                        <div class="team">
+                                            <img src="images/morocco.svg" alt="المغرب" class="team-flag">
+                                            <span>المغرب</span>
+                                        </div>
+                                        <div class="vs">VS</div>
+                                        <div class="team">
+                                            <img src="images/algeria.svg" alt="الجزائر" class="team-flag">
+                                            <span>الجزائر</span>
+                                        </div>
+                                    </div>
+                                    <div class="match-details">
+                                        <span class="date"><i class="far fa-calendar"></i> 16 ديسمبر 2024</span>
+                                        <span class="time"><i class="far fa-clock"></i> 20:00</span>
+                                        <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب المدينة التعليمية</span>
+                                    </div>
+                                    <div class="match-result">
+                                        <span class="score">-</span>
+                                        <span class="status upcoming">قادمة</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="match-card">
+                                    <div class="match-teams">
+                                        <div class="team">
+                                            <img src="images/iraq.svg" alt="العراق" class="team-flag">
+                                            <span>العراق</span>
+                                        </div>
+                                        <div class="vs">VS</div>
+                                        <div class="team">
+                                            <img src="images/qatar.svg" alt="قطر" class="team-flag">
+                                            <span>قطر</span>
+                                        </div>
+                                    </div>
+                                    <div class="match-details">
+                                        <span class="date"><i class="far fa-calendar"></i> 16 ديسمبر 2024</span>
+                                        <span class="time"><i class="far fa-clock"></i> 16:00</span>
+                                        <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب الملك سلمان</span>
+                                    </div>
+                                    <div class="match-result">
+                                        <span class="score">-</span>
+                                        <span class="status upcoming">قادمة</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- المجموعة ج -->
+                            <div class="match-group">
+                                <h5>المجموعة ج</h5>
+                                <div class="match-card">
+                                    <div class="match-teams">
+                                        <div class="team">
+                                            <img src="images/uae.svg" alt="الإمارات" class="team-flag">
+                                            <span>الإمارات</span>
+                                        </div>
+                                        <div class="vs">VS</div>
+                                        <div class="team">
+                                            <img src="images/syria.svg" alt="سوريا" class="team-flag">
+                                            <span>سوريا</span>
+                                        </div>
+                                    </div>
+                                    <div class="match-details">
+                                        <span class="date"><i class="far fa-calendar"></i> 17 ديسمبر 2024</span>
+                                        <span class="time"><i class="far fa-clock"></i> 20:00</span>
+                                        <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب الملك عبدالله</span>
+                                    </div>
+                                    <div class="match-result">
+                                        <span class="score">-</span>
+                                        <span class="status upcoming">قادمة</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="match-card">
+                                    <div class="match-teams">
+                                        <div class="team">
+                                            <img src="images/kuwait.svg" alt="الكويت" class="team-flag">
+                                            <span>الكويت</span>
+                                        </div>
+                                        <div class="vs">VS</div>
+                                        <div class="team">
+                                            <img src="images/bahrain.svg" alt="البحرين" class="team-flag">
+                                            <span>البحرين</span>
+                                        </div>
+                                    </div>
+                                    <div class="match-details">
+                                        <span class="date"><i class="far fa-calendar"></i> 17 ديسمبر 2024</span>
+                                        <span class="time"><i class="far fa-clock"></i> 16:00</span>
+                                        <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب الملك فهد</span>
+                                    </div>
+                                    <div class="match-result">
+                                        <span class="score">-</span>
+                                        <span class="status upcoming">قادمة</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- المجموعة د -->
+                            <div class="match-group">
+                                <h5>المجموعة د</h5>
+                                <div class="match-card">
+                                    <div class="match-teams">
+                                        <div class="team">
+                                            <img src="images/oman.svg" alt="عمان" class="team-flag">
+                                            <span>عمان</span>
+                                        </div>
+                                        <div class="vs">VS</div>
+                                        <div class="team">
+                                            <img src="images/palestine.svg" alt="فلسطين" class="team-flag">
+                                            <span>فلسطين</span>
+                                        </div>
+                                    </div>
+                                    <div class="match-details">
+                                        <span class="date"><i class="far fa-calendar"></i> 18 ديسمبر 2024</span>
+                                        <span class="time"><i class="far fa-clock"></i> 20:00</span>
+                                        <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب الملك سلمان</span>
+                                    </div>
+                                    <div class="match-result">
+                                        <span class="score">-</span>
+                                        <span class="status upcoming">قادمة</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="match-card">
+                                    <div class="match-teams">
+                                        <div class="team">
+                                            <img src="images/sudan.svg" alt="السودان" class="team-flag">
+                                            <span>السودان</span>
+                                        </div>
+                                        <div class="vs">VS</div>
+                                        <div class="team">
+                                            <img src="images/comoros.svg" alt="جزر القمر" class="team-flag">
+                                            <span>جزر القمر</span>
+                                        </div>
+                                    </div>
+                                    <div class="match-details">
+                                        <span class="date"><i class="far fa-calendar"></i> 18 ديسمبر 2024</span>
+                                        <span class="time"><i class="far fa-clock"></i> 16:00</span>
+                                        <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب المدينة التعليمية</span>
+                                    </div>
+                                    <div class="match-result">
+                                        <span class="score">-</span>
+                                        <span class="status upcoming">قادمة</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ترتيب الهدافين -->
+                <div class="top-scorers">
+                    <h3><i class="fas fa-futbol"></i> ترتيب الهدافين</h3>
+                    <div class="scorers-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>اللاعب</th>
+                                    <th>الفريق</th>
+                                    <th>الأهداف</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>محمد صلاح</td>
+                                    <td><img src="images/egypt.svg" alt="مصر" class="team-flag"> مصر</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>سلامة العبدي</td>
+                                    <td><img src="images/saudi.svg" alt="السعودية" class="team-flag"> السعودية</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>أشرف حكيمي</td>
+                                    <td><img src="images/morocco.svg" alt="المغرب" class="team-flag"> المغرب</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>رياض محرز</td>
+                                    <td><img src="images/algeria.svg" alt="الجزائر" class="team-flag"> الجزائر</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>عمر السومة</td>
+                                    <td><img src="images/syria.svg" alt="سوريا" class="team-flag"> سوريا</td>
+                                    <td>0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم المنتخبات العربية -->
+        <section class="national-teams-section" id="teams">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-flag"></i>
+                        المنتخبات المشاركة
+                    </h2>
+                    <p class="section-subtitle">16 منتخباً عربياً يطمحون للفوز بلقب كأس العرب 2025</p>
+                </div>
+                
+                <div class="national-teams-grid">
+                    <!-- المنتخب السعودي -->
+                    <div class="team-card featured">
+                        <div class="team-header">
+                            <img src="images/saudi.svg" alt="السعودية" class="team-flag-img">
+                            <div class="team-info">
+                                <h3>السعودية</h3>
+                                <div class="team-rank">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>التصنيف العالمي: 56</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="team-details">
+                            <div class="team-stats">
+                                <div class="stat">
+                                    <span class="value">6</span>
+                                    <span class="label">كأس آسيا</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="value">6</span>
+                                    <span class="label">كأس العالم</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="value">3</span>
+                                    <span class="label">كأس العرب</span>
+                                </div>
+                            </div>
+                            
+                            <div class="coach-info">
+                                <h4><i class="fas fa-user-tie"></i> المدرب</h4>
+                                <p>روبرتو مانشيني</p>
+                            </div>
+                            
+                            <div class="next-match">
+                                <h4><i class="fas fa-calendar-alt"></i> أول مباراة</h4>
+                                <p>كأس العرب 2025 - المجموعة أ</p>
+                                <div class="match-details">
+                                    <span class="team">السعودية</span>
+                                    <span class="vs">VS</span>
+                                    <span class="team">مصر</span>
+                                    <span class="date">15 ديسمبر 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="team-news-btn" onclick="showTeamNews('saudi')">
+                            <i class="fas fa-newspaper"></i> أخبار المنتخب
+                        </button>
+                    </div>
+
+                    <!-- المنتخب المصري -->
+                    <div class="team-card">
+                        <div class="team-header">
+                            <img src="images/egypt.svg" alt="مصر" class="team-flag-img">
+                            <div class="team-info">
+                                <h3>مصر</h3>
+                                <div class="team-rank">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>التصنيف العالمي: 33</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="team-details">
+                            <div class="team-stats">
+                                <div class="stat">
+                                    <span class="value">7</span>
+                                    <span class="label">كأس الأمم الأفريقية</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="value">3</span>
+                                    <span class="label">كأس العالم</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="value">2</span>
+                                    <span class="label">كأس العرب</span>
+                                </div>
+                            </div>
+                            
+                            <div class="coach-info">
+                                <h4><i class="fas fa-user-tie"></i> المدرب</h4>
+                                <p>روبين فيتوريا</p>
+                            </div>
+                            
+                            <div class="next-match">
+                                <h4><i class="fas fa-calendar-alt"></i> أول مباراة</h4>
+                                <p>كأس العرب 2025 - المجموعة أ</p>
+                                <div class="match-details">
+                                    <span class="team">مصر</span>
+                                    <span class="vs">VS</span>
+                                    <span class="team">السعودية</span>
+                                    <span class="date">15 ديسمبر 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="team-news-btn" onclick="showTeamNews('egypt')">
+                            <i class="fas fa-newspaper"></i> أخبار المنتخب
+                        </button>
+                    </div>
+
+                    <!-- المنتخب المغربي -->
+                    <div class="team-card">
+                        <div class="team-header">
+                            <img src="images/morocco.svg" alt="المغرب" class="team-flag-img">
+                            <div class="team-info">
+                                <h3>المغرب</h3>
+                                <div class="team-rank">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>التصنيف العالمي: 13</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="team-details">
+                            <div class="team-stats">
+                                <div class="stat">
+                                    <span class="value">2</span>
+                                    <span class="label">كأس الأمم الأفريقية</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="value">6</span>
+                                    <span class="label">كأس العالم</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="value">1</span>
+                                    <span class="label">كأس العرب</span>
+                                </div>
+                            </div>
+                            
+                            <div class="coach-info">
+                                <h4><i class="fas fa-user-tie"></i> المدرب</h4>
+                                <p>وليد الركراكي</p>
+                            </div>
+                            
+                            <div class="next-match">
+                                <h4><i class="fas fa-calendar-alt"></i> أول مباراة</h4>
+                                <p>كأس العرب 2025 - المجموعة ب</p>
+                                <div class="match-details">
+                                    <span class="team">المغرب</span>
+                                    <span class="vs">VS</span>
+                                    <span class="team">الجزائر</span>
+                                    <span class="date">16 ديسمبر 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="team-news-btn" onclick="showTeamNews('morocco')">
+                            <i class="fas fa-newspaper"></i> أخبار المنتخب
+                        </button>
+                    </div>
+                </div>
+
+                <div class="national-teams-grid" style="margin-top: 30px;">
+                    <!-- المنتخب الجزائري -->
+                    <div class="team-card">
+                        <div class="team-header">
+                            <img src="images/algeria.svg" alt="الجزائر" class="team-flag-img">
+                            <div class="team-info">
+                                <h3>الجزائر</h3>
+                                <div class="team-rank">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>التصنيف العالمي: 30</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="team-details">
+                            <div class="team-stats">
+                                <div class="stat">
+                                    <span class="value">2</span>
+                                    <span class="label">كأس الأمم الأفريقية</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="value">4</span>
+                                    <span class="label">كأس العالم</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="value">1</span>
+                                    <span class="label">كأس العرب</span>
+                                </div>
+                            </div>
+                            
+                            <div class="coach-info">
+                                <h4><i class="fas fa-user-tie"></i> المدرب</h4>
+                                <p>جمال بلماضي</p>
+                            </div>
+                            
+                            <div class="next-match">
+                                <h4><i class="fas fa-calendar-alt"></i> أول مباراة</h4>
+                                <p>كأس العرب 2025 - المجموعة ب</p>
+                                <div class="match-details">
+                                    <span class="team">الجزائر</span>
+                                    <span class="vs">VS</span>
+                                    <span class="team">المغرب</span>
+                                    <span class="date">16 ديسمبر 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="team-news-btn" onclick="showTeamNews('algeria')">
+                            <i class="fas fa-newspaper"></i> أخبار المنتخب
+                        </button>
+                    </div>
+
+                    <!-- المنتخب العراقي -->
+                    <div class="team-card">
+                        <div class="team-header">
+                            <img src="images/iraq.svg" alt="العراق" class="team-flag-img">
+                            <div class="team-info">
+                                <h3>العراق</h3>
+                                <div class="team-rank">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>التصنيف العالمي: 68</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="team-details">
+                            <div class="team-stats">
+                                <div class="stat">
+                                    <span class="value">1</span>
+                                    <span class="label">كأس آسيا</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="value">1</span>
+                                    <span class="label">كأس العالم</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="value">1</span>
+                                    <span class="label">كأس العرب</span>
+                                </div>
+                            </div>
+                            
+                            <div class="coach-info">
+                                <h4><i class="fas fa-user-tie"></i> المدرب</h4>
+                                <p>خيسوس كاساس</p>
+                            </div>
+                            
+                            <div class="next-match">
+                                <h4><i class="fas fa-calendar-alt"></i> أول مباراة</h4>
+                                <p>كأس العرب 2025 - المجموعة ب</p>
+                                <div class="match-details">
+                                    <span class="team">العراق</span>
+                                    <span class="vs">VS</span>
+                                    <span class="team">قطر</span>
+                                    <span class="date">16 ديسمبر 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="team-news-btn" onclick="showTeamNews('iraq')">
+                            <i class="fas fa-newspaper"></i> أخبار المنتخب
+                        </button>
+                    </div>
+
+                    <!-- المنتخب القطري -->
+                    <div class="team-card">
+                        <div class="team-header">
+                            <img src="images/qatar.svg" alt="قطر" class="team-flag-img">
+                            <div class="team-info">
+                                <h3>قطر</h3>
+                                <div class="team-rank">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>التصنيف العالمي: 58</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="team-details">
+                            <div class="team-stats">
+                                <div class="stat">
+                                    <span class="value">2</span>
+                                    <span class="label">كأس آسيا</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="value">2</span>
+                                    <span class="label">كأس العالم</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="value">1</span>
+                                    <span class="label">كأس العرب</span>
+                                </div>
+                            </div>
+                            
+                            <div class="coach-info">
+                                <h4><i class="fas fa-user-tie"></i> المدرب</h4>
+                                <p>تنتين ماركيز</p>
+                            </div>
+                            
+                            <div class="next-match">
+                                <h4><i class="fas fa-calendar-alt"></i> أول مباراة</h4>
+                                <p>كأس العرب 2025 - المجموعة ب</p>
+                                <div class="match-details">
+                                    <span class="team">قطر</span>
+                                    <span class="vs">VS</span>
+                                    <span class="team">العراق</span>
+                                    <span class="date">16 ديسمبر 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="team-news-btn" onclick="showTeamNews('qatar')">
+                            <i class="fas fa-newspaper"></i> أخبار المنتخب
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم الأخبار -->
+        <section class="news-section" id="news">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-newspaper"></i>
+                        أخبار كأس العرب
+                    </h2>
+                    <a href="#all-news" class="view-all">
+                        عرض الكل <i class="fas fa-arrow-left"></i>
+                    </a>
+                </div>
+                
+                <div class="news-grid">
+                    <!-- خبر 1 -->
+                    <article class="news-card featured">
+                        <div class="news-badge">مميز</div>
+                        <div class="news-image" style="background: linear-gradient(45deg, #1E5631, #2E7D32);">
+                            <span>🏆</span>
+                        </div>
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span class="news-category">كأس العرب</span>
+                                <span class="news-date"><i class="far fa-clock"></i> منذ 3 ساعات</span>
+                            </div>
+                            <h3 class="news-title">السعودية تعلن القائمة النهائية لكأس العرب</h3>
+                            <p class="news-desc">أعلن المدير الفني روبرتو مانشيني القائمة النهائية لمنتخب السعودية المشارك في كأس العرب 2025.</p>
+                            <div class="news-footer">
+                                <a href="#" class="read-more">
+                                    اقرأ التفاصيل <i class="fas fa-arrow-left"></i>
+                                </a>
+                                <div class="news-stats">
+                                    <span><i class="far fa-eye"></i> 2.5K</span>
+                                    <span><i class="far fa-comment"></i> 45</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- خبر 2 -->
+                    <article class="news-card">
+                        <div class="news-image" style="background: linear-gradient(45deg, #C4A747, #D4B757);">
+                            <span>🌟</span>
+                        </div>
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span class="news-category">كأس العرب</span>
+                                <span class="news-date"><i class="far fa-clock"></i> منذ 5 ساعات</span>
+                            </div>
+                            <h3 class="news-title">المنتخبات العربية تصل السعودية</h3>
+                            <p class="news-desc">بدأت المنتخبات العربية في الوصول إلى السعودية استعداداً لبطولة كأس العرب 2025.</p>
+                            <div class="news-footer">
+                                <a href="#" class="read-more">
+                                    اقرأ التفاصيل <i class="fas fa-arrow-left"></i>
+                                </a>
+                                <div class="news-stats">
+                                    <span><i class="far fa-eye"></i> 1.8K</span>
+                                    <span><i class="far fa-comment"></i> 32</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- خبر 3 -->
+                    <article class="news-card">
+                        <div class="news-image" style="background: linear-gradient(45deg, #2E7D32, #3E8D42);">
+                            <span>⚽</span>
+                        </div>
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span class="news-category">كأس العرب</span>
+                                <span class="news-date"><i class="far fa-clock"></i> منذ 8 ساعات</span>
+                            </div>
+                            <h3 class="news-title">تدريبات مكثفة للمنتخبات استعداداً للبطولة</h3>
+                            <p class="news-desc">بدأت المنتخبات العربية تدريباتها المركزية استعداداً للمشاركة في كأس العرب 2025.</p>
+                            <div class="news-footer">
+                                <a href="#" class="read-more">
+                                    اقرأ التفاصيل <i class="fas fa-arrow-left"></i>
+                                </a>
+                                <div class="news-stats">
+                                    <span><i class="far fa-eye"></i> 3.1K</span>
+                                    <span><i class="far fa-comment"></i> 67</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم التبرعات -->
+        <section class="donation-section" id="donate">
+            <div class="container">
+                <div class="donation-box">
+                    <div class="donation-content">
+                        <h2><i class="fas fa-heart"></i> ادعم ميدان العرب</h2>
+                        <p>ساعدنا لنستمر في تقديم أفضل المحتوى الرياضي العربي مجاناً للجميع</p>
+                        
+                        <div class="donation-options">
+                            <button class="donation-option" onclick="donate(5)">
+                                <span class="amount">5$</span>
+                                <span class="label">دعم بسيط</span>
+                            </button>
+                            <button class="donation-option" onclick="donate(10)">
+                                <span class="amount">10$</span>
+                                <span class="label">دعم متوسط</span>
+                            </button>
+                            <button class="donation-option" onclick="donate(25)">
+                                <span class="amount">25$</span>
+                                <span class="label">دعم كريم</span>
+                            </button>
+                            <button class="donation-option" onclick="donate(50)">
+                                <span class="amount">50$</span>
+                                <span class="label">دعم مميز</span>
+                            </button>
+                        </div>
+                        
+                        <div class="donation-custom">
+                            <input type="number" id="custom-amount" placeholder="المبلغ الذي تريد">
+                            <button onclick="donateCustom()">تبرع</button>
+                        </div>
+                        
+                        <div class="donation-progress">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 65%"></div>
+                            </div>
+                            <div class="progress-text">
+                                <span>1,300$</span>
+                                <span>هدفنا: 2,000$</span>
+                            </div>
+                        </div>
+                        
+                        <p class="donation-note">كل تبرع يساعدنا على الاستمرار والتطوير</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- عن الموقع -->
+        <section class="about-section" id="about">
+            <div class="container">
+                <div class="about-content">
+                    <h2 class="section-title">
+                        <i class="fas fa-info-circle"></i>
+                        عن ميدان العرب
+                    </h2>
+                    
+                    <div class="about-text">
+                        <p><strong>ميدان العرب</strong> هو منصة رياضية عربية تهدف إلى تقديم محتوى رياضي متميز باللغة العربية، مع التركيز على كرة القدم العربية والعالمية.</p>
+                        
+                        <div class="about-features">
+                            <div class="feature">
+                                <i class="fas fa-bolt"></i>
+                                <h3>سرعة في النشر</h3>
+                                <p>أخبار عاجلة فور حدوثها</p>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-chart-line"></i>
+                                <h3>تحليل عميق</h3>
+                                <p>تحليلات تكتيكية وإحصائية</p>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-users"></i>
+                                <h3>مجتمع تفاعلي</h3>
+                                <p>منصة للحوار والنقاش الرياضي</p>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-mobile-alt"></i>
+                                <h3>تجاوب كامل</h3>
+                                <p>يعمل على جميع الأجهزة</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- اتصل بنا -->
+        <section class="contact-section" id="contact">
+            <div class="container">
+                <h2 class="section-title">
+                    <i class="fas fa-envelope"></i>
+                    اتصل بنا
+                </h2>
+                
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h3>معلومات التواصل</h3>
+                        
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <strong>البريد الإلكتروني</strong>
+                                <p>info@midan-alarab.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <i class="fas fa-share-alt"></i>
+                            <div>
+                                <strong>وسائل التواصل</strong>
+                                <div class="social-icons">
+                                    <a href="#" class="social-icon twitter">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="social-icon facebook">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="social-icon youtube">
+                                        <i class="fab fa-youtube"></i>
+                                    </a>
+                                    <a href="#" class="social-icon telegram">
+                                        <i class="fab fa-telegram"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- المجموعة د -->
-                    <div class="match-group">
-                        <h5>المجموعة د</h5>
-                        <div class="match-card">
-                            <div class="match-teams">
-                                <div class="team">
-                                    <img src="images/oman.svg" alt="عمان" class="team-flag">
-                                    <span>عمان</span>
-                                </div>
-                                <div class="vs">VS</div>
-                                <div class="team">
-                                    <img src="images/palestine.svg" alt="فلسطين" class="team-flag">
-                                    <span>فلسطين</span>
-                                </div>
-                            </div>
-                            <div class="match-details">
-                                <span class="date"><i class="far fa-calendar"></i> 18 ديسمبر 2024</span>
-                                <span class="time"><i class="far fa-clock"></i> 20:00</span>
-                                <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب الملك سلمان</span>
-                            </div>
-                            <div class="match-result">
-                                <span class="score">-</span>
-                                <span class="status upcoming">قادمة</span>
-                            </div>
+                    <form class="contact-form" id="contactForm">
+                        <h3>أرسل رسالة</h3>
+                        
+                        <div class="form-group">
+                            <label for="name">الاسم الكامل *</label>
+                            <input type="text" id="name" required placeholder="أدخل اسمك">
                         </div>
                         
-                        <div class="match-card">
-                            <div class="match-teams">
-                                <div class="team">
-                                    <img src="images/sudan.svg" alt="السودان" class="team-flag">
-                                    <span>السودان</span>
-                                </div>
-                                <div class="vs">VS</div>
-                                <div class="team">
-                                    <img src="images/comoros.svg" alt="جزر القمر" class="team-flag">
-                                    <span>جزر القمر</span>
-                                </div>
-                            </div>
-                            <div class="match-details">
-                                <span class="date"><i class="far fa-calendar"></i> 18 ديسمبر 2024</span>
-                                <span class="time"><i class="far fa-clock"></i> 16:00</span>
-                                <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب المدينة التعليمية</span>
-                            </div>
-                            <div class="match-result">
-                                <span class="score">-</span>
-                                <span class="status upcoming">قادمة</span>
-                            </div>
+                        <div class="form-group">
+                            <label for="email">البريد الإلكتروني *</label>
+                            <input type="email" id="email" required placeholder="example@email.com">
                         </div>
-                    </div>
+                        
+                        <div class="form-group">
+                            <label for="message">الرسالة *</label>
+                            <textarea id="message" rows="5" required placeholder="اكتب رسالتك هنا..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> إرسال الرسالة
+                        </button>
+                    </form>
                 </div>
             </div>
-            
-            <!-- مرحلة خروج المغلوب -->
-            <div class="matches-category" data-stage="knockout" style="display: none;">
-                <h4><i class="fas fa-flag"></i> دور الـ16</h4>
-                <div class="matches-grid">
-                    <!-- مباريات دور الـ16 -->
-                    <div class="match-card knockout">
-                        <div class="match-teams">
-                            <div class="team">
-                                <img src="images/saudi.svg" alt="متأهل أول أ" class="team-flag">
-                                <span>متأهل أول أ</span>
-                            </div>
-                            <div class="vs">VS</div>
-                            <div class="team">
-                                <img src="images/placeholder.svg" alt="متأهل ثاني ب" class="team-flag">
-                                <span>متأهل ثاني ب</span>
-                            </div>
-                        </div>
-                        <div class="match-details">
-                            <span class="date"><i class="far fa-calendar"></i> 28 ديسمبر 2024</span>
-                            <span class="time"><i class="far fa-clock"></i> 20:00</span>
-                            <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب الملك فهد</span>
-                        </div>
-                        <div class="match-result">
-                            <span class="score">-</span>
-                            <span class="status upcoming">قادمة</span>
-                        </div>
-                    </div>
-                    <!-- يمكن إضافة باقي مباريات دور الـ16 -->
+        </section>
+    </main>
+
+    <!-- الفوتر -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-trophy"></i>
+                    <span>كأس العرب 2025</span>
                 </div>
-            </div>
-            
-            <!-- ربع النهائي -->
-            <div class="matches-category" data-stage="quarter" style="display: none;">
-                <h4><i class="fas fa-star"></i> ربع النهائي</h4>
-                <div class="matches-grid">
-                    <div class="match-card knockout">
-                        <div class="match-teams">
-                            <div class="team">
-                                <img src="images/placeholder.svg" alt="فائز مباراة 25" class="team-flag">
-                                <span>فائز مباراة 25</span>
-                            </div>
-                            <div class="vs">VS</div>
-                            <div class="team">
-                                <img src="images/placeholder.svg" alt="فائز مباراة 26" class="team-flag">
-                                <span>فائز مباراة 26</span>
-                            </div>
-                        </div>
-                        <div class="match-details">
-                            <span class="date"><i class="far fa-calendar"></i> 1 يناير 2025</span>
-                            <span class="time"><i class="far fa-clock"></i> 20:00</span>
-                            <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب الملك فهد</span>
-                        </div>
-                        <div class="match-result">
-                            <span class="score">-</span>
-                            <span class="status upcoming">قادمة</span>
-                        </div>
-                    </div>
+                
+                <p class="footer-description">
+                    منصة متابعة حصرية لبطولة كأس العرب FIFA 2025 في السعودية.
+                </p>
+                
+                <div class="footer-links">
+                    <a href="/">الرئيسية</a>
+                    <a href="#arab-cup">كأس العرب</a>
+                    <a href="#groups">المجموعات</a>
+                    <a href="#matches">المباريات</a>
+                    <a href="#teams">المنتخبات</a>
+                    <a href="#news">الأخبار</a>
+                    <a href="#about">عن الموقع</a>
+                    <a href="#contact">اتصل بنا</a>
+                    <a href="#donate" onclick="showDonation()">ادعمنا</a>
                 </div>
-            </div>
-            
-            <!-- نصف النهائي -->
-            <div class="matches-category" data-stage="semi" style="display: none;">
-                <h4><i class="fas fa-medal"></i> نصف النهائي</h4>
-                <div class="matches-grid">
-                    <div class="match-card knockout">
-                        <div class="match-teams">
-                            <div class="team">
-                                <img src="images/placeholder.svg" alt="فائز ربع 1" class="team-flag">
-                                <span>فائز ربع 1</span>
-                            </div>
-                            <div class="vs">VS</div>
-                            <div class="team">
-                                <img src="images/placeholder.svg" alt="فائز ربع 2" class="team-flag">
-                                <span>فائز ربع 2</span>
-                            </div>
-                        </div>
-                        <div class="match-details">
-                            <span class="date"><i class="far fa-calendar"></i> 4 يناير 2025</span>
-                            <span class="time"><i class="far fa-clock"></i> 20:00</span>
-                            <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب الملك فهد</span>
-                        </div>
-                        <div class="match-result">
-                            <span class="score">-</span>
-                            <span class="status upcoming">قادمة</span>
-                        </div>
-                    </div>
+                
+                <div class="footer-social">
+                    <a href="#" class="social-link">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-instagram"></i>
+                    </a>
                 </div>
-            </div>
-            
-            <!-- النهائي -->
-            <div class="matches-category" data-stage="final" style="display: none;">
-                <h4><i class="fas fa-trophy"></i> النهائي</h4>
-                <div class="match-card final">
-                    <div class="match-teams">
-                        <div class="team">
-                            <img src="images/placeholder.svg" alt="فائز نصف 1" class="team-flag">
-                            <span>فائز نصف 1</span>
-                        </div>
-                        <div class="vs">VS</div>
-                        <div class="team">
-                            <img src="images/placeholder.svg" alt="فائز نصف 2" class="team-flag">
-                            <span>فائز نصف 2</span>
-                        </div>
-                    </div>
-                    <div class="match-details">
-                        <span class="date"><i class="far fa-calendar"></i> 7 يناير 2025</span>
-                        <span class="time"><i class="far fa-clock"></i> 20:00</span>
-                        <span class="stadium"><i class="fas fa-map-marker-alt"></i> ملعب الملك فهد</span>
-                    </div>
-                    <div class="match-result">
-                        <span class="score">-</span>
-                        <span class="status upcoming">قادمة</span>
-                    </div>
-                    <div class="final-info">
-                        <i class="fas fa-crown"></i> نهائي كأس العرب FIFA 2025
-                    </div>
+                
+                <div class="footer-bottom">
+                    <p>&copy; <span id="current-year">2024</span> ميدان العرب. جميع الحقوق محفوظة.</p>
+                    <p class="footer-note">
+                        أخبار ومعلومات كأس العرب يتم تحديثها تلقائياً من مصادر موثوقة
+                    </p>
                 </div>
             </div>
         </div>
+    </footer>
 
-        <!-- ترتيب الهدافين -->
-        <div class="top-scorers">
-            <h3><i class="fas fa-futbol"></i> ترتيب الهدافين</h3>
-            <div class="scorers-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>اللاعب</th>
-                            <th>الفريق</th>
-                            <th>الأهداف</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>محمد صلاح</td>
-                            <td><img src="images/egypt.svg" alt="مصر" class="team-flag"> مصر</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>سلامة العبدي</td>
-                            <td><img src="images/saudi.svg" alt="السعودية" class="team-flag"> السعودية</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>أشرف حكيمي</td>
-                            <td><img src="images/morocco.svg" alt="المغرب" class="team-flag"> المغرب</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>رياض محرز</td>
-                            <td><img src="images/algeria.svg" alt="الجزائر" class="team-flag"> الجزائر</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>عمر السومة</td>
-                            <td><img src="images/syria.svg" alt="سوريا" class="team-flag"> سوريا</td>
-                            <td>0</td>
-                        </tr>
-                    </tbody>
-                </table>
+    <!-- نافذة عرض المقال الكامل -->
+    <div class="article-modal-overlay" id="articleModal">
+        <div class="article-modal">
+            <button class="close-article-modal" onclick="closeArticle()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="article-modal-content" id="articleContent">
+                <!-- هنا سيظهر المقال -->
             </div>
         </div>
+    </div>
 
-        <!-- تحديثات المباريات -->
-        <div class="live-updates">
-            <h3><i class="fas fa-bolt"></i> تحديثات مباشرة</h3>
-            <div class="updates-container">
-                <div class="update-item live">
-                    <div class="update-icon">
-                        <i class="fas fa-circle"></i>
-                    </div>
-                    <div class="update-content">
-                        <h4>مباراة مباشرة: السعودية vs مصر</h4>
-                        <p>الدقيقة 45 - النتيجة: 0-0</p>
-                        <span class="update-time">الآن مباشر</span>
-                    </div>
+    <!-- نافذة التبرع -->
+    <div class="donation-modal-overlay" id="donationModal">
+        <div class="donation-modal">
+            <button class="close-donation-modal" onclick="closeDonation()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="donation-modal-content">
+                <h2><i class="fas fa-heart"></i> شكراً لدعمك!</h2>
+                <p>اختر طريقة الدفع المناسبة لك:</p>
+                
+                <div class="payment-options">
+                    <button class="payment-option" onclick="payWithPayPal()">
+                        <i class="fab fa-paypal"></i> PayPal
+                    </button>
+                    <button class="payment-option" onclick="payWithCard()">
+                        <i class="fas fa-credit-card"></i> بطاقة ائتمانية
+                    </button>
+                    <button class="payment-option" onclick="payWithBank()">
+                        <i class="fas fa-university"></i> تحويل بنكي
+                    </button>
                 </div>
-                <div class="update-item">
-                    <div class="update-icon">
-                        <i class="far fa-clock"></i>
-                    </div>
-                    <div class="update-content">
-                        <h4>المباراة القادمة: المغرب vs الجزائر</h4>
-                        <p>تبدأ بعد 30 دقيقة</p>
-                        <span class="update-time">16:30</span>
-                    </div>
-                </div>
-                <div class="update-item">
-                    <div class="update-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="update-content">
-                        <h4>المباراة المنتهية: الأردن 1-0 تونس</h4>
-                        <p>انتهت المباراة</p>
-                        <span class="update-time">منذ ساعة</span>
-                    </div>
+                
+                <div class="bank-info" id="bankInfo" style="display: none;">
+                    <h3>معلومات التحويل البنكي:</h3>
+                    <p>البنك: البنك الأهلي السعودي</p>
+                    <p>رقم الحساب: SA1234567890123456789</p>
+                    <p>اسم المستفيد: ميدان العرب</p>
                 </div>
             </div>
         </div>
     </div>
-</section>
-/body>
-</html>
 
+    <!-- نافذة أخبار المنتخب -->
+    <div class="team-news-modal-overlay" id="teamNewsModal">
+        <div class="team-news-modal">
+            <button class="close-team-news-modal" onclick="closeTeamNews()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="team-news-modal-content" id="teamNewsContent">
+                <!-- هنا سيظهر محتوى أخبار المنتخب -->
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة مباريات المجموعة -->
+    <div class="group-matches-modal-overlay" id="groupMatchesModal">
+        <div class="group-matches-modal">
+            <button class="close-group-matches-modal" onclick="closeGroupMatches()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="group-matches-modal-content" id="groupMatchesContent">
+                <!-- هنا سيظهر محتوى مباريات المجموعة -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/news-fetcher.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script>
+        // ===== وظائف أساسية =====
+        function showDonation() {
+            document.getElementById('donationModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDonation() {
+            document.getElementById('donationModal').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function closeMobileMenu() {
+            document.getElementById('mobileMenu').style.display = 'none';
+        }
+
+        function donate(amount) {
+            showDonation();
+            alert(`شكراً لدعمك بمبلغ ${amount}$! اختر طريقة الدفع.`);
+        }
+
+        function donateCustom() {
+            const amount = document.getElementById('custom-amount').value;
+            if (amount && amount > 0) {
+                donate(amount);
+            } else {
+                alert('الرجاء إدخال مبلغ صحيح');
+            }
+        }
+
+        function payWithPayPal() {
+            alert('سيتم توجيهك لصفحة PayPal');
+        }
+
+        function payWithCard() {
+            alert('سيتم فتح نموذج الدفع بالبطاقة');
+        }
+
+        function payWithBank() {
+            document.getElementById('bankInfo').style.display = 'block';
+        }
+
+        // ===== وظائف كأس العرب =====
+        function showGroupMatches(groupId) {
+            const matchesData = {
+                'A': [
+                    { home: 'السعودية', away: 'مصر', date: '15 ديسمبر 2024', time: '20:00', stadium: 'ملعب الملك فهد' },
+                    { home: 'الأردن', away: 'تونس', date: '15 ديسمبر 2024', time: '16:00', stadium: 'ملعب الملك عبدالله' },
+                    { home: 'مصر', away: 'الأردن', date: '19 ديسمبر 2024', time: '20:00', stadium: 'ملعب الملك فهد' },
+                    { home: 'تونس', away: 'السعودية', date: '19 ديسمبر 2024', time: '16:00', stadium: 'ملعب الملك عبدالله' }
+                ],
+                'B': [
+                    { home: 'المغرب', away: 'الجزائر', date: '16 ديسمبر 2024', time: '20:00', stadium: 'ملعب المدينة التعليمية' },
+                    { home: 'العراق', away: 'قطر', date: '16 ديسمبر 2024', time: '16:00', stadium: 'ملعب الملك سلمان' }
+                ],
+                'C': [
+                    { home: 'الإمارات', away: 'سوريا', date: '17 ديسمبر 2024', time: '20:00', stadium: 'ملعب الملك عبدالله' },
+                    { home: 'الكويت', away: 'البحرين', date: '17 ديسمبر 2024', time: '16:00', stadium: 'ملعب الملك فهد' }
+                ],
+                'D': [
+                    { home: 'عمان', away: 'فلسطين', date: '18 ديسمبر 2024', time: '20:00', stadium: 'ملعب الملك سلمان' },
+                    { home: 'السودان', away: 'جزر القمر', date: '18 ديسمبر 2024', time: '16:00', stadium: 'ملعب المدينة التعليمية' }
+                ]
+            };
+
+            const matches = matchesData[groupId] || [];
+            
+            let matchesHTML = `
+                <h2><i class="fas fa-users"></i> مباريات المجموعة ${groupId}</h2>
+                <div class="matches-list">
+            `;
+            
+            if (matches.length === 0) {
+                matchesHTML += `<p class="no-matches">لا توجد مباريات لهذه المجموعة بعد</p>`;
+            } else {
+                matches.forEach(match => {
+                    matchesHTML += `
+                        <div class="match-item">
+                            <div class="match-teams">
+                                <div class="team">
+                                    <img src="images/${getTeamFlag(match.home)}" alt="${match.home}" class="team-flag">
+                                    <span>${match.home}</span>
+                                </div>
+                                <div class="vs">VS</div>
+                                <div class="team">
+                                    <img src="images/${getTeamFlag(match.away)}" alt="${match.away}" class="team-flag">
+                                    <span>${match.away}</span>
+                                </div>
+                            </div>
+                            <div class="match-info">
+                                <span class="date"><i class="far fa-calendar"></i> ${match.date}</span>
+                                <span class="time"><i class="far fa-clock"></i> ${match.time}</span>
+                                <span class="stadium"><i class="fas fa-map-marker-alt"></i> ${match.stadium}</span>
+                            </div>
+                            <div class="match-status upcoming">
+                                <i class="far fa-clock"></i> قادمة
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            matchesHTML += `
+                </div>
+                <button class="close-modal-btn" onclick="closeGroupMatches()">
+                    <i class="fas fa-times"></i> إغلاق
+                </button>
+            `;
+            
+            const modalContent = document.getElementById('groupMatchesContent');
+            const modal = document.getElementById('groupMatchesModal');
+            
+            if (modalContent && modal) {
+                modalContent.innerHTML = matchesHTML;
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeGroupMatches() {
+            document.getElementById('groupMatchesModal').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        function getTeamFlag(teamName) {
+            const flags = {
+                'السعودية': 'saudi.svg',
+                'مصر': 'egypt.svg',
+                'الأردن': 'jordan.svg',
+                'تونس': 'tunisia.svg',
+                'المغرب': 'morocco.svg',
+                'الجزائر': 'algeria.svg',
+                'العراق': 'iraq.svg',
+                'قطر': 'qatar.svg',
+                'الإمارات': 'uae.svg',
+                'سوريا': 'syria.svg',
+                'الكويت': 'kuwait.svg',
+                'البحرين': 'bahrain.svg',
+                'عمان': 'oman.svg',
+                'فلسطين': 'palestine.svg',
+                'السودان': 'sudan.svg',
+                'جزر القمر': 'comoros.svg'
+            };
+            return flags[teamName] || 'saudi.svg';
+        }
+
+        // ===== وظائف المنتخبات =====
+        function showTeamNews(teamId) {
+            const teams = {
+                'saudi': {
+                    name: 'المنتخب السعودي',
+                    news: [
+                        'تأهل المنتخب السعودي لدور الـ16 في كأس العرب',
+                        'مانشيني يعلن القائمة النهائية للمنتخب',
+                        'السعودية تتفوق على عمان في المباراة الودية',
+                        'استعدادات مكثفة للمنتخب قبل كأس العرب'
+                    ]
+                },
+                'egypt': {
+                    name: 'المنتخب المصري',
+                    news: [
+                        'مصر تبدأ تحضيراتها لكأس العرب',
+                        'القائمة الأولية تضم 27 لاعباً',
+                        'مباراة ودية ضد تنزانيا استعداداً للبطولة',
+                        'فيكتوريا يؤكد جاهزية الفراعنة'
+                    ]
+                },
+                'morocco': {
+                    name: 'المنتخب المغربي',
+                    news: [
+                        'المغرب يتأهل لدور الـ16 في كأس العرب',
+                        'الأسود يصنعون التاريخ في قطر 2022',
+                        'الركراكي يعلن القائمة النهائية',
+                        'مباراة ودية ضد السودان قبل البطولة'
+                    ]
+                },
+                'algeria': {
+                    name: 'المنتخب الجزائري',
+                    news: [
+                        'الجزائر تعلن القائمة النهائية لكأس العرب',
+                        'بلماضي يعتمد على خليط من الشباب والخبرة',
+                        'مباراة ودية ضد موريتانيا',
+                        'استعدادات مكثفة في السعودية'
+                    ]
+                },
+                'iraq': {
+                    name: 'المنتخب العراقي',
+                    news: [
+                        'العراق يعلن القائمة النهائية',
+                        'كاساس يعتمد على خليط من الشباب والخبرة',
+                        'مباراة ودية ضد البحرين',
+                        'استعدادات مكثفة في الدوحة'
+                    ]
+                },
+                'qatar': {
+                    name: 'المنتخب القطري',
+                    news: [
+                        'قطر تعلن القائمة النهائية',
+                        'ماركيز يؤكد جاهزية العنابي',
+                        'مباراة ودية ضد الكويت',
+                        'استعدادات مكثفة في الرياض'
+                    ]
+                }
+            };
+
+            const team = teams[teamId];
+            if (!team) return;
+
+            const modal = document.getElementById('teamNewsModal');
+            const content = document.getElementById('teamNewsContent');
+            
+            let newsHTML = `
+                <h2><i class="fas fa-flag"></i> ${team.name}</h2>
+                <div class="team-news-list">
+                    <h3><i class="fas fa-newspaper"></i> آخر الأخبار</h3>
+                    <ul>
+            `;
+            
+            team.news.forEach(item => {
+                newsHTML += `<li><i class="fas fa-futbol"></i> ${item}</li>`;
+            });
+            
+            newsHTML += `
+                    </ul>
+                </div>
+                <div class="team-social">
+                    <h3><i class="fas fa-hashtag"></i> تابع المنتخب</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-btn twitter"><i class="fab fa-twitter"></i> تويتر</a>
+                        <a href="#" class="social-btn instagram"><i class="fab fa-instagram"></i> انستغرام</a>
+                        <a href="#" class="social-btn youtube"><i class="fab fa-youtube"></i> يوتيوب</a>
+                    </div>
+                </div>
+            `;
+            
+            content.innerHTML = newsHTML;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTeamNews() {
+            document.getElementById('teamNewsModal').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        // ===== فلترة المباريات =====
+        function setupMatchesFilter() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const matchesCategories = document.querySelectorAll('.matches-category');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // إزالة النشاط من جميع الأزرار
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // إضافة النشاط للزر المضغوط
+                    button.classList.add('active');
+                    
+                    const stage = button.dataset.stage;
+                    
+                    // إظهار/إخفاء فئات المباريات
+                    matchesCategories.forEach(category => {
+                        if (stage === 'all' || category.dataset.stage === stage) {
+                            category.style.display = 'block';
+                            // تأثير الظهور
+                            category.style.opacity = '0';
+                            setTimeout(() => {
+                                category.style.transition = 'opacity 0.5s ease';
+                                category.style.opacity = '1';
+                            }, 10);
+                        } else {
+                            category.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        }
+
+        // ===== التهيئة =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // تحديث السنة
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // عدادات متحركة
+            const counters = document.querySelectorAll('.count');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const increment = target / 100;
+                let current = 0;
+                
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = Math.floor(current);
+                        setTimeout(updateCounter, 20);
+                    } else {
+                        counter.textContent = target.toLocaleString();
+                    }
+                };
+                
+                setTimeout(updateCounter, 500);
+            });
+
+            // تغيير الأخبار العاجلة
+            const breakingTexts = [
+                "انطلاق كأس العرب 2025 في السعودية بمشاركة 16 منتخباً عربياً",
+                "البطل الحالي: الجزائر تتوج بلقب النسخة الماضية",
+                "أكبر بطولات كرة القدم العربية تنطلق الشهر القادم",
+                "السعودية تستضيف كأس العرب للمرة الثانية في تاريخها",
+                "مواجهات نارية تنتظرنا في المجموعات الأربع",
+                "محمد صلاح يقود مصر للبحث عن اللقب الأول",
+                "المنتخب السعودي يطمح للفوز باللقب على أرضه",
+                "المغرب يطمح لتكرار إنجازاته العالمية في البطولة العربية"
+            ];
+            
+            let breakingIndex = 0;
+            const breakingElement = document.getElementById('breaking-text');
+            
+            if (breakingElement) {
+                setInterval(() => {
+                    breakingIndex = (breakingIndex + 1) % breakingTexts.length;
+                    breakingElement.textContent = breakingTexts[breakingIndex];
+                }, 8000);
+            }
+
+            // إرسال نموذج الاتصال
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('شكراً لتواصلك! سنرد عليك قريباً.');
+                    contactForm.reset();
+                });
+            }
+            
+            // إغلاق القائمة عند النقر خارجها
+            document.addEventListener('click', function(e) {
+                const mobileMenu = document.getElementById('mobileMenu');
+                const menuBtn = document.querySelector('.mobile-menu-btn');
+                
+                if (mobileMenu.style.display === 'flex' && 
+                    !mobileMenu.contains(e.target) && 
+                    !menuBtn.contains(e.target)) {
+                    mobileMenu.style.display = 'none';
+                }
+            });
+            
+            // إعداد فلتر المباريات
+            setupMatchesFilter();
+            
+            // بدء تحميل الأخبار
+            if (typeof ArabicNewsFetcher !== 'undefined') {
+                setTimeout(() => {
+                    ArabicNewsFetcher.displayNews();
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
