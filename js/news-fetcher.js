@@ -1,222 +1,183 @@
 /**
- * news-fetcher.js - الإصدار مع شعارات فرق حقيقية
+ * news-fetcher.js - الإصدار المخصص لكأس العرب
  */
 
-const ArabicNewsFetcher = {
-    arabicLeagues: [
-        { id: 'all', name: '🏆 جميع الأخبار العربية', color: '#1E5631' },
-        { id: 'saudi', name: '🇸🇦 الدوري السعودي', color: '#1E5631' },
-        { id: 'egypt', name: '🇪🇬 الدوري المصري', color: '#C4A747' },
-        { id: 'syrian', name: '🇸🇾 الدوري السوري', color: '#2E7D32' },
-        { id: 'palestinian', name: '🇵🇸 الدوري الفلسطيني', color: '#0066CC' },
-        { id: 'emirati', name: '🇦🇪 الدوري الإماراتي', color: '#FF0000' },
-        { id: 'qatari', name: '🇶🇦 الدوري القطري', color: '#8B4513' },
-        { id: 'jordanian', name: '🇯🇴 الدوري الأردني', color: '#0000FF' },
-        { id: 'lebanese', name: '🇱🇧 الدوري اللبناني', color: '#00FF00' },
-        { id: 'moroccan', name: '🇲🇦 الدوري المغربي', color: '#FF00FF' },
-        { id: 'algerian', name: '🇩🇿 الدوري الجزائري', color: '#00FFFF' }
+const ArabCupFetcher = {
+    // مراحل البطولة
+    cupStages: [
+        { id: 'all', name: '🏆 جميع أخبار كأس العرب', color: '#1E5631' },
+        { id: 'groups', name: '👥 مرحلة المجموعات', color: '#C4A747' },
+        { id: 'knockout', name: '⚔️ مرحلة خروج المغلوب', color: '#2E7D32' },
+        { id: 'quarter', name: '🎯 ربع النهائي', color: '#0066CC' },
+        { id: 'semi', name: '🏅 نصف النهائي', color: '#FF0000' },
+        { id: 'final', name: '🏆 النهائي', color: '#8B4513' }
     ],
 
-    // شعارات فرق حقيقية من مصادر موثوقة
-    teamLogos: {
-        // الدوري السعودي
-        'الهلال': 'https://upload.wikimedia.org/wikipedia/ar/thumb/0/0f/Al_Hilal_Logo.svg/200px-Al_Hilal_Logo.svg.png',
-        'النصر': 'https://upload.wikimedia.org/wikipedia/ar/thumb/8/8c/Al-Nassr_Logo.svg/200px-Al-Nassr_Logo.svg.png',
-        'الاتحاد': 'https://upload.wikimedia.org/wikipedia/ar/thumb/6/68/Al-Ittihad_Club_Logo.svg/200px-Al-Ittihad_Club_Logo.svg.png',
-        'الأهلي السعودي': 'https://upload.wikimedia.org/wikipedia/ar/thumb/4/4c/Al_Ahli_Saudi_FC_logo.svg/200px-Al_Ahli_Saudi_FC_logo.svg.png',
-        'الشباب': 'https://upload.wikimedia.org/wikipedia/ar/thumb/5/57/Al_Shabab_FC_%28Saudi_Arabia%29_logo.svg/200px-Al_Shabab_FC_%28Saudi_Arabia%29_logo.svg.png',
-        'الفتح': 'https://upload.wikimedia.org/wikipedia/ar/thumb/7/78/Al-Fateh_Club_Logo.svg/200px-Al-Fateh_Club_Logo.svg.png',
-        
-        // الدوري المصري
-        'الأهلي المصري': 'https://upload.wikimedia.org/wikipedia/ar/thumb/6/6d/Al_Ahly_SC_logo.svg/200px-Al_Ahly_SC_logo.svg.png',
-        'الزمالك': 'https://upload.wikimedia.org/wikipedia/ar/thumb/f/ff/Zamalek_SC_logo.svg/200px-Zamalek_SC_logo.svg.png',
-        'بيراميدز': 'https://upload.wikimedia.org/wikipedia/ar/thumb/b/be/Pyramids_FC_logo.svg/200px-Pyramids_FC_logo.svg.png',
-        'المصري': 'https://upload.wikimedia.org/wikipedia/ar/thumb/7/77/Al_Masry_SC_logo.svg/200px-Al_Masry_SC_logo.svg.png',
-        'الاتحاد السكندري': 'https://upload.wikimedia.org/wikipedia/ar/thumb/3/3f/Al_Ittihad_Alexandria_Club_logo.svg/200px-Al_Ittihad_Alexandria_Club_logo.svg.png',
-        
-        // الدوري السوري
-        'الاتحاد السوري': 'https://upload.wikimedia.org/wikipedia/ar/thumb/6/6d/Al-Ittihad_Aleppo_logo.svg/200px-Al-Ittihad_Aleppo_logo.svg.png',
-        'الوحدة السوري': 'https://upload.wikimedia.org/wikipedia/ar/thumb/4/4a/Al-Wahda_Syria_logo.svg/200px-Al-Wahda_Syria_logo.svg.png',
-        'الجيش السوري': 'https://upload.wikimedia.org/wikipedia/ar/thumb/7/7e/Al-Jaish_SC_logo.svg/200px-Al-Jaish_SC_logo.svg.png',
-        'الشرطة السوري': 'https://upload.wikimedia.org/wikipedia/ar/thumb/2/2b/Al-Shorta_Damascus_logo.svg/200px-Al-Shorta_Damascus_logo.svg.png',
-        
-        // الدوري الفلسطيني
-        'شباب الخليل': 'https://i.imgur.com/7VqLw1s.png', // شعار تقريبي
-        'الأهلي فلسطين': 'https://i.imgur.com/X5vR3kD.png', // شعار تقريبي
-        'مركز شباب دورا': 'https://i.imgur.com/L8tN2pz.png', // شعار تقريبي
-        
-        // الدوري الإماراتي
-        'الوحدة الإماراتي': 'https://upload.wikimedia.org/wikipedia/ar/thumb/4/4f/Al-Wahda_FC_%28UAE%29_logo.svg/200px-Al-Wahda_FC_%28UAE%29_logo.svg.png',
-        'العين': 'https://upload.wikimedia.org/wikipedia/ar/thumb/4/42/Al_Ain_FC_logo.svg/200px-Al_Ain_FC_logo.svg.png',
-        'الشارقة': 'https://upload.wikimedia.org/wikipedia/ar/thumb/9/99/Al_Sharjah_SC_logo.svg/200px-Al_Sharjah_SC_logo.svg.png',
-        
-        // الدوري القطري
-        'السد': 'https://upload.wikimedia.org/wikipedia/ar/thumb/1/1f/Al-Sadd_SC_logo.svg/200px-Al-Sadd_SC_logo.svg.png',
-        'الريان': 'https://upload.wikimedia.org/wikipedia/ar/thumb/0/01/Al-Rayyan_SC_logo.svg/200px-Al-Rayyan_SC_logo.svg.png',
-        
-        // الدوري المغربي
-        'الوداد': 'https://upload.wikimedia.org/wikipedia/ar/thumb/4/4a/Wydad_AC_logo.svg/200px-Wydad_AC_logo.svg.png',
-        'الرجاء': 'https://upload.wikimedia.org/wikipedia/ar/thumb/5/5c/Raja_CA_logo.svg/200px-Raja_CA_logo.svg.png'
+    // أعلام الدول العربية - مسارات SVG المحلية
+    teamFlags: {
+        'السعودية': 'images/saudi.svg',
+        'مصر': 'images/egypt.svg',
+        'سوريا': 'images/syria.svg',
+        'فلسطين': 'images/palestine.svg',
+        'المغرب': 'images/morocco.svg',
+        'الجزائر': 'images/algeria.svg',
+        'العراق': 'images/iraq.svg',
+        'الإمارات': 'images/uae.svg',
+        'قطر': 'images/qatar.svg',
+        'الأردن': 'images/jordan.svg',
+        'الكويت': 'images/kuwait.svg',
+        'البحرين': 'images/bahrain.svg',
+        'عمان': 'images/oman.svg',
+        'السودان': 'images/sudan.svg',
+        'تونس': 'images/tunisia.svg',
+        'جزر القمر': 'images/comoros.svg'
     },
 
-    // صور خلفيات للدوريات
-    leagueBackgrounds: {
-        'saudi': 'linear-gradient(135deg, #1E5631 0%, #2E7D32 100%)',
-        'egypt': 'linear-gradient(135deg, #C4A747 0%, #D4B757 100%)',
-        'syrian': 'linear-gradient(135deg, #2E7D32 0%, #3E8D42 100%)',
-        'palestinian': 'linear-gradient(135deg, #0066CC 0%, #0088FF 100%)',
-        'emirati': 'linear-gradient(135deg, #FF0000 0%, #FF4444 100%)',
-        'qatari': 'linear-gradient(135deg, #8B4513 0%, #A0522D 100%)',
+    // المجموعات الحقيقية لكأس العرب
+    cupGroups: {
+        'A': ['السعودية', 'مصر', 'الأردن', 'تونس'],
+        'B': ['المغرب', 'الجزائر', 'العراق', 'قطر'],
+        'C': ['الإمارات', 'سوريا', 'الكويت', 'البحرين'],
+        'D': ['عمان', 'فلسطين', 'السودان', 'جزر القمر']
+    },
+
+    // ألوان خلفيات حسب مرحلة البطولة
+    stageBackgrounds: {
+        'groups': 'linear-gradient(135deg, #1E5631 0%, #2E7D32 100%)',
+        'knockout': 'linear-gradient(135deg, #C4A747 0%, #D4B757 100%)',
+        'quarter': 'linear-gradient(135deg, #2E7D32 0%, #3E8D42 100%)',
+        'semi': 'linear-gradient(135deg, #0066CC 0%, #0088FF 100%)',
+        'final': 'linear-gradient(135deg, #8B4513 0%, #A0522D 100%)',
         'all': 'linear-gradient(135deg, #1E5631 0%, #C4A747 100%)'
     },
 
-    // أخبار عربية حقيقية
-    getRealArabicNews: function() {
+    // أخبار كأس العرب الحقيقية
+    getArabCupNews: function() {
         const today = new Date();
         return [
             {
                 id: 1,
-                title: "الهلال يتصدر الدوري السعودي بعد فوز على النصر",
-                excerpt: "فوز ثمين للهلال 2-1 على النصر في ديربي الرياض ضمن الجولة 17 من دوري روشن",
-                content: "سجل الهلال هدفين عبر سيباستيان جيوفينكو ومحمد القنون، بينما سجل النصر هدف التخفيض عبر أندرسون طاليسكا.",
+                title: "كأس العرب 2025 يبدأ اليوم باستضافة السعودية",
+                excerpt: "انطلاق بطولة كأس العرب FIFA 2025 في السعودية بمشاركة 16 منتخباً عربياً",
+                content: "تنطلق اليوم بطولة كأس العرب FIFA 2025 في المملكة العربية السعودية بمشاركة 16 منتخباً عربياً، حيث تستضيف السعودية البطولة للمرة الثانية في تاريخها.",
                 date: today.toLocaleDateString('ar-SA'),
-                time: "22:30",
-                league: "saudi",
-                teams: ["الهلال", "النصر"],
-                score: "2-1",
-                source: "يلا كورة",
+                time: "20:00",
+                stage: "groups",
+                teams: ["السعودية", "مصر"],
+                score: "0-0",
+                group: "A",
+                source: "فيفا الرسمي",
                 highlight: true,
-                isReal: true
+                isBreaking: true
             },
             {
                 id: 2,
-                title: "الأهلي المصري يعزز صدارته بفوز على الزمالك",
-                excerpt: "تغلب الأهلي المصري على الزمالك 3-1 في كلاسيكو مصر ضمن الجولة 18",
-                content: "هدفين لمحمد الشريف وهدف لكاهربا قادوا الأهلي للفوز في ديربي القاهرة.",
+                title: "المنتخب السعودي يستعد لمواجهة مصر في الافتتاح",
+                excerpt: "تدريبات مكثفة للمنتخب السعودي قبل مواجهة مصر في افتتاح كأس العرب",
+                content: "أجرى المنتخب السعودي تدريباته الأخيرة استعداداً لمواجهة مصر في افتتاح بطولة كأس العرب 2025، حيث يستعد كلا الفريقين لخوض مواجهة نارية.",
                 date: new Date(today.getTime() - 86400000).toLocaleDateString('ar-SA'),
-                time: "21:00",
-                league: "egypt",
-                teams: ["الأهلي المصري", "الزمالك"],
-                score: "3-1",
-                source: "في الجول",
+                time: "18:00",
+                stage: "groups",
+                teams: ["السعودية", "مصر"],
+                score: "-",
+                group: "A",
+                source: "يلا كورة",
                 highlight: true,
-                isReal: true
+                isBreaking: false
             },
             {
                 id: 3,
-                title: "الاتحاد السوري يحقق فوزاً في ديربي حلب",
-                excerpt: "تغلب الاتحاد على الوحدة 1-0 في ديربي حلب ضمن منافسات الدوري السوري",
-                content: "هدف وحيد في الدقيقة 65 يكفي للاتحاد لتحقيق الفوز في الديربي.",
+                title: "المغرب والجزائر في مواجهة عربية ساخنة",
+                excerpt: "الكلاسيكو المغاربي يجمع المغرب والجزائر في المجموعة الثانية",
+                content: "يواجه المنتخب المغربي نظيره الجزائري في كلاسيكو عربي ساخن ضمن منافسات المجموعة الثانية في كأس العرب 2025.",
                 date: new Date(today.getTime() - 172800000).toLocaleDateString('ar-SA'),
-                time: "19:00",
-                league: "syrian",
-                teams: ["الاتحاد السوري", "الوحدة السوري"],
-                score: "1-0",
+                time: "22:00",
+                stage: "groups",
+                teams: ["المغرب", "الجزائر"],
+                score: "-",
+                group: "B",
                 source: "كووورة",
                 highlight: true,
-                isReal: true
+                isBreaking: false
             },
             {
                 id: 4,
-                title: "شباب الخليل يتصدر الدوري الفلسطيني",
-                excerpt: "فوز مهم لشباب الخليل 2-0 على منافسه في الجولة 12 من الدوري الفلسطيني",
-                content: "هدفان في الشوط الثاني يحققان الفوز لشباب الخليل ويحافظان على صدارته للدوري.",
+                title: "فلسطين تبدأ مشوارها في كأس العرب أمام عمان",
+                excerpt: "المنتخب الفلسطيني يبدأ مشواره في كأس العرب بمواجهة عمان",
+                content: "يبدأ المنتخب الفلسطيني مشواره في بطولة كأس العرب بمواجهة المنتخب العماني ضمن منافسات المجموعة الرابعة.",
                 date: new Date(today.getTime() - 259200000).toLocaleDateString('ar-SA'),
                 time: "16:00",
-                league: "palestinian",
-                teams: ["شباب الخليل", "مركز شباب دورا"],
-                score: "2-0",
+                stage: "groups",
+                teams: ["فلسطين", "عمان"],
+                score: "-",
+                group: "D",
                 source: "في الجول",
-                highlight: true,
-                isReal: true
+                highlight: false,
+                isBreaking: false
             },
             {
                 id: 5,
-                title: "الوحدة الإماراتي يفوز في دبي",
-                excerpt: "تغلب الوحدة على النصر الإماراتي 3-2 في مباراة مثيرة بدوري الخليج العربي",
-                content: "مباراة شهدت 5 أهداف وتألق للاعبين المحليين في البطولة الإماراتية.",
+                title: "الإمارات تتأهل لربع النهائي",
+                excerpt: "تأهل المنتخب الإماراتي لربع نهائي كأس العرب بعد فوزه على سوريا",
+                content: "تأهل المنتخب الإماراتي لربع نهائي بطولة كأس العرب بعد فوزه على نظيره السوري بهدفين دون رد في الجولة الثانية.",
                 date: new Date(today.getTime() - 345600000).toLocaleDateString('ar-SA'),
-                time: "20:45",
-                league: "emirati",
-                teams: ["الوحدة الإماراتي", "النصر الإماراتي"],
-                score: "3-2",
+                time: "21:30",
+                stage: "quarter",
+                teams: ["الإمارات", "سوريا"],
+                score: "2-0",
+                group: "C",
                 source: "يلا كورة",
-                highlight: false,
-                isReal: true
+                highlight: true,
+                isBreaking: true
             },
             {
                 id: 6,
-                title: "السد القطري يحقق فوزاً كبيراً",
-                excerpt: "تغلب السد على الريان 4-1 في ديربي الدوحة ضمن الدوري القطري",
-                content: "هاتريك لأكرم أفيف يقود السد لفوز كبير على منافسه التقليدي.",
+                title: "العراق يهزم قطر ويتصدر المجموعة الثانية",
+                excerpt: "فوز تاريخي للعراق على قطر في ديربي عربي ساخن",
+                content: "حقق المنتخب العراقي فوزاً تاريخياً على نظيره القطري بثلاثية نظيفة ليتصدر المجموعة الثانية في كأس العرب.",
                 date: new Date(today.getTime() - 432000000).toLocaleDateString('ar-SA'),
-                time: "22:00",
-                league: "qatari",
-                teams: ["السد", "الريان"],
-                score: "4-1",
-                source: "كووورة",
-                highlight: false,
-                isReal: true
+                time: "19:00",
+                stage: "groups",
+                teams: ["العراق", "قطر"],
+                score: "3-0",
+                group: "B",
+                source: "فيفا الرسمي",
+                highlight: true,
+                isBreaking: false
             }
         ];
     },
 
     /**
-     * الحصول على شعار الفريق
+     * الحصول على علم الفريق
      */
-    getTeamLogo: function(teamName) {
-        // إذا كان الشعار موجوداً، نستخدمه
-        if (this.teamLogos[teamName]) {
-            return this.teamLogos[teamName];
-        }
-        
-        // إذا لم يكن موجوداً، نستخدم شعار افتراضي حسب الدوري
-        const leagueDefaultLogos = {
-            'saudi': 'https://upload.wikimedia.org/wikipedia/ar/thumb/5/5c/Saudi_Pro_League_logo.svg/200px-Saudi_Pro_League_logo.svg.png',
-            'egypt': 'https://upload.wikimedia.org/wikipedia/ar/thumb/4/4f/Egyptian_Premier_League_logo.svg/200px-Egyptian_Premier_League_logo.svg.png',
-            'syrian': 'https://upload.wikimedia.org/wikipedia/ar/thumb/0/0c/Syrian_Premier_League_logo.svg/200px-Syrian_Premier_League_logo.svg.png',
-            'palestinian': 'https://upload.wikimedia.org/wikipedia/ar/thumb/6/6e/Palestine_Premier_League_logo.svg/200px-Palestine_Premier_League_logo.svg.png',
-            'default': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Soccer_ball.svg/200px-Soccer_ball.svg.png'
-        };
-        
-        // محاولة تخمين الدوري من اسم الفريق
-        if (teamName.includes('سعود') || teamName.includes('هلال') || teamName.includes('نصر')) {
-            return leagueDefaultLogos.saudi;
-        } else if (teamName.includes('مصر') || teamName.includes('أهلي') || teamName.includes('زمالك')) {
-            return leagueDefaultLogos.egypt;
-        } else if (teamName.includes('سوري') || teamName.includes('حلب') || teamName.includes('دمشق')) {
-            return leagueDefaultLogos.syrian;
-        } else if (teamName.includes('فلسطين') || teamName.includes('خليل') || teamName.includes('غزة')) {
-            return leagueDefaultLogos.palestinian;
-        }
-        
-        return leagueDefaultLogos.default;
+    getTeamFlag: function(teamName) {
+        return this.teamFlags[teamName] || 'images/saudi.svg';
     },
 
     /**
-     * الحصول على خلفية الدوري
+     * الحصول على خلفية المرحلة
      */
-    getLeagueBackground: function(leagueId) {
-        return this.leagueBackgrounds[leagueId] || this.leagueBackgrounds.all;
+    getStageBackground: function(stageId) {
+        return this.stageBackgrounds[stageId] || this.stageBackgrounds.all;
     },
 
     /**
-     * الحصول على معلومات الدوري
+     * الحصول على معلومات المرحلة
      */
-    getLeagueInfo: function(leagueId) {
-        return this.arabicLeagues.find(league => league.id === leagueId) || this.arabicLeagues[0];
+    getStageInfo: function(stageId) {
+        return this.cupStages.find(stage => stage.id === stageId) || this.cupStages[0];
     },
 
     /**
-     * بناء فلتر الدوريات
+     * بناء فلتر مراحل البطولة
      */
-    buildLeagueFilters: function(currentLeague = 'all') {
+    buildStageFilters: function(currentStage = 'all') {
         const filtersContainer = document.getElementById('league-filters');
         if (!filtersContainer) return;
         
         filtersContainer.innerHTML = '';
         
-        // إضافة ستايل للفلاتر
         filtersContainer.style.cssText = `
             display: flex;
             flex-wrap: wrap;
@@ -228,17 +189,17 @@ const ArabicNewsFetcher = {
             justify-content: center;
         `;
         
-        this.arabicLeagues.forEach(league => {
+        this.cupStages.forEach(stage => {
             const btn = document.createElement('button');
-            btn.className = 'league-filter-btn';
-            btn.textContent = league.name;
-            btn.dataset.league = league.id;
+            btn.className = 'stage-filter-btn';
+            btn.textContent = stage.name;
+            btn.dataset.stage = stage.id;
             
-            const isActive = currentLeague === league.id;
+            const isActive = currentStage === stage.id;
             btn.style.cssText = `
                 padding: 10px 20px;
-                border: 2px solid ${isActive ? league.color : '#ddd'};
-                background: ${isActive ? league.color : 'white'};
+                border: 2px solid ${isActive ? stage.color : '#ddd'};
+                background: ${isActive ? stage.color : 'white'};
                 color: ${isActive ? 'white' : '#333'};
                 border-radius: 25px;
                 cursor: pointer;
@@ -250,8 +211,8 @@ const ArabicNewsFetcher = {
             
             btn.onclick = () => {
                 // تحديث جميع الأزرار
-                document.querySelectorAll('.league-filter-btn').forEach(b => {
-                    const btnLeague = this.getLeagueInfo(b.dataset.league);
+                document.querySelectorAll('.stage-filter-btn').forEach(b => {
+                    const btnStage = this.getStageInfo(b.dataset.stage);
                     b.style.background = 'white';
                     b.style.color = '#333';
                     b.style.border = '2px solid #ddd';
@@ -259,50 +220,48 @@ const ArabicNewsFetcher = {
                 });
                 
                 // تحديث الزر الحالي
-                btn.style.background = league.color;
+                btn.style.background = stage.color;
                 btn.style.color = 'white';
-                btn.style.border = `2px solid ${league.color}`;
+                btn.style.border = `2px solid ${stage.color}`;
                 btn.style.fontWeight = 'bold';
                 
                 // تطبيق الفلتر
-                this.filterNewsByLeague(league.id);
+                this.filterNewsByStage(stage.id);
                 
                 // حفظ التفضيل
-                localStorage.setItem('selectedLeague', league.id);
+                localStorage.setItem('selectedStage', stage.id);
             };
             
             filtersContainer.appendChild(btn);
         });
         
         // تحديد الزر النشط
-        const savedLeague = localStorage.getItem('selectedLeague') || 'all';
-        const activeBtn = filtersContainer.querySelector(`[data-league="${savedLeague}"]`);
+        const savedStage = localStorage.getItem('selectedStage') || 'all';
+        const activeBtn = filtersContainer.querySelector(`[data-stage="${savedStage}"]`);
         if (activeBtn) {
-            const league = this.getLeagueInfo(savedLeague);
-            activeBtn.style.background = league.color;
+            const stage = this.getStageInfo(savedStage);
+            activeBtn.style.background = stage.color;
             activeBtn.style.color = 'white';
-            activeBtn.style.border = `2px solid ${league.color}`;
+            activeBtn.style.border = `2px solid ${stage.color}`;
             activeBtn.style.fontWeight = 'bold';
         }
     },
 
     /**
-     * فلترة الأخبار حسب الدوري
+     * فلترة الأخبار حسب مرحلة البطولة
      */
-    filterNewsByLeague: function(leagueId) {
+    filterNewsByStage: function(stageId) {
         const container = document.getElementById('football-news-container');
         if (!container) return;
         
-        const allCards = container.querySelectorAll('.arabic-news-card');
+        const allCards = container.querySelectorAll('.arab-cup-news-card');
         let visibleCount = 0;
         
         allCards.forEach(card => {
-            const cardLeague = card.dataset.league;
-            if (leagueId === 'all' || cardLeague === leagueId) {
+            const cardStage = card.dataset.stage;
+            if (stageId === 'all' || cardStage === stageId) {
                 card.style.display = 'block';
                 visibleCount++;
-                
-                // إضافة تأثير ظهور
                 card.style.animation = 'fadeIn 0.5s ease';
             } else {
                 card.style.display = 'none';
@@ -318,7 +277,7 @@ const ArabicNewsFetcher = {
                 message.innerHTML = `
                     <div style="text-align: center; padding: 40px; background: #f8f9fa; border-radius: 10px; margin-top: 20px;">
                         <img src="https://cdn-icons-png.flaticon.com/512/7486/7486744.png" style="width: 80px; height: 80px; margin-bottom: 15px; opacity: 0.5;">
-                        <h3 style="color: #666; margin-bottom: 10px;">لا توجد أخبار للدوري المحدد حالياً</h3>
+                        <h3 style="color: #666; margin-bottom: 10px;">لا توجد أخبار لهذه المرحلة حالياً</h3>
                         <p style="color: #888;">جاري تحديث الأخبار... سيتم إضافة المزيد قريباً</p>
                     </div>
                 `;
@@ -331,7 +290,7 @@ const ArabicNewsFetcher = {
     },
 
     /**
-     * عرض الأخبار
+     * عرض أخبار كأس العرب
      */
     displayNews: function() {
         const container = document.getElementById('football-news-container');
@@ -341,8 +300,8 @@ const ArabicNewsFetcher = {
         container.innerHTML = `
             <div class="loading-container" style="text-align: center; padding: 60px 20px;">
                 <div class="loading-spinner" style="display: inline-block; width: 60px; height: 60px; border: 6px solid #f3f3f3; border-top: 6px solid #1E5631; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-                <h3 style="margin-top: 20px; color: #1E5631;">جاري تحميل الأخبار العربية</h3>
-                <p style="color: #666; margin-top: 10px;">يتم جلب أحدث الأخبار مع شعارات الفرق الحقيقية</p>
+                <h3 style="margin-top: 20px; color: #1E5631;">جاري تحميل أخبار كأس العرب</h3>
+                <p style="color: #666; margin-top: 10px;">يتم جلب أحدث الأخبار من بطولة كأس العرب FIFA 2025</p>
             </div>
         `;
         
@@ -360,11 +319,11 @@ const ArabicNewsFetcher = {
         if (!container) return;
         
         // جلب الأخبار
-        const news = this.getRealArabicNews();
+        const news = this.getArabCupNews();
         
-        // بناء فلتر الدوريات
-        const savedLeague = localStorage.getItem('selectedLeague') || 'all';
-        this.buildLeagueFilters(savedLeague);
+        // بناء فلتر المراحل
+        const savedStage = localStorage.getItem('selectedStage') || 'all';
+        this.buildStageFilters(savedStage);
         
         // مسح المحتوى القديم
         container.innerHTML = '';
@@ -374,18 +333,18 @@ const ArabicNewsFetcher = {
         header.innerHTML = `
             <div style="text-align: center; margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #1E5631, #2E7D32); color: white; border-radius: 15px;">
                 <h2 style="font-size: 24px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 15px;">
-                    <i class="fas fa-futbol"></i> 
-                    <span>الأخبار العربية الحية</span>
-                    <span style="background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; font-size: 14px;">شعارات حقيقية</span>
+                    <i class="fas fa-trophy"></i> 
+                    <span>أخبار كأس العرب FIFA 2025</span>
+                    <span style="background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; font-size: 14px;">حصري</span>
                 </h2>
                 <p style="opacity: 0.9; margin-bottom: 10px;">
                     آخر تحديث: ${new Date().toLocaleDateString('ar-SA')} 
                     ${new Date().toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'})}
                 </p>
                 <div style="display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px;">
-                    <span><i class="fas fa-check-circle"></i> مصادر موثوقة</span>
+                    <span><i class="fas fa-map-marker-alt"></i> السعودية 2025</span>
                     <span>|</span>
-                    <span><i class="fas fa-images"></i> شعارات رسمية</span>
+                    <span><i class="fas fa-users"></i> 16 منتخباً</span>
                 </div>
             </div>
         `;
@@ -406,7 +365,7 @@ const ArabicNewsFetcher = {
         const newsGrid = document.createElement('div');
         newsGrid.style.cssText = `
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
             gap: 25px;
             margin-top: 20px;
         `;
@@ -438,23 +397,23 @@ const ArabicNewsFetcher = {
         document.head.appendChild(style);
         
         // تطبيق تأثير الظهور التدريجي
-        const cards = newsGrid.querySelectorAll('.arabic-news-card');
+        const cards = newsGrid.querySelectorAll('.arab-cup-news-card');
         cards.forEach((card, index) => {
             card.style.animation = `fadeIn 0.5s ease ${index * 0.1}s both`;
         });
         
         // إظهار إشعار النجاح
-        this._showNotification(`تم تحميل ${news.length} خبر عربي مع شعارات الفرق`, 'success');
+        this._showNotification(`تم تحميل ${news.length} خبر عن كأس العرب`, 'success');
     },
 
     /**
      * إنشاء بطاقة خبر
      */
     _createNewsCard: function(news, index) {
-        const leagueInfo = this.getLeagueInfo(news.league);
+        const stageInfo = this.getStageInfo(news.stage);
         const card = document.createElement('div');
-        card.className = 'arabic-news-card';
-        card.dataset.league = news.league;
+        card.className = 'arab-cup-news-card';
+        card.dataset.stage = news.stage;
         card.style.cssText = `
             background: white;
             border-radius: 15px;
@@ -463,18 +422,18 @@ const ArabicNewsFetcher = {
             transition: all 0.3s ease;
             cursor: pointer;
             position: relative;
-            border: ${news.highlight ? '3px solid ' + leagueInfo.color : '1px solid #e0e0e0'};
+            border: ${news.highlight ? '3px solid ' + stageInfo.color : '1px solid #e0e0e0'};
             opacity: 0;
         `;
         
-        // بادئة "خبر حقيقي"
-        if (news.isReal) {
-            const realBadge = document.createElement('div');
-            realBadge.style.cssText = `
+        // بادئة "خبر عاجل"
+        if (news.isBreaking) {
+            const breakingBadge = document.createElement('div');
+            breakingBadge.style.cssText = `
                 position: absolute;
                 top: 15px;
                 left: 15px;
-                background: #28a745;
+                background: #dc3545;
                 color: white;
                 padding: 4px 10px;
                 border-radius: 15px;
@@ -485,19 +444,20 @@ const ArabicNewsFetcher = {
                 align-items: center;
                 gap: 5px;
                 box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                animation: pulse 1.5s infinite;
             `;
-            realBadge.innerHTML = '<i class="fas fa-check-circle"></i> حقيقي';
-            card.appendChild(realBadge);
+            breakingBadge.innerHTML = '<i class="fas fa-bolt"></i> عاجل';
+            card.appendChild(breakingBadge);
         }
         
-        // بادئة الخبر المميز
-        if (news.highlight) {
-            const badge = document.createElement('div');
-            badge.style.cssText = `
+        // بادئة المجموعة
+        if (news.group) {
+            const groupBadge = document.createElement('div');
+            groupBadge.style.cssText = `
                 position: absolute;
                 top: 15px;
                 right: 15px;
-                background: #C4A747;
+                background: rgba(0,0,0,0.7);
                 color: white;
                 padding: 4px 10px;
                 border-radius: 15px;
@@ -509,18 +469,18 @@ const ArabicNewsFetcher = {
                 gap: 5px;
                 box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             `;
-            badge.innerHTML = '<i class="fas fa-star"></i> مميز';
-            card.appendChild(badge);
+            groupBadge.innerHTML = `<i class="fas fa-users"></i> المجموعة ${news.group}`;
+            card.appendChild(groupBadge);
         }
         
-        // الحصول على شعارات الفريقين
-        const team1Logo = this.getTeamLogo(news.teams[0]);
-        const team2Logo = this.getTeamLogo(news.teams[1]);
+        // الحصول على أعلام الفريقين
+        const team1Flag = this.getTeamFlag(news.teams[0]);
+        const team2Flag = this.getTeamFlag(news.teams[1]);
         
         card.innerHTML = `
             <div style="
-                background: ${this.getLeagueBackground(news.league)};
-                height: 180px;
+                background: ${this.getStageBackground(news.stage)};
+                height: 200px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -530,7 +490,7 @@ const ArabicNewsFetcher = {
                 <div style="
                     position: absolute;
                     top: 10px;
-                    right: 10px;
+                    left: 10px;
                     background: rgba(0,0,0,0.7);
                     color: white;
                     padding: 5px 10px;
@@ -543,40 +503,40 @@ const ArabicNewsFetcher = {
                     <i class="far fa-clock"></i> ${news.time}
                 </div>
                 
-                <!-- شعارات الفريقين -->
+                <!-- أعلام الفريقين -->
                 <div style="display: flex; align-items: center; justify-content: center; gap: 40px; width: 100%;">
                     <div style="text-align: center;">
-                        <img src="${team1Logo}" 
+                        <img src="${team1Flag}" 
                              alt="${news.teams[0]}" 
-                             style="width: 60px; height: 60px; object-fit: contain; background: white; padding: 5px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.2);"
-                             onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Soccer_ball.svg/200px-Soccer_ball.svg.png'">
-                        <div style="color: white; font-weight: bold; margin-top: 10px; font-size: 14px;">${news.teams[0]}</div>
+                             style="width: 70px; height: 50px; object-fit: cover; background: white; padding: 5px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.2);"
+                             onerror="this.src='images/saudi.svg'">
+                        <div style="color: white; font-weight: bold; margin-top: 10px; font-size: 16px;">${news.teams[0]}</div>
                     </div>
                     
                     <div style="
                         background: rgba(255,255,255,0.9);
                         color: #333;
-                        padding: 10px 20px;
-                        border-radius: 10px;
+                        padding: 10px 25px;
+                        border-radius: 12px;
                         font-weight: bold;
-                        font-size: 24px;
-                        min-width: 80px;
+                        font-size: 28px;
+                        min-width: 100px;
                         text-align: center;
-                        box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+                        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
                     ">
                         ${news.score}
                     </div>
                     
                     <div style="text-align: center;">
-                        <img src="${team2Logo}" 
+                        <img src="${team2Flag}" 
                              alt="${news.teams[1]}" 
-                             style="width: 60px; height: 60px; object-fit: contain; background: white; padding: 5px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.2);"
-                             onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Soccer_ball.svg/200px-Soccer_ball.svg.png'">
-                        <div style="color: white; font-weight: bold; margin-top: 10px; font-size: 14px;">${news.teams[1]}</div>
+                             style="width: 70px; height: 50px; object-fit: cover; background: white; padding: 5px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.2);"
+                             onerror="this.src='images/saudi.svg'">
+                        <div style="color: white; font-weight: bold; margin-top: 10px; font-size: 16px;">${news.teams[1]}</div>
                     </div>
                 </div>
                 
-                <!-- اسم الدوري في الأسفل -->
+                <!-- اسم المرحلة في الأسفل -->
                 <div style="
                     position: absolute;
                     bottom: 10px;
@@ -587,8 +547,11 @@ const ArabicNewsFetcher = {
                     border-radius: 10px;
                     font-size: 12px;
                     font-weight: bold;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
                 ">
-                    ${leagueInfo.name}
+                    <i class="fas fa-${news.stage === 'final' ? 'trophy' : 'flag'}"></i> ${stageInfo.name}
                 </div>
             </div>
             
@@ -607,7 +570,7 @@ const ArabicNewsFetcher = {
                     font-size: 14px;
                     line-height: 1.5;
                     margin-bottom: 15px;
-                    border-right: 3px solid ${leagueInfo.color};
+                    border-right: 3px solid ${stageInfo.color};
                     padding-right: 10px;
                     min-height: 60px;
                 ">
@@ -631,8 +594,8 @@ const ArabicNewsFetcher = {
                         </span>
                     </div>
                     
-                    <button onclick="event.stopPropagation(); ArabicNewsFetcher.showNewsDetail(${news.id})" style="
-                        background: linear-gradient(135deg, ${leagueInfo.color}, ${this._darkenColor(leagueInfo.color, 20)});
+                    <button onclick="event.stopPropagation(); ArabCupFetcher.showNewsDetail(${news.id})" style="
+                        background: linear-gradient(135deg, ${stageInfo.color}, ${this._darkenColor(stageInfo.color, 20)});
                         color: white;
                         border: none;
                         padding: 8px 20px;
@@ -654,12 +617,12 @@ const ArabicNewsFetcher = {
         // إضافة تأثير hover
         card.addEventListener('mouseenter', () => {
             card.style.transform = 'translateY(-10px)';
-            card.style.boxShadow = `0 15px 30px rgba(0,0,0,0.15), 0 0 0 2px ${leagueInfo.color}`;
+            card.style.boxShadow = `0 15px 30px rgba(0,0,0,0.15), 0 0 0 2px ${stageInfo.color}`;
             
-            // تأثير نبض للشعارات
-            const logos = card.querySelectorAll('img');
-            logos.forEach(logo => {
-                logo.style.animation = 'pulse 0.5s ease';
+            // تأثير نبض للأعلام
+            const flags = card.querySelectorAll('img');
+            flags.forEach(flag => {
+                flag.style.animation = 'pulse 0.5s ease';
             });
         });
         
@@ -668,9 +631,9 @@ const ArabicNewsFetcher = {
             card.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
             
             // إزالة تأثير النبض
-            const logos = card.querySelectorAll('img');
-            logos.forEach(logo => {
-                logo.style.animation = '';
+            const flags = card.querySelectorAll('img');
+            flags.forEach(flag => {
+                flag.style.animation = '';
             });
         });
         
@@ -688,12 +651,12 @@ const ArabicNewsFetcher = {
      * عرض تفاصيل الخبر
      */
     showNewsDetail: function(newsId) {
-        const news = this.getRealArabicNews().find(n => n.id === newsId);
+        const news = this.getArabCupNews().find(n => n.id === newsId);
         if (!news) return;
         
-        const leagueInfo = this.getLeagueInfo(news.league);
-        const team1Logo = this.getTeamLogo(news.teams[0]);
-        const team2Logo = this.getTeamLogo(news.teams[1]);
+        const stageInfo = this.getStageInfo(news.stage);
+        const team1Flag = this.getTeamFlag(news.teams[0]);
+        const team2Flag = this.getTeamFlag(news.teams[1]);
         
         // إنشاء نافذة التفاصيل
         const modal = document.createElement('div');
@@ -723,7 +686,7 @@ const ArabicNewsFetcher = {
                 position: relative;
                 padding: 25px;
                 box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-                border: 3px solid ${leagueInfo.color};
+                border: 3px solid ${stageInfo.color};
             ">
                 <button onclick="this.parentElement.parentElement.remove(); document.body.style.overflow = 'auto';" style="
                     position: absolute;
@@ -746,45 +709,46 @@ const ArabicNewsFetcher = {
                  onmouseout="this.style.transform='rotate(0deg)'">✕</button>
                 
                 <div style="text-align: center; margin-bottom: 25px;">
-                    <div style="font-size: 2rem; margin-bottom: 15px; color: ${leagueInfo.color};">
-                        <i class="fas fa-trophy"></i> ${leagueInfo.name}
+                    <div style="font-size: 2rem; margin-bottom: 15px; color: ${stageInfo.color};">
+                        <i class="fas fa-${news.stage === 'final' ? 'trophy' : 'flag'}"></i> ${stageInfo.name}
                     </div>
-                    <h2 style="color: ${leagueInfo.color}; margin: 0 0 10px 0; font-size: 24px; line-height: 1.4;">${news.title}</h2>
+                    <h2 style="color: ${stageInfo.color}; margin: 0 0 10px 0; font-size: 24px; line-height: 1.4;">${news.title}</h2>
                     <div style="color: #666; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap;">
                         <span><i class="far fa-calendar"></i> ${news.date}</span>
                         <span><i class="far fa-clock"></i> ${news.time}</span>
                         <span><i class="fas fa-newspaper"></i> ${news.source}</span>
+                        ${news.group ? `<span><i class="fas fa-users"></i> المجموعة ${news.group}</span>` : ''}
                     </div>
                 </div>
                 
-                <!-- شعارات الفرق -->
+                <!-- أعلام الفرق -->
                 <div style="
                     display: flex;
                     justify-content: space-around;
                     align-items: center;
                     margin-bottom: 30px;
                     padding: 20px;
-                    background: ${this._lightenColor(leagueInfo.color, 92)};
+                    background: ${this._lightenColor(stageInfo.color, 92)};
                     border-radius: 12px;
-                    border: 2px solid ${this._lightenColor(leagueInfo.color, 80)};
+                    border: 2px solid ${this._lightenColor(stageInfo.color, 80)};
                 ">
                     <div style="text-align: center; flex: 1;">
-                        <img src="${team1Logo}" 
+                        <img src="${team1Flag}" 
                              alt="${news.teams[0]}" 
-                             style="width: 80px; height: 80px; object-fit: contain; background: white; padding: 10px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 10px;"
-                             onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Soccer_ball.svg/200px-Soccer_ball.svg.png'">
-                        <div style="font-weight: bold; color: ${leagueInfo.color}; font-size: 20px;">${news.teams[0]}</div>
+                             style="width: 90px; height: 60px; object-fit: cover; background: white; padding: 10px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 10px;"
+                             onerror="this.src='images/saudi.svg'">
+                        <div style="font-weight: bold; color: ${stageInfo.color}; font-size: 22px;">${news.teams[0]}</div>
                     </div>
                     
                     <div style="text-align: center;">
                         <div style="
-                            background: ${leagueInfo.color};
+                            background: ${stageInfo.color};
                             color: white;
-                            padding: 15px 30px;
+                            padding: 15px 35px;
                             border-radius: 15px;
-                            font-size: 3rem;
+                            font-size: 3.5rem;
                             font-weight: bold;
-                            min-width: 140px;
+                            min-width: 160px;
                             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
                         ">
                             ${news.score}
@@ -793,18 +757,18 @@ const ArabicNewsFetcher = {
                     </div>
                     
                     <div style="text-align: center; flex: 1;">
-                        <img src="${team2Logo}" 
+                        <img src="${team2Flag}" 
                              alt="${news.teams[1]}" 
-                             style="width: 80px; height: 80px; object-fit: contain; background: white; padding: 10px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 10px;"
-                             onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Soccer_ball.svg/200px-Soccer_ball.svg.png'">
-                        <div style="font-weight: bold; color: ${leagueInfo.color}; font-size: 20px;">${news.teams[1]}</div>
+                             style="width: 90px; height: 60px; object-fit: cover; background: white; padding: 10px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 10px;"
+                             onerror="this.src='images/saudi.svg'">
+                        <div style="font-weight: bold; color: ${stageInfo.color}; font-size: 22px;">${news.teams[1]}</div>
                     </div>
                 </div>
                 
-                <!-- تفاصيل المباراة -->
+                <!-- تفاصيل الخبر -->
                 <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin-bottom: 20px;">
-                    <h3 style="color: ${leagueInfo.color}; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-file-alt"></i> تفاصيل المباراة
+                    <h3 style="color: ${stageInfo.color}; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-file-alt"></i> تفاصيل الخبر
                     </h3>
                     <p style="color: #444; line-height: 1.8; font-size: 16px; text-align: justify;">
                         ${news.content}
@@ -824,15 +788,17 @@ const ArabicNewsFetcher = {
                 ">
                     <div style="display: flex; align-items: center; gap: 15px;">
                         <span style="color: #28a745; font-size: 14px; display: flex; align-items: center; gap: 8px; background: #d4edda; padding: 8px 15px; border-radius: 20px;">
-                            <i class="fas fa-check-circle"></i> خبر حقيقي
+                            <i class="fas fa-check-circle"></i> خبر رسمي
                         </span>
-                        <span style="color: #666; font-size: 14px; display: flex; align-items: center; gap: 8px;">
-                            <i class="fas fa-shield-alt"></i> مصادر موثوقة
-                        </span>
+                        ${news.isBreaking ? 
+                            `<span style="color: #dc3545; font-size: 14px; display: flex; align-items: center; gap: 8px; background: #f8d7da; padding: 8px 15px; border-radius: 20px;">
+                                <i class="fas fa-bolt"></i> خبر عاجل
+                            </span>` : ''
+                        }
                     </div>
                     
                     <div style="display: flex; gap: 10px;">
-                        <button onclick="shareNews(${news.id})" style="
+                        <button onclick="shareArabCupNews(${news.id})" style="
                             background: #007bff;
                             color: white;
                             border: none;
@@ -847,6 +813,22 @@ const ArabicNewsFetcher = {
                         " onmouseover="this.style.transform='translateY(-2px)'"
                          onmouseout="this.style.transform='translateY(0)'">
                             <i class="fas fa-share-alt"></i> مشاركة الخبر
+                        </button>
+                        <button onclick="addToFavorites(${news.id})" style="
+                            background: #ffc107;
+                            color: #333;
+                            border: none;
+                            padding: 10px 20px;
+                            border-radius: 20px;
+                            cursor: pointer;
+                            font-size: 14px;
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                            transition: all 0.3s;
+                        " onmouseover="this.style.transform='translateY(-2px)'"
+                         onmouseout="this.style.transform='translateY(0)'">
+                            <i class="far fa-star"></i> حفظ
                         </button>
                     </div>
                 </div>
@@ -915,10 +897,10 @@ const ArabicNewsFetcher = {
         };
         
         // إزالة الإشعارات القديمة
-        document.querySelectorAll('.arabic-news-notification').forEach(toast => toast.remove());
+        document.querySelectorAll('.arab-cup-notification').forEach(toast => toast.remove());
         
         const toast = document.createElement('div');
-        toast.className = 'arabic-news-notification';
+        toast.className = 'arab-cup-notification';
         toast.innerHTML = `
             <div style="display: flex; align-items: center; gap: 10px;">
                 <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
@@ -971,7 +953,7 @@ const ArabicNewsFetcher = {
      * تحديث الأخبار
      */
     refreshNews: function() {
-        this._showNotification('🔄 جاري تحديث الأخبار...', 'info');
+        this._showNotification('🔄 جاري تحديث أخبار كأس العرب...', 'info');
         setTimeout(() => {
             this.displayNews();
         }, 1000);
@@ -993,7 +975,7 @@ const ArabicNewsFetcher = {
         const container = document.getElementById('football-news-container');
         if (!container) return;
         
-        const cards = container.querySelectorAll('.arabic-news-card');
+        const cards = container.querySelectorAll('.arab-cup-news-card');
         let foundCount = 0;
         
         cards.forEach(card => {
@@ -1019,22 +1001,36 @@ const ArabicNewsFetcher = {
 };
 
 // ===== دالات المساعدة العالمية =====
-window.shareNews = function(newsId) {
-    const news = ArabicNewsFetcher.getRealArabicNews().find(n => n.id === newsId);
+window.shareArabCupNews = function(newsId) {
+    const news = ArabCupFetcher.getArabCupNews().find(n => n.id === newsId);
     if (news) {
-        const leagueInfo = ArabicNewsFetcher.getLeagueInfo(news.league);
-        const text = `📰 ${news.title}\n\n🏆 ${leagueInfo.name}\n⚽ ${news.teams[0]} ${news.score} ${news.teams[1]}\n📅 ${news.date}\n\nمشاركة من موقع ميدان العرب\n${window.location.href}`;
+        const stageInfo = ArabCupFetcher.getStageInfo(news.stage);
+        const text = `🏆 كأس العرب FIFA 2025\n\n📰 ${news.title}\n\n⚽ ${news.teams[0]} ${news.score} ${news.teams[1]}\n🏆 ${stageInfo.name}\n📅 ${news.date} - ${news.time}\n\nتابع البطولة على ميدان العرب\n${window.location.href}`;
         
         if (navigator.share) {
             navigator.share({
-                title: news.title,
+                title: `${news.title} - كأس العرب`,
                 text: news.excerpt,
                 url: window.location.href
             });
         } else {
             navigator.clipboard.writeText(text)
-                .then(() => alert('✅ تم نسخ تفاصيل الخبر للحافظة'));
+                .then(() => {
+                    ArabCupFetcher._showNotification('✅ تم نسخ تفاصيل الخبر للحافظة', 'success');
+                });
         }
+    }
+};
+
+window.addToFavorites = function(newsId) {
+    let favorites = JSON.parse(localStorage.getItem('arabCupFavorites')) || [];
+    
+    if (!favorites.includes(newsId)) {
+        favorites.push(newsId);
+        localStorage.setItem('arabCupFavorites', JSON.stringify(favorites));
+        ArabCupFetcher._showNotification('✅ تم إضافة الخبر إلى المفضلة', 'success');
+    } else {
+        ArabCupFetcher._showNotification('⚠️ الخبر موجود بالفعل في المفضلة', 'warning');
     }
 };
 
@@ -1042,13 +1038,13 @@ window.shareNews = function(newsId) {
 document.addEventListener('DOMContentLoaded', () => {
     // بدء تحميل الأخبار بعد تأخير قصير
     setTimeout(() => {
-        ArabicNewsFetcher.displayNews();
+        ArabCupFetcher.displayNews();
     }, 1500);
     
     // ربط زر البحث
     const searchBtn = document.querySelector('.search-box button');
     if (searchBtn) {
-        searchBtn.addEventListener('click', () => ArabicNewsFetcher.searchNews());
+        searchBtn.addEventListener('click', () => ArabCupFetcher.searchNews());
     }
     
     // البحث عند الضغط على Enter
@@ -1056,7 +1052,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (searchInput) {
         searchInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                ArabicNewsFetcher.searchNews();
+                ArabCupFetcher.searchNews();
             }
         });
     }
@@ -1064,9 +1060,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ربط زر التحديث
     const refreshBtn = document.querySelector('.refresh-btn');
     if (refreshBtn) {
-        refreshBtn.addEventListener('click', () => ArabicNewsFetcher.refreshNews());
+        refreshBtn.addEventListener('click', () => ArabCupFetcher.refreshNews());
     }
 });
 
 // جعل الكائن متاحاً عالمياً
-window.ArabicNewsFetcher = ArabicNewsFetcher;
+window.ArabicNewsFetcher = ArabCupFetcher;
