@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37 24" width="370" height="240" role="img" aria-label="Qatar">
+  <rect width="37" height="24" fill="#8A1538"/>
+  <rect x="0" width="10" height="24" fill="#ffffff"/>
+  <g fill="#8A1538">
+    <polygon points="10,1.2 12.6,3 10,4.8"/>
+    <polygon points="10,6 12.6,7.8 10,9.6"/>
+    <polygon points="10,10.8 12.6,12.6 10,14.4"/>
+    <polygon points="10,15.6 12.6,17.4 10,19.2"/>
+    <polygon points="10,20.4 12.6,22.2 10,24"/>
+  </g>
+</svg>

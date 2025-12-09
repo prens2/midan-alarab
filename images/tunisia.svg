@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2" width="300" height="200" role="img" aria-label="Tunisia">
+  <rect width="3" height="2" fill="#C8102E"/>
+  <circle cx="1.5" cy="1" r="0.55" fill="#fff"/>
+  <circle cx="1.5" cy="1" r="0.25" fill="#C8102E"/>
+  <polygon points="1.5,0.65 1.57,0.9 1.82,0.9 1.62,1.03 1.69,1.27 1.5,1.12 1.31,1.27 1.38,1.03 1.18,0.9 1.43,0.9" fill="#fff"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2" width="300" height="200" role="img" aria-label="Oman">
+  <rect width="3" height="2" fill="#FFFFFF"/>
+  <rect width="0.9" height="2" fill="#D90000"/>
+  <rect x="0.9" width="2.1" height="1" fill="#FFFFFF"/>
+  <rect x="0.9" y="1" width="2.1" height="1" fill="#007A3D"/>
+  <!-- small emblem simplified -->
+  <circle cx="0.46" cy="0.46" r="0.18" fill="#D90000"/>
+</svg>
