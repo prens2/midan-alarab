@@ -1407,3 +1407,251 @@ body {
         transition-duration: 0.01ms !important;
     }
 }
+/* ===== أنماط الأعلام والصور ===== */
+.flag-icon {
+    width: 20px;
+    height: 15px;
+    border-radius: 2px;
+    margin-left: 8px;
+    vertical-align: middle;
+    object-fit: cover;
+}
+
+.team-flag {
+    width: 30px;
+    height: 20px;
+    border-radius: 3px;
+    margin-left: 10px;
+    object-fit: cover;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.section-logo {
+    width: 40px;
+    height: 40px;
+    margin-left: 15px;
+    vertical-align: middle;
+}
+
+/* ===== أنماط كأس العرب ===== */
+.arab-cup-section {
+    padding: 4rem 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.groups-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.group-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 2px solid #1E5631;
+}
+
+.group-header {
+    background: #1E5631;
+    color: white;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.teams-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.team-item {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.team-item:hover {
+    background: #e9ecef;
+    transform: translateX(-5px);
+}
+
+.team-item span {
+    font-weight: 500;
+    color: #333;
+}
+
+/* ===== جدول المباريات ===== */
+.matches-section {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.matches-category {
+    margin-bottom: 3rem;
+}
+
+.matches-category h4 {
+    color: #1E5631;
+    margin-bottom: 1.5rem;
+    padding-right: 15px;
+    border-right: 4px solid #C4A747;
+}
+
+.matches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.match-card {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    border: 1px solid #dee2e6;
+}
+
+.match-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    border-color: #1E5631;
+}
+
+.match-teams {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.match-teams .team {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.match-teams .team:last-child {
+    justify-content: flex-end;
+}
+
+.match-teams .team span {
+    font-weight: 600;
+    color: #333;
+}
+
+.vs {
+    background: #1E5631;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin: 0 1rem;
+}
+
+.match-details {
+    display: flex;
+    justify-content: space-between;
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.match-details span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.match-result {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.score {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #1E5631;
+}
+
+.status {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.status.upcoming {
+    background: #ffc107;
+    color: #856404;
+}
+
+.status.live {
+    background: #dc3545;
+    color: white;
+    animation: pulse 1.5s infinite;
+}
+
+.status.finished {
+    background: #28a745;
+    color: white;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+/* ===== تصوير الأعلام في بطاقات المنتخبات ===== */
+.national-teams-grid .team-card .team-flag {
+    width: 50px;
+    height: 35px;
+    border-radius: 5px;
+    margin-left: 15px;
+}
+
+/* ===== التجاوب مع الجوال ===== */
+@media (max-width: 768px) {
+    .matches-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .match-details {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .match-teams {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .match-teams .team {
+        justify-content: center !important;
+        width: 100%;
+    }
+    
+    .vs {
+        margin: 0.5rem 0;
+    }
+    
+    .team-flag {
+        width: 25px;
+        height: 17px;
+    }
+}
