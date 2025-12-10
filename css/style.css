@@ -1,623 +1,394 @@
-/* ===== قسم كأس العرب ===== */
-.arab-cup-section {
-    padding: 4rem 0;
+/* ===== الإعدادات العامة ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Arial', sans-serif;
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-}
-
-.tournament-info {
+    color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 2rem;
-    margin-top: 2rem;
-    padding: 1.5rem;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    flex-direction: column;
 }
 
-.info-item {
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ===== شريط التنقل ===== */
+.navbar {
+    background: linear-gradient(135deg, #1E5631 0%, #2E7D32 100%);
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 4px 12px rgba(30, 86, 49, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
     display: flex;
     align-items: center;
     gap: 10px;
-    color: #1E5631;
-    font-weight: 500;
+    transition: transform 0.3s;
 }
 
-.info-item i {
-    color: #C4A747;
-    font-size: 1.2rem;
+.logo:hover {
+    transform: scale(1.05);
 }
 
-/* ===== أنماط المجموعات ===== */
-.groups-section {
-    margin-top: 3rem;
-}
-
-.groups-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+.nav-links {
+    display: flex;
     gap: 1.5rem;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.nav-links a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #C4A747;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #C4A747;
+    transition: width 0.3s;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* ===== قسم الترحيب ===== */
+.hero {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: linear-gradient(135deg, #1E5631 0%, #2E7D32 100%);
+    color: white;
+    border-radius: 15px;
+    margin: 2rem 0 3rem;
+    box-shadow: 0 10px 30px rgba(30, 86, 49, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '⚽';
+    position: absolute;
+    font-size: 20rem;
+    opacity: 0.05;
+    right: -50px;
+    top: -50px;
+    transform: rotate(15deg);
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.hero p {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    opacity: 0.95;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn {
+    display: inline-block;
+    background: #C4A747;
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+    border: 2px solid #C4A747;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 15px rgba(196, 167, 71, 0.3);
+}
+
+.btn:hover {
+    background: transparent;
+    color: #C4A747;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(196, 167, 71, 0.4);
+}
+
+/* ===== قسم الأخبار ===== */
+.news-section {
+    padding: 4rem 0;
+}
+
+.section-title {
+    font-size: 2.2rem;
+    margin-bottom: 3rem;
+    color: #1E5631;
+    padding-right: 20px;
+    border-right: 6px solid #C4A747;
+    position: relative;
+}
+
+.section-title::before {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: rgba(196, 167, 71, 0.3);
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2.5rem;
     margin-top: 2rem;
 }
 
-.group-card {
+.news-card {
     background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    border: 2px solid #1E5631;
-    transition: all 0.3s ease;
-}
-
-.group-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
-
-.group-header {
-    background: #1E5631;
-    color: white;
-    padding: 0.8rem;
-    border-radius: 8px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-size: 1.2rem;
-}
-
-.teams-list {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    transition: all 0.3s;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
 }
 
-.team-item {
+.news-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.news-image {
+    height: 220px;
+    background: linear-gradient(45deg, #1E5631, #2E7D32);
     display: flex;
     align-items: center;
-    padding: 0.8rem;
-    background: #f8f9fa;
-    border-radius: 8px;
-    transition: all 0.3s;
-    justify-content: space-between;
+    justify-content: center;
+    color: white;
+    font-size: 4rem;
+    position: relative;
+    overflow: hidden;
 }
 
-.team-item:hover {
-    background: #e9ecef;
-    transform: translateX(-5px);
+.news-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1));
 }
 
-.team-flag {
-    width: 25px;
-    height: 17px;
-    border-radius: 2px;
-    margin-left: 10px;
-    object-fit: cover;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-}
-
-.team-name {
+.news-content {
+    padding: 2rem;
     flex-grow: 1;
-    margin-right: 10px;
-    font-weight: 500;
-    color: #333;
-}
-
-.team-points {
-    background: #C4A747;
-    color: white;
-    padding: 3px 10px;
-    border-radius: 15px;
-    font-weight: bold;
-    font-size: 0.9rem;
-}
-
-.group-matches {
-    margin-top: 1rem;
-    text-align: center;
-}
-
-.group-matches-btn {
-    background: #2E7D32;
-    color: white;
-    border: none;
-    padding: 8px 20px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.3s;
     display: flex;
+    flex-direction: column;
+}
+
+.news-title {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #1E5631;
+    line-height: 1.4;
+}
+
+.news-desc {
+    color: #666;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+.read-more {
+    color: #C4A747;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
+    transition: all 0.3s;
+    align-self: flex-start;
+}
+
+.read-more:hover {
+    color: #2E7D32;
+    gap: 12px;
+}
+
+/* ===== قائمة المميزات ===== */
+.features-list {
+    list-style: none;
+    margin: 1.5rem 0;
+    padding-right: 0;
+}
+
+.features-list li {
+    padding: 0.8rem 0;
+    padding-right: 2.5rem;
+    position: relative;
+    color: #444;
+}
+
+.features-list li::before {
+    content: '✓';
+    position: absolute;
+    right: 0;
+    color: #2E7D32;
+    font-weight: bold;
+}
+
+/* ===== الفوتر ===== */
+footer {
+    background: linear-gradient(135deg, #222 0%, #333 100%);
+    color: white;
+    padding: 4rem 0 2rem;
+    margin-top: auto;
+}
+
+.footer-content {
+    text-align: center;
+    max-width: 800px;
     margin: 0 auto;
 }
 
-.group-matches-btn:hover {
-    background: #1E5631;
-    transform: scale(1.05);
+.footer-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #C4A747;
 }
 
-/* ===== أنماط جدول المباريات ===== */
-.matches-section {
-    margin-top: 4rem;
-}
-
-.matches-filter {
+.social-links {
+    margin: 2rem 0;
     display: flex;
-    gap: 10px;
-    margin-top: 1rem;
-    flex-wrap: wrap;
     justify-content: center;
-}
-
-.filter-btn {
-    padding: 8px 20px;
-    border: 2px solid #ddd;
-    background: white;
-    color: #333;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.3s;
-}
-
-.filter-btn:hover,
-.filter-btn.active {
-    background: #1E5631;
-    color: white;
-    border-color: #1E5631;
-}
-
-.matches-category {
-    margin-top: 2rem;
-}
-
-.matches-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 1.5rem;
-    margin-top: 1.5rem;
-}
-
-.match-group {
-    background: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 10px;
-    border: 1px solid #dee2e6;
-}
-
-.match-group h5 {
-    color: #1E5631;
-    margin-bottom: 1rem;
-    text-align: center;
-    font-size: 1.1rem;
-}
-
-.match-card {
-    background: white;
-    border-radius: 10px;
-    padding: 1.5rem;
-    transition: all 0.3s;
-    border: 1px solid #dee2e6;
-    margin-bottom: 1rem;
-}
-
-.match-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    border-color: #1E5631;
-}
-
-.match-card.knockout {
-    border: 2px solid #C4A747;
-}
-
-.match-card.final {
-    border: 3px solid #2E7D32;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-}
-
-.match-teams {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.match-teams .team {
-    display: flex;
-    align-items: center;
-    flex: 1;
-}
-
-.match-teams .team:last-child {
-    justify-content: flex-end;
-}
-
-.match-teams .team span {
-    font-weight: 600;
-    color: #333;
-}
-
-.vs {
-    background: #1E5631;
-    color: white;
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 0.9rem;
-    margin: 0 1rem;
-}
-
-.match-details {
-    display: flex;
-    justify-content: space-between;
-    color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #dee2e6;
     flex-wrap: wrap;
-    gap: 0.5rem;
 }
 
-.match-details span {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.match-result {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.score {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #1E5631;
-}
-
-.status {
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-.status.upcoming {
-    background: #ffc107;
-    color: #856404;
-}
-
-.status.live {
-    background: #dc3545;
+.social-link {
     color: white;
-    animation: pulse 1.5s infinite;
-}
-
-.status.finished {
-    background: #28a745;
-    color: white;
-}
-
-.final-info {
-    margin-top: 1rem;
-    text-align: center;
-    color: #2E7D32;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-/* ===== أنماط ترتيب الهدافين ===== */
-.top-scorers {
-    margin-top: 4rem;
-}
-
-.scorers-table {
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    margin-top: 1.5rem;
-}
-
-.scorers-table table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.scorers-table thead {
-    background: #1E5631;
-    color: white;
-}
-
-.scorers-table th {
-    padding: 1rem;
-    text-align: right;
-    font-weight: 600;
-}
-
-.scorers-table tbody tr {
-    border-bottom: 1px solid #eee;
-    transition: all 0.3s;
-}
-
-.scorers-table tbody tr:hover {
-    background: #f8f9fa;
-}
-
-.scorers-table td {
-    padding: 1rem;
-    text-align: right;
-}
-
-.scorers-table td:nth-child(3) {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: flex-end;
-}
-
-/* ===== أنماط المنتخبات المشاركة ===== */
-.national-teams-section .team-card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transition: all 0.3s;
-}
-
-.national-teams-section .team-card.featured {
-    border: 3px solid #1E5631;
-}
-
-.national-teams-section .team-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
-
-.team-flag-img {
-    width: 50px;
-    height: 35px;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
     border-radius: 5px;
-    margin-left: 15px;
-    object-fit: cover;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-/* ===== أنماط النوافذ المنبثقة ===== */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-    animation: fadeIn 0.3s ease;
-}
-
-.group-matches-modal {
-    background: white;
-    border-radius: 15px;
-    padding: 30px;
-    max-width: 500px;
-    width: 90%;
-    max-height: 80vh;
-    overflow-y: auto;
-    position: relative;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
-
-.group-matches-modal h2 {
-    color: #1E5631;
-    margin-bottom: 20px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.matches-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.match-item {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid #e0e0e0;
-}
-
-.close-modal-btn {
-    background: #1E5631;
-    color: white;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 20px auto 0;
     transition: all 0.3s;
+    position: relative;
 }
 
-.close-modal-btn:hover {
-    background: #2E7D32;
-    transform: scale(1.05);
+.social-link:hover {
+    color: #C4A747;
+    background: rgba(255, 255, 255, 0.05);
 }
 
-.no-matches {
-    text-align: center;
+.contact-email {
+    font-size: 1.1rem;
+    margin: 1.5rem 0;
+    color: #aaa;
+}
+
+.copyright {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.site-status {
     color: #666;
-    padding: 20px;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
 }
 
-/* ===== أنيميشن ===== */
-@keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.7; }
-    100% { opacity: 1; }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes slideDown {
-    from { transform: translateY(-100%); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes slideUp {
-    from { transform: translateY(0); opacity: 1; }
-    to { transform: translateY(-100%); opacity: 0; }
-}
-
-/* ===== تحديثات التجاوب مع الجوال ===== */
+/* ===== التجاوب مع الجوال ===== */
 @media (max-width: 768px) {
-    .groups-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .matches-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .match-details {
+    .nav-content {
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 1.5rem;
     }
     
-    .match-teams {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .match-teams .team {
-        justify-content: center !important;
-        width: 100%;
-    }
-    
-    .vs {
-        margin: 0.5rem 0;
-    }
-    
-    .tournament-info {
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1rem;
-    }
-    
-    .info-item {
+    .nav-links {
+        flex-wrap: wrap;
         justify-content: center;
     }
     
-    .matches-filter {
+    .hero {
+        padding: 3rem 1rem;
+        margin: 1rem 0;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 1.1rem;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+    }
+    
+    .news-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .footer-content h2 {
+        font-size: 2rem;
+    }
+    
+    .social-links {
         flex-direction: column;
-        align-items: center;
-    }
-    
-    .filter-btn {
-        width: 100%;
-        max-width: 200px;
-    }
-    
-    .scorers-table {
-        overflow-x: auto;
-    }
-    
-    .scorers-table table {
-        min-width: 600px;
+        gap: 1rem;
     }
 }
 
-@media (max-width: 480px) {
-    .group-card {
-        padding: 1rem;
-    }
-    
-    .team-item {
-        padding: 0.6rem;
-    }
-    
-    .match-card {
-        padding: 1rem;
-    }
-    
-    .team-flag {
-        width: 20px;
-        height: 14px;
-    }
-    
-    .team-flag-img {
-        width: 40px;
-        height: 28px;
-    }
-    
-    .group-matches-modal {
-        padding: 20px;
-    }
-    
-    .close-modal-btn {
-        width: 100%;
-        justify-content: center;
-    }
-}
-
-/* ===== تحسينات الوصول ===== */
+/* ===== تحميل سلس ===== */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
-    }
-    
-    .live {
-        animation: none;
-    }
-}
-
-/* ===== تحسينات الظلام ===== */
-@media (prefers-color-scheme: dark) {
-    .arab-cup-section {
-        background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
-    }
-    
-    .group-card,
-    .match-card,
-    .scorers-table {
-        background: #2d3748;
-        color: #e2e8f0;
-    }
-    
-    .team-item,
-    .match-group {
-        background: #4a5568;
-        color: #e2e8f0;
-    }
-    
-    .team-name,
-    .match-teams .team span {
-        color: #e2e8f0;
-    }
-    
-    .match-details {
-        color: #a0aec0;
-        border-bottom-color: #4a5568;
     }
 }
