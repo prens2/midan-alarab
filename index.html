@@ -1,1251 +1,106 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ميدان العرب | الرياضة العربية الشاملة</title>
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="ميدان العرب - المنصة العربية الشاملة للأخبار والتحليلات الرياضية، تغطية كاملة للدوري السعودي والمصري والأوروبي">
-    <meta name="keywords" content="كرة قدم, رياضة عربية, أخبار رياضية, تحليلات, دوري سعودي, دوري مصري, دوري سوري, دوري فلسطيني">
-    <meta name="author" content="ميدان العرب">
-    
-    <!-- Open Graph -->
-    <meta property="og:title" content="ميدان العرب | الرياضة العربية">
-    <meta property="og:description" content="المنصة العربية الشاملة للأخبار والتحليلات الرياضية">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://midan-alarab.onrender.com">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚽</text></svg>">
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    
-    <!-- Font Awesome للآيقونات -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>ميدان العرب - مباريات كأس العرب 2025</title>
+
+    <style>
+        body {
+            background: #0a0f14;
+            color: white;
+            font-family: "Tahoma", sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 26px;
+            color: #ffffff;
+        }
+
+        .matches-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .match-card {
+            width: 310px;
+            background: #094225;
+            padding: 15px;
+            border-radius: 14px;
+            box-shadow: 0 0 15px #00000055;
+        }
+
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            opacity: 0.9;
+        }
+
+        .match-body {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .team {
+            text-align: center;
+        }
+
+        .team img {
+            width: 55px;
+            height: 38px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .team-name {
+            display: block;
+            margin-top: 5px;
+        }
+
+        .match-score {
+            font-size: 28px;
+            font-weight: bold;
+        }
+    </style>
+
 </head>
 <body>
-    <!-- شريط التنقل -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-content">
-                <a href="/" class="logo">
-                    <i class="fas fa-futbol"></i>
-                    <span>ميدان العرب</span>
-                </a>
-                
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="فتح القائمة">
-                    <i class="fas fa-bars"></i>
-                </button>
-                
-                <div class="nav-links">
-                    <a href="/" class="active"><i class="fas fa-home"></i> الرئيسية</a>
-                    <a href="#news"><i class="fas fa-newspaper"></i> الأخبار</a>
-                    <a href="#articles"><i class="fas fa-pen-fancy"></i> المقالات</a>
-                    <a href="#national-teams"><i class="fas fa-flag"></i> المنتخبات</a>
-                    <a href="#football-news"><i class="fas fa-futbol"></i> كرة القدم العربية</a>
-                    <a href="#about"><i class="fas fa-info-circle"></i> عن الموقع</a>
-                    <a href="#contact"><i class="fas fa-envelope"></i> اتصل بنا</a>
-                    <a href="#donate" class="donate-btn" onclick="showDonation()">
-                        <i class="fas fa-heart"></i> ادعمنا
-                    </a>
-                </div>
-            </div>
+
+<h1 class="title">مباريات كأس العرب 2025</h1>
+
+<div class="matches-container">
+
+    <!-- بطاقة مباراة نموذجية -->
+    <div class="match-card">
+        <div class="match-header">
+            <span class="match-time">18:00</span>
+            <span class="match-stage">مرحلة المجموعات</span>
         </div>
-    </nav>
 
-    <!-- القائمة الجوال -->
-    <div class="mobile-menu" id="mobileMenu">
-        <a href="/" onclick="closeMobileMenu()"><i class="fas fa-home"></i> الرئيسية</a>
-        <a href="#news" onclick="closeMobileMenu()"><i class="fas fa-newspaper"></i> الأخبار</a>
-        <a href="#articles" onclick="closeMobileMenu()"><i class="fas fa-pen-fancy"></i> المقالات</a>
-        <a href="#national-teams" onclick="closeMobileMenu()"><i class="fas fa-flag"></i> المنتخبات</a>
-        <a href="#football-news" onclick="closeMobileMenu()"><i class="fas fa-futbol"></i> كرة القدم العربية</a>
-        <a href="#about" onclick="closeMobileMenu()"><i class="fas fa-info-circle"></i> عن الموقع</a>
-        <a href="#contact" onclick="closeMobileMenu()"><i class="fas fa-envelope"></i> اتصل بنا</a>
-        <a href="#donate" onclick="showDonation(); closeMobileMenu()"><i class="fas fa-heart"></i> ادعمنا</a>
-    </div>
-
-    <!-- المحتوى الرئيسي -->
-    <main>
-        <!-- قسم الترحيب -->
-        <section class="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <h1 class="hero-title">مرحباً بك في <span class="highlight">ميدان العرب</span></h1>
-                    <p class="hero-subtitle">المنصة العربية الشاملة للأخبار والتحليلات الرياضية</p>
-                    <p class="hero-description">نقدم لك أحدث الأخبار، التحليلات التكتيكية، الإحصائيات الدقيقة، وتغطية شاملة لكل ما يهم المشجع العربي</p>
-                    
-                    <div class="hero-actions">
-                        <a href="#news" class="btn btn-primary">
-                            <i class="fas fa-newspaper"></i> تصفح الأخبار
-                        </a>
-                        <a href="#football-news" class="btn btn-secondary">
-                            <i class="fas fa-futbol"></i> كرة القدم العربية
-                        </a>
-                        <a href="#donate" class="btn btn-donate" onclick="showDonation()">
-                            <i class="fas fa-heart"></i> ادعم المشروع
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="hero-stats">
-                    <div class="stat">
-                        <i class="fas fa-newspaper"></i>
-                        <span class="count" data-target="124">0</span>
-                        <span class="label">خبر عربي</span>
-                    </div>
-                    <div class="stat">
-                        <i class="fas fa-eye"></i>
-                        <span class="count" data-target="25300">0</span>
-                        <span class="label">مشاهدة</span>
-                    </div>
-                    <div class="stat">
-                        <i class="fas fa-users"></i>
-                        <span class="count" data-target="1250">0</span>
-                        <span class="label">متابع</span>
-                    </div>
-                </div>
+        <div class="match-body">
+            <div class="team">
+                <img src="images/flags/egypt.png" alt="مصر">
+                <span class="team-name">مصر</span>
             </div>
-        </section>
 
-        <!-- أخبار عاجلة -->
-        <section class="breaking-news" id="breaking">
-            <div class="container">
-                <div class="breaking-label">
-                    <i class="fas fa-bolt"></i>
-                    <span>أخبار عاجلة</span>
-                </div>
-                <div class="breaking-content">
-                    <span class="breaking-text" id="breaking-text">الأخبار العربية الحية يتم تحديثها تلقائياً كل 5 دقائق</span>
-                </div>
-            </div>
-        </section>
+            <div class="match-score">-</div>
 
-        <!-- قسم أخبار كرة القدم العربية -->
-        <section class="football-section" id="football-news">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <i class="fas fa-futbol"></i>
-                        ⚽ أخبار كرة القدم العربية الحية
-                    </h2>
-                    <div class="football-controls">
-                        <div class="search-box">
-                            <input type="text" id="football-search" 
-                                   placeholder="🔍 ابحث عن مباراة، فريق، أو دوري...">
-                            <button onclick="ArabicNewsFetcher.searchNews()">
-                                <i class="fas fa-search"></i> بحث
-                            </button>
-                        </div>
-                        <button class="refresh-btn" onclick="ArabicNewsFetcher.refreshNews()">
-                            <i class="fas fa-redo"></i> تحديث الآن
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- فلترة الدوريات العربية -->
-                <div class="league-filters" id="league-filters">
-                    <!-- سيتم إضافة أزرار الفلتر تلقائياً -->
-                </div>
-                
-                <!-- حاوية أخبار كرة القدم -->
-                <div id="football-news-container">
-                    <div class="loading-spinner">
-                        <div class="spinner"></div>
-                        <p>جاري تحميل الأخبار العربية الحية...</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- قسم المنتخبات العربية -->
-        <section class="national-teams-section" id="national-teams">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <i class="fas fa-flag"></i>
-                        المنتخبات العربية
-                    </h2>
-                    <p class="section-subtitle">تغطية شاملة للمنتخبات العربية في المنافسات الدولية</p>
-                </div>
-                
-                <div class="national-teams-grid">
-                    <!-- المنتخب السعودي -->
-                    <div class="team-card featured">
-                        <div class="team-header">
-                            <div class="team-flag">🇸🇦</div>
-                            <div class="team-info">
-                                <h3>السعودية</h3>
-                                <div class="team-rank">
-                                    <i class="fas fa-chart-line"></i>
-                                    <span>التصنيف العالمي: 56</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="team-details">
-                            <div class="team-stats">
-                                <div class="stat">
-                                    <span class="value">6</span>
-                                    <span class="label">كأس آسيا</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="value">6</span>
-                                    <span class="label">كأس العالم</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="value">3</span>
-                                    <span class="label">كأس العرب</span>
-                                </div>
-                            </div>
-                            
-                            <div class="coach-info">
-                                <h4><i class="fas fa-user-tie"></i> المدرب</h4>
-                                <p>روبرتو مانشيني</p>
-                            </div>
-                            
-                            <div class="next-match">
-                                <h4><i class="fas fa-calendar-alt"></i> المباراة القادمة</h4>
-                                <p>كأس آسيا - المجموعة السادسة</p>
-                                <div class="match-details">
-                                    <span class="team">السعودية</span>
-                                    <span class="vs">VS</span>
-                                    <span class="team">عُمان</span>
-                                    <span class="date">16 يناير 2024</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <button class="team-news-btn" onclick="showTeamNews('saudi')">
-                            <i class="fas fa-newspaper"></i> أخبار المنتخب
-                        </button>
-                    </div>
-
-                    <!-- المنتخب المصري -->
-                    <div class="team-card">
-                        <div class="team-header">
-                            <div class="team-flag">🇪🇬</div>
-                            <div class="team-info">
-                                <h3>مصر</h3>
-                                <div class="team-rank">
-                                    <i class="fas fa-chart-line"></i>
-                                    <span>التصنيف العالمي: 33</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="team-details">
-                            <div class="team-stats">
-                                <div class="stat">
-                                    <span class="value">7</span>
-                                    <span class="label">كأس الأمم الأفريقية</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="value">3</span>
-                                    <span class="label">كأس العالم</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="value">2</span>
-                                    <span class="label">كأس العرب</span>
-                                </div>
-                            </div>
-                            
-                            <div class="coach-info">
-                                <h4><i class="fas fa-user-tie"></i> المدرب</h4>
-                                <p>روبين فيتوريا</p>
-                            </div>
-                            
-                            <div class="next-match">
-                                <h4><i class="fas fa-calendar-alt"></i> المباراة القادمة</h4>
-                                <p>تصفيات كأس العالم 2026</p>
-                                <div class="match-details">
-                                    <span class="team">مصر</span>
-                                    <span class="vs">VS</span>
-                                    <span class="team">بوركينا فاسو</span>
-                                    <span class="date">22 مارس 2024</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <button class="team-news-btn" onclick="showTeamNews('egypt')">
-                            <i class="fas fa-newspaper"></i> أخبار المنتخب
-                        </button>
-                    </div>
-
-                    <!-- المنتخب المغربي -->
-                    <div class="team-card">
-                        <div class="team-header">
-                            <div class="team-flag">🇲🇦</div>
-                            <div class="team-info">
-                                <h3>المغرب</h3>
-                                <div class="team-rank">
-                                    <i class="fas fa-chart-line"></i>
-                                    <span>التصنيف العالمي: 13</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="team-details">
-                            <div class="team-stats">
-                                <div class="stat">
-                                    <span class="value">2</span>
-                                    <span class="label">كأس الأمم الأفريقية</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="value">6</span>
-                                    <span class="label">كأس العالم</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="value">1</span>
-                                    <span class="label">كأس العرب</span>
-                                </div>
-                            </div>
-                            
-                            <div class="coach-info">
-                                <h4><i class="fas fa-user-tie"></i> المدرب</h4>
-                                <p>وليد الركراكي</p>
-                            </div>
-                            
-                            <div class="next-match">
-                                <h4><i class="fas fa-calendar-alt"></i> المباراة القادمة</h4>
-                                <p>كأس الأمم الأفريقية 2023</p>
-                                <div class="match-details">
-                                    <span class="team">المغرب</span>
-                                    <span class="vs">VS</span>
-                                    <span class="team">تنزانيا</span>
-                                    <span class="date">17 يناير 2024</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <button class="team-news-btn" onclick="showTeamNews('morocco')">
-                            <i class="fas fa-newspaper"></i> أخبار المنتخب
-                        </button>
-                    </div>
-                </div>
-
-                <div class="national-teams-grid" style="margin-top: 30px;">
-                    <!-- المنتخب القطري -->
-                    <div class="team-card">
-                        <div class="team-header">
-                            <div class="team-flag">🇶🇦</div>
-                            <div class="team-info">
-                                <h3>قطر</h3>
-                                <div class="team-rank">
-                                    <i class="fas fa-chart-line"></i>
-                                    <span>التصنيف العالمي: 58</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="team-details">
-                            <div class="team-stats">
-                                <div class="stat">
-                                    <span class="value">2</span>
-                                    <span class="label">كأس آسيا</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="value">2</span>
-                                    <span class="label">كأس العالم</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="value">1</span>
-                                    <span class="label">كأس العرب</span>
-                                </div>
-                            </div>
-                            
-                            <div class="coach-info">
-                                <h4><i class="fas fa-user-tie"></i> المدرب</h4>
-                                <p>تنتين ماركيز</p>
-                            </div>
-                            
-                            <div class="next-match">
-                                <h4><i class="fas fa-calendar-alt"></i> المباراة القادمة</h4>
-                                <p>كأس آسيا 2023 - المجموعة الأولى</p>
-                                <div class="match-details">
-                                    <span class="team">قطر</span>
-                                    <span class="vs">VS</span>
-                                    <span class="team">لبنان</span>
-                                    <span class="date">12 يناير 2024</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <button class="team-news-btn" onclick="showTeamNews('qatar')">
-                            <i class="fas fa-newspaper"></i> أخبار المنتخب
-                        </button>
-                    </div>
-
-                    <!-- المنتخب الإماراتي -->
-                    <div class="team-card">
-                        <div class="team-header">
-                            <div class="team-flag">🇦🇪</div>
-                            <div class="team-info">
-                                <h3>الإمارات</h3>
-                                <div class="team-rank">
-                                    <i class="fas fa-chart-line"></i>
-                                    <span>التصنيف العالمي: 64</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="team-details">
-                            <div class="team-stats">
-                                <div class="stat">
-                                    <span class="value">0</span>
-                                    <span class="label">كأس آسيا</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="value">1</span>
-                                    <span class="label">كأس العالم</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="value">0</span>
-                                    <span class="label">كأس العرب</span>
-                                </div>
-                            </div>
-                            
-                            <div class="coach-info">
-                                <h4><i class="fas fa-user-tie"></i> المدرب</h4>
-                                <p>باولو بينتو</p>
-                            </div>
-                            
-                            <div class="next-match">
-                                <h4><i class="fas fa-calendar-alt"></i> المباراة القادمة</h4>
-                                <p>كأس آسيا 2023 - المجموعة الثالثة</p>
-                                <div class="match-details">
-                                    <span class="team">الإمارات</span>
-                                    <span class="vs">VS</span>
-                                    <span class="team">هونغ كونغ</span>
-                                    <span class="date">14 يناير 2024</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <button class="team-news-btn" onclick="showTeamNews('uae')">
-                            <i class="fas fa-newspaper"></i> أخبار المنتخب
-                        </button>
-                    </div>
-
-                    <!-- المنتخب الجزائري -->
-                    <div class="team-card">
-                        <div class="team-header">
-                            <div class="team-flag">🇩🇿</div>
-                            <div class="team-info">
-                                <h3>الجزائر</h3>
-                                <div class="team-rank">
-                                    <i class="fas fa-chart-line"></i>
-                                    <span>التصنيف العالمي: 30</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="team-details">
-                            <div class="team-stats">
-                                <div class="stat">
-                                    <span class="value">2</span>
-                                    <span class="label">كأس الأمم الأفريقية</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="value">4</span>
-                                    <span class="label">كأس العالم</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="value">1</span>
-                                    <span class="label">كأس العرب</span>
-                                </div>
-                            </div>
-                            
-                            <div class="coach-info">
-                                <h4><i class="fas fa-user-tie"></i> المدرب</h4>
-                                <p>جمال بلماضي</p>
-                            </div>
-                            
-                            <div class="next-match">
-                                <h4><i class="fas fa-calendar-alt"></i> المباراة القادمة</h4>
-                                <p>كأس الأمم الأفريقية 2023</p>
-                                <div class="match-details">
-                                    <span class="team">الجزائر</span>
-                                    <span class="vs">VS</span>
-                                    <span class="team">أنغولا</span>
-                                    <span class="date">15 يناير 2024</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <button class="team-news-btn" onclick="showTeamNews('algeria')">
-                            <i class="fas fa-newspaper"></i> أخبار المنتخب
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- جدول البطولات القادمة -->
-                <div class="upcoming-tournaments">
-                    <h3><i class="fas fa-trophy"></i> البطولات القادمة للمنتخبات العربية</h3>
-                    
-                    <div class="tournaments-grid">
-                        <div class="tournament-card">
-                            <div class="tournament-logo">🏆</div>
-                            <h4>كأس آسيا 2023</h4>
-                            <p>12 يناير - 10 فبراير 2024</p>
-                            <div class="participants">
-                                <span>السعودية</span>
-                                <span>قطر</span>
-                                <span>الإمارات</span>
-                                <span>الأردن</span>
-                            </div>
-                        </div>
-                        
-                        <div class="tournament-card">
-                            <div class="tournament-logo">🏆</div>
-                            <h4>كأس الأمم الأفريقية 2023</h4>
-                            <p>13 يناير - 11 فبراير 2024</p>
-                            <div class="participants">
-                                <span>المغرب</span>
-                                <span>الجزائر</span>
-                                <span>مصر</span>
-                                <span>تونس</span>
-                            </div>
-                        </div>
-                        
-                        <div class="tournament-card">
-                            <div class="tournament-logo">🌍</div>
-                            <h4>تصفيات كأس العالم 2026</h4>
-                            <p>2024 - 2025</p>
-                            <div class="participants">
-                                <span>جميع المنتخبات العربية</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- قسم المقالات -->
-        <section class="articles-section" id="articles">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <i class="fas fa-pen-fancy"></i>
-                        مقالات مميزة
-                    </h2>
-                    <a href="#all-articles" class="view-all" onclick="showAllArticles()">
-                        عرض الكل <i class="fas fa-arrow-left"></i>
-                    </a>
-                </div>
-                
-                <div class="articles-grid">
-                    <!-- المقال 1 -->
-                    <article class="article-card featured" data-id="1">
-                        <div class="article-badge">الأكثر قراءة</div>
-                        <div class="article-image" style="background: linear-gradient(45deg, #1E5631, #2E7D32);">
-                            <span>📺</span>
-                        </div>
-                        <div class="article-content">
-                            <div class="article-meta">
-                                <span class="article-category">الدوري السعودي</span>
-                                <span class="article-date"><i class="far fa-clock"></i> ديسمبر 2024</span>
-                            </div>
-                            <h3 class="article-title">كيف تشاهد الدوري السعودي مجاناً وبجودة عالية؟</h3>
-                            <p class="article-excerpt">دليل كامل لجميع الطرق القانونية المجانية لمشاهدة دوري المحترفين السعودي بدون تقطيع وبجودة ممتازة...</p>
-                            <div class="article-footer">
-                                <a href="#" class="read-article" onclick="showFullArticle(1)">
-                                    اقرأ المقال <i class="fas fa-arrow-left"></i>
-                                </a>
-                                <div class="article-stats">
-                                    <span><i class="far fa-eye"></i> 2,543</span>
-                                    <span><i class="far fa-clock"></i> 5 دقائق</span>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- المقال 2 -->
-                    <article class="article-card" data-id="2">
-                        <div class="article-image" style="background: linear-gradient(45deg, #C4A747, #D4B757);">
-                            <span>💰</span>
-                        </div>
-                        <div class="article-content">
-                            <div class="article-meta">
-                                <span class="article-category">تحليل</span>
-                                <span class="article-date"><i class="far fa-clock"></i> ديسمبر 2024</span>
-                            </div>
-                            <h3 class="article-title">السر وراء أجور نجوم الدوري السعودي</h3>
-                            <p class="article-excerpt">كشف تفاصيل رواتب اللاعبين، نظام المكافآت، والصفقات الخلفية التي لا يعرفها الجمهور...</p>
-                            <div class="article-footer">
-                                <a href="#" class="read-article" onclick="showFullArticle(2)">
-                                    اقرأ المقال <i class="fas fa-arrow-left"></i>
-                                </a>
-                                <div class="article-stats">
-                                    <span><i class="far fa-eye"></i> 1,832</span>
-                                    <span><i class="far fa-clock"></i> 7 دقائق</span>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- المقال 3 -->
-                    <article class="article-card" data-id="3">
-                        <div class="article-image" style="background: linear-gradient(45deg, #2E7D32, #3E8D42);">
-                            <span>🏆</span>
-                        </div>
-                        <div class="article-content">
-                            <div class="article-meta">
-                                <span class="article-category">تاريخ</span>
-                                <span class="article-date"><i class="far fa-clock"></i> ديسمبر 2024</span>
-                            </div>
-                            <h3 class="article-title">تاريخ الكرة السعودية: من البداية إلى العالمية</h3>
-                            <p class="article-excerpt">رحلة المنتخب السعودي والأندية من التأسيس إلى المشاركات العالمية والإنجازات القارية...</p>
-                            <div class="article-footer">
-                                <a href="#" class="read-article" onclick="showFullArticle(3)">
-                                    اقرأ المقال <i class="fas fa-arrow-left"></i>
-                                </a>
-                                <div class="article-stats">
-                                    <span><i class="far fa-eye"></i> 3,124</span>
-                                    <span><i class="far fa-clock"></i> 10 دقائق</span>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- قسم الأخبار -->
-        <section class="news-section" id="news">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <i class="fas fa-newspaper"></i>
-                        آخر الأخبار الرياضية
-                    </h2>
-                    <a href="#all-news" class="view-all">
-                        عرض الكل <i class="fas fa-arrow-left"></i>
-                    </a>
-                </div>
-                
-                <div class="news-grid">
-                    <!-- خبر 1 -->
-                    <article class="news-card featured">
-                        <div class="news-badge">مميز</div>
-                        <div class="news-image" style="background: linear-gradient(45deg, #1E5631, #2E7D32);">
-                            <span>🏆</span>
-                        </div>
-                        <div class="news-content">
-                            <div class="news-meta">
-                                <span class="news-category">منتخبات</span>
-                                <span class="news-date"><i class="far fa-clock"></i> منذ 3 ساعات</span>
-                            </div>
-                            <h3 class="news-title">السعودية تعلن القائمة النهائية لكأس آسيا</h3>
-                            <p class="news-desc">أعلن المدير الفني روبرتو مانشيني القائمة النهائية لمنتخب السعودية المشارك في كأس آسيا 2023.</p>
-                            <div class="news-footer">
-                                <a href="#" class="read-more">
-                                    اقرأ التفاصيل <i class="fas fa-arrow-left"></i>
-                                </a>
-                                <div class="news-stats">
-                                    <span><i class="far fa-eye"></i> 2.5K</span>
-                                    <span><i class="far fa-comment"></i> 45</span>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- خبر 2 -->
-                    <article class="news-card">
-                        <div class="news-image" style="background: linear-gradient(45deg, #C4A747, #D4B757);">
-                            <span>🌟</span>
-                        </div>
-                        <div class="news-content">
-                            <div class="news-meta">
-                                <span class="news-category">منتخبات</span>
-                                <span class="news-date"><i class="far fa-clock"></i> منذ 5 ساعات</span>
-                            </div>
-                            <h3 class="news-title">المغرب يتأهل لدور الـ16 في كأس الأمم الأفريقية</h3>
-                            <p class="news-desc">تأهل المنتخب المغربي لدور الـ16 بعد فوزه على تنزانيا بهدفين دون رد في الجولة الأولى.</p>
-                            <div class="news-footer">
-                                <a href="#" class="read-more">
-                                    اقرأ التفاصيل <i class="fas fa-arrow-left"></i>
-                                </a>
-                                <div class="news-stats">
-                                    <span><i class="far fa-eye"></i> 1.8K</span>
-                                    <span><i class="far fa-comment"></i> 32</span>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- خبر 3 -->
-                    <article class="news-card">
-                        <div class="news-image" style="background: linear-gradient(45deg, #2E7D32, #3E8D42);">
-                            <span>⚽</span>
-                        </div>
-                        <div class="news-content">
-                            <div class="news-meta">
-                                <span class="news-category">منتخبات</span>
-                                <span class="news-date"><i class="far fa-clock"></i> منذ 8 ساعات</span>
-                            </div>
-                            <h3 class="news-title">مصر تبدأ تحضيراتها لكأس الأمم الأفريقية</h3>
-                            <p class="news-desc">بدأ المنتخب المصري تدريباته المركزية في القاهرة استعداداً للمشاركة في كأس الأمم الأفريقية.</p>
-                            <div class="news-footer">
-                                <a href="#" class="read-more">
-                                    اقرأ التفاصيل <i class="fas fa-arrow-left"></i>
-                                </a>
-                                <div class="news-stats">
-                                    <span><i class="far fa-eye"></i> 3.1K</span>
-                                    <span><i class="far fa-comment"></i> 67</span>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- قسم التبرعات -->
-        <section class="donation-section" id="donate">
-            <div class="container">
-                <div class="donation-box">
-                    <div class="donation-content">
-                        <h2><i class="fas fa-heart"></i> ادعم ميدان العرب</h2>
-                        <p>ساعدنا لنستمر في تقديم أفضل المحتوى الرياضي العربي مجاناً للجميع</p>
-                        
-                        <div class="donation-options">
-                            <button class="donation-option" onclick="donate(5)">
-                                <span class="amount">5$</span>
-                                <span class="label">دعم بسيط</span>
-                            </button>
-                            <button class="donation-option" onclick="donate(10)">
-                                <span class="amount">10$</span>
-                                <span class="label">دعم متوسط</span>
-                            </button>
-                            <button class="donation-option" onclick="donate(25)">
-                                <span class="amount">25$</span>
-                                <span class="label">دعم كريم</span>
-                            </button>
-                            <button class="donation-option" onclick="donate(50)">
-                                <span class="amount">50$</span>
-                                <span class="label">دعم مميز</span>
-                            </button>
-                        </div>
-                        
-                        <div class="donation-custom">
-                            <input type="number" id="custom-amount" placeholder="المبلغ الذي تريد">
-                            <button onclick="donateCustom()">تبرع</button>
-                        </div>
-                        
-                        <div class="donation-progress">
-                            <div class="progress-bar">
-                                <div class="progress" style="width: 65%"></div>
-                            </div>
-                            <div class="progress-text">
-                                <span>1,300$</span>
-                                <span>هدفنا: 2,000$</span>
-                            </div>
-                        </div>
-                        
-                        <p class="donation-note">كل تبرع يساعدنا على الاستمرار والتطوير</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- عن الموقع -->
-        <section class="about-section" id="about">
-            <div class="container">
-                <div class="about-content">
-                    <h2 class="section-title">
-                        <i class="fas fa-info-circle"></i>
-                        عن ميدان العرب
-                    </h2>
-                    
-                    <div class="about-text">
-                        <p><strong>ميدان العرب</strong> هو منصة رياضية عربية تهدف إلى تقديم محتوى رياضي متميز باللغة العربية، مع التركيز على كرة القدم العربية والعالمية.</p>
-                        
-                        <div class="about-features">
-                            <div class="feature">
-                                <i class="fas fa-bolt"></i>
-                                <h3>سرعة في النشر</h3>
-                                <p>أخبار عاجلة فور حدوثها</p>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-chart-line"></i>
-                                <h3>تحليل عميق</h3>
-                                <p>تحليلات تكتيكية وإحصائية</p>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-users"></i>
-                                <h3>مجتمع تفاعلي</h3>
-                                <p>منصة للحوار والنقاش الرياضي</p>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-mobile-alt"></i>
-                                <h3>تجاوب كامل</h3>
-                                <p>يعمل على جميع الأجهزة</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- اتصل بنا -->
-        <section class="contact-section" id="contact">
-            <div class="container">
-                <h2 class="section-title">
-                    <i class="fas fa-envelope"></i>
-                    اتصل بنا
-                </h2>
-                
-                <div class="contact-grid">
-                    <div class="contact-info">
-                        <h3>معلومات التواصل</h3>
-                        
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <div>
-                                <strong>البريد الإلكتروني</strong>
-                                <p>info@midan-alarab.com</p>
-                            </div>
-                        </div>
-                        
-                        <div class="contact-item">
-                            <i class="fas fa-share-alt"></i>
-                            <div>
-                                <strong>وسائل التواصل</strong>
-                                <div class="social-icons">
-                                    <a href="#" class="social-icon twitter">
-                                        <i class="fab fa-twitter"></i>
-                                    </a>
-                                    <a href="#" class="social-icon facebook">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
-                                    <a href="#" class="social-icon youtube">
-                                        <i class="fab fa-youtube"></i>
-                                    </a>
-                                    <a href="#" class="social-icon telegram">
-                                        <i class="fab fa-telegram"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <form class="contact-form" id="contactForm">
-                        <h3>أرسل رسالة</h3>
-                        
-                        <div class="form-group">
-                            <label for="name">الاسم الكامل *</label>
-                            <input type="text" id="name" required placeholder="أدخل اسمك">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="email">البريد الإلكتروني *</label>
-                            <input type="email" id="email" required placeholder="example@email.com">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="message">الرسالة *</label>
-                            <textarea id="message" rows="5" required placeholder="اكتب رسالتك هنا..."></textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-paper-plane"></i> إرسال الرسالة
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- الفوتر -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <i class="fas fa-futbol"></i>
-                    <span>ميدان العرب</span>
-                </div>
-                
-                <p class="footer-description">
-                    المنصة العربية الشاملة للأخبار والتحليلات الرياضية، نقدم لكم أجود المحتوى الرياضي باللغة العربية.
-                </p>
-                
-                <div class="footer-links">
-                    <a href="/">الرئيسية</a>
-                    <a href="#news">الأخبار</a>
-                    <a href="#articles">المقالات</a>
-                    <a href="#national-teams">المنتخبات</a>
-                    <a href="#football-news">كرة القدم العربية</a>
-                    <a href="#about">عن الموقع</a>
-                    <a href="#contact">اتصل بنا</a>
-                    <a href="#donate" onclick="showDonation()">ادعمنا</a>
-                </div>
-                
-                <div class="footer-social">
-                    <a href="#" class="social-link">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="social-link">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="social-link">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                    <a href="#" class="social-link">
-                        <i class="fab fa-telegram"></i>
-                    </a>
-                    <a href="#" class="social-link">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                </div>
-                
-                <div class="footer-bottom">
-                    <p>&copy; <span id="current-year">2024</span> ميدان العرب. جميع الحقوق محفوظة.</p>
-                    <p class="footer-note">
-                        الأخبار العربية الحية يتم تحديثها تلقائياً من مصادر موثوقة
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- نافذة عرض المقال الكامل -->
-    <div class="article-modal-overlay" id="articleModal">
-        <div class="article-modal">
-            <button class="close-article-modal" onclick="closeArticle()">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="article-modal-content" id="articleContent">
-                <!-- هنا سيظهر المقال -->
+            <div class="team">
+                <img src="images/flags/saudi.png" alt="السعودية">
+                <span class="team-name">السعودية</span>
             </div>
         </div>
     </div>
 
-    <!-- نافذة التبرع -->
-    <div class="donation-modal-overlay" id="donationModal">
-        <div class="donation-modal">
-            <button class="close-donation-modal" onclick="closeDonation()">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="donation-modal-content">
-                <h2><i class="fas fa-heart"></i> شكراً لدعمك!</h2>
-                <p>اختر طريقة الدفع المناسبة لك:</p>
-                
-                <div class="payment-options">
-                    <button class="payment-option" onclick="payWithPayPal()">
-                        <i class="fab fa-paypal"></i> PayPal
-                    </button>
-                    <button class="payment-option" onclick="payWithCard()">
-                        <i class="fas fa-credit-card"></i> بطاقة ائتمانية
-                    </button>
-                    <button class="payment-option" onclick="payWithBank()">
-                        <i class="fas fa-university"></i> تحويل بنكي
-                    </button>
-                </div>
-                
-                <div class="bank-info" id="bankInfo" style="display: none;">
-                    <h3>معلومات التحويل البنكي:</h3>
-                    <p>البنك: البنك الأهلي السعودي</p>
-                    <p>رقم الحساب: SA1234567890123456789</p>
-                    <p>اسم المستفيد: ميدان العرب</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- تستطيع نسخ هذا البلوك وتغييره لكل مباراة -->
+</div>
 
-    <!-- نافذة أخبار المنتخب -->
-    <div class="team-news-modal-overlay" id="teamNewsModal">
-        <div class="team-news-modal">
-            <button class="close-team-news-modal" onclick="closeTeamNews()">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="team-news-modal-content" id="teamNewsContent">
-                <!-- هنا سيظهر محتوى أخبار المنتخب -->
-            </div>
-        </div>
-    </div>
-
-    <!-- JavaScript -->
-    <script src="js/news-fetcher.js"></script>
-    <script src="js/main.js"></script>
-    
-    <script>
-        // ===== وظائف أساسية =====
-        function showDonation() {
-            document.getElementById('donationModal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeDonation() {
-            document.getElementById('donationModal').style.display = 'none';
-            document.body.style.overflow = '';
-        }
-
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
-        }
-
-        function closeMobileMenu() {
-            document.getElementById('mobileMenu').style.display = 'none';
-        }
-
-        function donate(amount) {
-            showDonation();
-            alert(`شكراً لدعمك بمبلغ ${amount}$! اختر طريقة الدفع.`);
-        }
-
-        function donateCustom() {
-            const amount = document.getElementById('custom-amount').value;
-            if (amount && amount > 0) {
-                donate(amount);
-            } else {
-                alert('الرجاء إدخال مبلغ صحيح');
-            }
-        }
-
-        function payWithPayPal() {
-            alert('سيتم توجيهك لصفحة PayPal');
-        }
-
-        function payWithCard() {
-            alert('سيتم فتح نموذج الدفع بالبطاقة');
-        }
-
-        function payWithBank() {
-            document.getElementById('bankInfo').style.display = 'block';
-        }
-
-        // ===== وظائف المقالات =====
-        function showFullArticle(articleId) {
-            const articles = {
-                1: {
-                    title: "كيف تشاهد الدوري السعودي مجاناً وبجودة عالية؟",
-                    content: `<div style="padding: 30px;">
-                        <h1 style="color: #1E5631; border-bottom: 3px solid #1E5631; padding-bottom: 15px; margin-bottom: 30px;">
-                            كيف تشاهد الدوري السعودي مجاناً وبجودة عالية؟
-                        </h1>
-                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                            <p>في ظل الاهتمام الكبير بالدوري السعودي لكرة القدم بعد قدوم النجوم العالميين، يبحث الكثيرون عن طرق مجانية لمشاهدة المباريات. إليك أفضل الطرق القانونية:</p>
-                        </div>
-                        <h2 style="color: #2E7D32; margin: 25px 0 15px 0;">1. القنوات الرسمية على اليوتيوب</h2>
-                        <p>تقوم بعض القنوات الرسمية بنقل مباريات الدوري السعودي مجاناً على اليوتيوب:</p>
-                        <ul style="line-height: 2;">
-                            <li>قناة SSC الرسمية (السعودية للرياضة)</li>
-                            <li>قنوات الأندية الرسمية</li>
-                            <li>القنوات الرياضية العربية المجانية</li>
-                        </ul>
-                    </div>`
-                },
-                2: {
-                    title: "السر وراء أجور نجوم الدوري السعودي",
-                    content: `<div style="padding: 30px;">
-                        <h1 style="color: #C4A747; border-bottom: 3px solid #C4A747; padding-bottom: 15px; margin-bottom: 30px;">
-                            السر وراء أجور نجوم الدوري السعودي
-                        </h1>
-                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                            <p>تشهد الرواتب في الدوري السعودي تصاعداً غير مسبوق مع قدوم النجوم العالميين. إليك تفاصيل هيكل الأجور:</p>
-                        </div>
-                        <h2 style="color: #D4B757; margin: 25px 0 15px 0;">مكونات الأجور</h2>
-                        <p>الأجور تتكون من عدة عناصر:</p>
-                        <ul style="line-height: 2;">
-                            <li>الراتب الأساسي الشهري</li>
-                            <li>المكافآت التشجيعية</li>
-                            <li>مكافآت الفوز والتأهل</li>
-                            <li>حوافز الأداء</li>
-                        </ul>
-                    </div>`
-                },
-                3: {
-                    title: "تاريخ الكرة السعودية: من البداية إلى العالمية",
-                    content: `<div style="padding: 30px;">
-                        <h1 style="color: #2E7D32; border-bottom: 3px solid #2E7D32; padding-bottom: 15px; margin-bottom: 30px;">
-                            تاريخ الكرة السعودية: من البداية إلى العالمية
-                        </h1>
-                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                            <p>رحلة الكرة السعودية مليئة بالإنجازات والمحطات التاريخية التي جعلت منها قوة كروية عربية وعالمية.</p>
-                        </div>
-                        <h2 style="color: #3E8D42; margin: 25px 0 15px 0;">المحطات الرئيسية</h2>
-                        <p>أهم الإنجازات في تاريخ الكرة السعودية:</p>
-                        <ul style="line-height: 2;">
-                            <li>تأسيس الاتحاد السعودي عام 1956</li>
-                            <li>الصعود لكأس العالم لأول مرة 1994</li>
-                            <li>فوز بكأس آسيا 3 مرات</li>
-                            <li>إنجازات الأندية في البطولات الآسيوية</li>
-                        </ul>
-                    </div>`
-                }
-            };
-
-            const article = articles[articleId];
-            if (!article) return;
-
-            const modal = document.getElementById('articleModal');
-            const content = document.getElementById('articleContent');
-            
-            content.innerHTML = article.content;
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeArticle() {
-            document.getElementById('articleModal').style.display = 'none';
-            document.body.style.overflow = '';
-        }
-
-        function showAllArticles() {
-            alert('سيتم عرض جميع المقالات قريباً!');
-        }
-
-        // ===== وظائف المنتخبات =====
-        function showTeamNews(teamId) {
-            const teams = {
-                'saudi': {
-                    name: 'المنتخب السعودي',
-                    news: [
-                        'تأهل المنتخب السعودي لدور الـ16 في كأس آسيا',
-                        'مانشيني يعلن القائمة النهائية للمنتخب',
-                        'السعودية تتفوق على عمان في المباراة الودية',
-                        'استعدادات مكثفة للمنتخب قبل كأس آسيا'
-                    ]
-                },
-                'egypt': {
-                    name: 'المنتخب المصري',
-                    news: [
-                        'مصر تبدأ تحضيراتها لكأس الأمم الأفريقية',
-                        'القائمة الأولية تضم 27 لاعباً',
-                        'مباراة ودية ضد تنزانيا استعداداً للبطولة',
-                        'فيكتوريا يؤكد جاهزية الفراعنة'
-                    ]
-                },
-                'morocco': {
-                    name: 'المنتخب المغربي',
-                    news: [
-                        'المغرب يتأهل لدور الـ16 في كأس الأمم الأفريقية',
-                        'الأسود يصنعون التاريخ في قطر 2022',
-                        'الركراكي يعلن القائمة النهائية',
-                        'مباراة ودية ضد السودان قبل البطولة'
-                    ]
-                },
-                'algeria': {
-                    name: 'المنتخب الجزائري',
-                    news: [
-                        'الجزائر تعلن القائمة النهائية لكأس الأمم',
-                        'بلماضي يعتمد على خليط من الشباب والخبرة',
-                        'مباراة ودية ضد موريتانيا',
-                        'استعدادات مكثفة في الدوحة'
-                    ]
-                }
-            };
-
-            const team = teams[teamId];
-            if (!team) return;
-
-            const modal = document.getElementById('teamNewsModal');
-            const content = document.getElementById('teamNewsContent');
-            
-            let newsHTML = `
-                <h2><i class="fas fa-flag"></i> ${team.name}</h2>
-                <div class="team-news-list">
-                    <h3><i class="fas fa-newspaper"></i> آخر الأخبار</h3>
-                    <ul>
-            `;
-            
-            team.news.forEach(item => {
-                newsHTML += `<li><i class="fas fa-futbol"></i> ${item}</li>`;
-            });
-            
-            newsHTML += `
-                    </ul>
-                </div>
-                <div class="team-social">
-                    <h3><i class="fas fa-hashtag"></i> تابع المنتخب</h3>
-                    <div class="social-links">
-                        <a href="#" class="social-btn twitter"><i class="fab fa-twitter"></i> تويتر</a>
-                        <a href="#" class="social-btn instagram"><i class="fab fa-instagram"></i> انستغرام</a>
-                        <a href="#" class="social-btn youtube"><i class="fab fa-youtube"></i> يوتيوب</a>
-                    </div>
-                </div>
-            `;
-            
-            content.innerHTML = newsHTML;
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeTeamNews() {
-            document.getElementById('teamNewsModal').style.display = 'none';
-            document.body.style.overflow = '';
-        }
-
-        // ===== التهيئة =====
-        document.addEventListener('DOMContentLoaded', function() {
-            // تحديث السنة
-            document.getElementById('current-year').textContent = new Date().getFullYear();
-            
-            // عدادات متحركة
-            const counters = document.querySelectorAll('.count');
-            counters.forEach(counter => {
-                const target = parseInt(counter.getAttribute('data-target'));
-                const increment = target / 100;
-                let current = 0;
-                
-                const updateCounter = () => {
-                    if (current < target) {
-                        current += increment;
-                        counter.textContent = Math.floor(current);
-                        setTimeout(updateCounter, 20);
-                    } else {
-                        counter.textContent = target.toLocaleString();
-                    }
-                };
-                
-                setTimeout(updateCounter, 500);
-            });
-
-            // تغيير الأخبار العاجلة
-            const breakingTexts = [
-                "الأخبار العربية الحية يتم تحديثها تلقائياً كل 5 دقائق",
-                "مصادر الأخبار: يلا كورة، كووورة، في الجول",
-                "تغطية شاملة للمنتخبات العربية في المنافسات الدولية",
-                "أخبار حقيقية من مصادر موثوقة",
-                "شعارات فرق حقيقية من جميع الدوريات العربية"
-            ];
-            
-            let breakingIndex = 0;
-            const breakingElement = document.getElementById('breaking-text');
-            
-            if (breakingElement) {
-                setInterval(() => {
-                    breakingIndex = (breakingIndex + 1) % breakingTexts.length;
-                    breakingElement.textContent = breakingTexts[breakingIndex];
-                }, 8000);
-            }
-
-            // إرسال نموذج الاتصال
-            const contactForm = document.getElementById('contactForm');
-            if (contactForm) {
-                contactForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    alert('شكراً لتواصلك! سنرد عليك قريباً.');
-                    contactForm.reset();
-                });
-            }
-            
-            // إغلاق القائمة عند النقر خارجها
-            document.addEventListener('click', function(e) {
-                const mobileMenu = document.getElementById('mobileMenu');
-                const menuBtn = document.querySelector('.mobile-menu-btn');
-                
-                if (mobileMenu.style.display === 'flex' && 
-                    !mobileMenu.contains(e.target) && 
-                    !menuBtn.contains(e.target)) {
-                    mobileMenu.style.display = 'none';
-                }
-            });
-        });
-    </script>
 </body>
 </html>
