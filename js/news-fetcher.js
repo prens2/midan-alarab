@@ -2,6 +2,26 @@
  * arabic-teams-news.js - أخبار المنتخبات العربية الحية
  */
 
+ // دول عربية مع مسارات PNG
+    arabicCountries: [
+        { id: 'saudi', name: 'السعودية', flag: 'images/saudi.png' },
+        { id: 'egypt', name: 'مصر', flag: 'images/egypt.png' },
+        { id: 'syria', name: 'سوريا', flag: 'images/syria.png' },
+        { id: 'palestine', name: 'فلسطين', flag: 'images/palestine.png' },
+        { id: 'morocco', name: 'المغرب', flag: 'images/morocco.png' },
+        { id: 'algeria', name: 'الجزائر', flag: 'images/algeria.png' },
+        { id: 'iraq', name: 'العراق', flag: 'images/iraq.png' },
+        { id: 'uae', name: 'الإمارات', flag: 'images/uae.png' },
+        { id: 'qatar', name: 'قطر', flag: 'images/qatar.png' },
+        { id: 'jordan', name: 'الأردن', flag: 'images/jordan.png' },
+        { id: 'kuwait', name: 'الكويت', flag: 'images/kuwait.png' },
+        { id: 'bahrain', name: 'البحرين', flag: 'images/bahrain.png' },
+        { id: 'oman', name: 'عمان', flag: 'images/oman.png' },
+        { id: 'sudan', name: 'السودان', flag: 'images/sudan.png' },
+        { id: 'tunisia', name: 'تونس', flag: 'images/tunisia.png' },
+        { id: 'comoros', name: 'جزر القمر', flag: 'images/comoros.png' }
+    ],
+
 const ArabicTeamsNews = {
     
     // قائمة المنتخبات العربية
