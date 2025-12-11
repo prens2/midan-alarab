@@ -1,106 +1,92 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <title>ميدان العرب - مباريات كأس العرب 2025</title>
-
-    <style>
-        body {
-            background: #0a0f14;
-            color: white;
-            font-family: "Tahoma", sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .title {
-            text-align: center;
-            margin-bottom: 25px;
-            font-size: 26px;
-            color: #ffffff;
-        }
-
-        .matches-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .match-card {
-            width: 310px;
-            background: #094225;
-            padding: 15px;
-            border-radius: 14px;
-            box-shadow: 0 0 15px #00000055;
-        }
-
-        .match-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            opacity: 0.9;
-        }
-
-        .match-body {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .team {
-            text-align: center;
-        }
-
-        .team img {
-            width: 55px;
-            height: 38px;
-            object-fit: cover;
-            border-radius: 6px;
-        }
-
-        .team-name {
-            display: block;
-            margin-top: 5px;
-        }
-
-        .match-score {
-            font-size: 28px;
-            font-weight: bold;
-        }
-    </style>
-
-</head>
-<body>
-
-<h1 class="title">مباريات كأس العرب 2025</h1>
-
-<div class="matches-container">
-
-    <!-- بطاقة مباراة نموذجية -->
-    <div class="match-card">
-        <div class="match-header">
-            <span class="match-time">18:00</span>
-            <span class="match-stage">مرحلة المجموعات</span>
+[file name]: index.html
+<!-- قسم المنتخبات العربية الموسع -->
+<section class="national-teams-section" id="national-teams">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">
+                <i class="fas fa-users"></i>
+                🇸🇦 المنتخبات العربية 🇵🇸
+            </h2>
+            <p class="section-subtitle">تغطية شاملة لجميع المنتخبات العربية في المنافسات الدولية</p>
         </div>
-
-        <div class="match-body">
-            <div class="team">
-                <img src="images/flags/egypt.png" alt="مصر">
-                <span class="team-name">مصر</span>
-            </div>
-
-            <div class="match-score">-</div>
-
-            <div class="team">
-                <img src="images/flags/saudi.png" alt="السعودية">
-                <span class="team-name">السعودية</span>
+        
+        <!-- فلتر المنتخبات -->
+        <div class="team-filters" id="team-filters">
+            <!-- سيتم إضافة أزرار الفلتر تلقائياً -->
+        </div>
+        
+        <!-- شبكة المنتخبات العربية (16 منتخباً) -->
+        <div class="national-teams-grid" id="arabic-teams-container">
+            <!-- المنتخبات ستتم إضافتها ديناميكياً -->
+        </div>
+        
+        <!-- كأس العرب -->
+        <div class="arab-cup-section" id="arab-cup">
+            <h3 class="section-title">
+                <i class="fas fa-trophy"></i>
+                🏆 كأس العرب
+            </h3>
+            
+            <div class="arab-cup-info">
+                <div class="cup-details">
+                    <h4>البطولة العربية الأهم</h4>
+                    <p><strong>تاريخ الإنشاء:</strong> 1963</p>
+                    <p><strong>أكثر المنتخبات فوزاً:</strong> العراق (4 مرات)</p>
+                    <p><strong>آخر نسخة:</strong> قطر 2021</p>
+                    <p><strong>البطل الحالي:</strong> الجزائر</p>
+                </div>
+                
+                <div class="cup-winners">
+                    <h4>قائمة الأبطال</h4>
+                    <div class="winners-list">
+                        <div class="winner-item">
+                            <span class="year">2021</span>
+                            <span class="team">الجزائر</span>
+                        </div>
+                        <div class="winner-item">
+                            <span class="year">2012</span>
+                            <span class="team">المغرب</span>
+                        </div>
+                        <div class="winner-item">
+                            <span class="year">2002</span>
+                            <span class="team">السعودية</span>
+                        </div>
+                        <!-- المزيد من الفائزين -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- تستطيع نسخ هذا البلوك وتغييره لكل مباراة -->
-</div>
-
-</body>
-</html>
+<!-- قسم الأخبار الحية للمنتخبات -->
+<section class="live-news-section" id="live-news">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">
+                <i class="fas fa-bolt"></i>
+                📰 أخبار المنتخبات العربية الحية
+            </h2>
+            <p class="section-subtitle">آخر التطورات والمباريات من مصادر موثوقة</p>
+        </div>
+        
+        <div class="news-sources">
+            <div class="source-badge">
+                <img src="https://upload.wikimedia.org/wikipedia/ar/thumb/4/4a/YallaKora_logo.png/200px-YallaKora_logo.png" alt="يلا كورة">
+                <span>يلا كورة</span>
+            </div>
+            <div class="source-badge">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Kooora_logo.png/200px-Kooora_logo.png" alt="كووورة">
+                <span>كووورة</span>
+            </div>
+            <div class="source-badge">
+                <img src="https://upload.wikimedia.org/wikipedia/ar/thumb/0/0b/FilGoal_logo.png/200px-FilGoal_logo.png" alt="في الجول">
+                <span>في الجول</span>
+            </div>
+        </div>
+        
+        <div id="live-news-container">
+            <!-- الأخبار الحية ستتم إضافتها ديناميكياً -->
+        </div>
+    </div>
+</section>
