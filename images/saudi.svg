@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2" width="300" height="200" role="img" aria-label="Saudi Arabia">
-  <rect width="3" height="2" fill="#006C35"/>
-  <!-- simplified shahada text placeholder as white rectangle to avoid reproducing exact calligraphy -->
-  <rect x="0.25" y="0.6" width="2.5" height="0.5" fill="#fff" rx="0.05"/>
-  <circle cx="2.2" cy="1.45" r="0.25" fill="#fff"/>
-</svg>
